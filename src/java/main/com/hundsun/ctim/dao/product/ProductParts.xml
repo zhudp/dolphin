@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ProductParts" >
+  <select id="ProductParts_get" resultClass="com.hundsun.ctim.domain.product.ProductParts" >
+    select t.PART_ID as partId, t.PART_NAME as partName, t.PART_NO as partNo, t.PRODUCT_ID as
+      productId, t.STANDARD, t.WEIGHT, t.AREA, t.REMARK, t.GMT_CREATE as gmtCreate, t.CREATOR,
+      t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId,
+      t.material_cost as materialCost,t.work_cost as workCost,t.unit, t.DEPARTMENT_ID as departmentId,d.DEPT_NAME as departmentName
+    from TB_PRODUCT_PARTS t
+    left join sys_department d on d.id= t.DEPARTMENT_ID
+    where t.PART_ID = #partId#
+  </select>
+  <select id="ProductParts_list" resultClass="com.hundsun.ctim.domain.product.ProductParts" >
+    select t.PART_ID as partId, t.PART_NAME as partName, t.PART_NO as partNo, t.PRODUCT_ID as
+      productId, t.STANDARD, t.WEIGHT, t.AREA, t.REMARK, t.GMT_CREATE as gmtCreate, t.CREATOR,
+      t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId,
+      t.material_cost as materialCost,t.work_cost as workCost,t.unit, t.DEPARTMENT_ID as departmentId,d.DEPT_NAME as departmentName
+    from TB_PRODUCT_PARTS t
+    left join sys_department d on d.id= t.DEPARTMENT_ID
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="partId" >
+        t.PART_ID = #partId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="partName">
+        t.PART_NAME like '%$partName$%'
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="ProductParts_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PRODUCT_PARTS t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="partId" >
+        t.PART_ID = #partId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="partName">
+        t.PART_NAME like '%$partName$%'
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="ProductParts_insert" parameterClass="com.hundsun.ctim.domain.product.ProductParts" >
+     <selectKey keyProperty="partNo" >
+		SELECT CONCAT(REPLACE(p.product_no,'CP-','BJ-'),'-',(SELECT LPAD(IFNULL(COUNT(product_id),0)+1,2,'0') FROM tb_product_parts WHERE product_id = #productId#)) AS partNo 
+		FROM tb_product p WHERE p.product_id = #productId#
+     </selectKey>
+    insert into TB_PRODUCT_PARTS (PART_NAME, PART_NO, PRODUCT_ID, STANDARD, WEIGHT, AREA,
+      REMARK, GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID,material_cost, work_cost, unit, department_Id)
+    values (#partName#, #partNo#, #productId#, #standard#, #weight#, #area#, #remark#,
+      #gmtCreate#, #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#,#materialCost#,#workCost#,#unit#, #departmentId#)
+      <selectKey resultClass="long" keyProperty="partId">  
+		SELECT LAST_INSERT_ID() AS partId
+	  </selectKey>
+  </insert>
+  <update id="ProductParts_update" parameterClass="com.hundsun.ctim.domain.product.ProductParts" >
+    update TB_PRODUCT_PARTS
+    set 
+      PART_NAME = #partName#,
+      PART_NO = #partNo#,
+      PRODUCT_ID = #productId#,
+      STANDARD = #standard#,
+      WEIGHT = #weight#,
+      AREA = #area#,
+      REMARK = #remark#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#,
+      material_cost = #materialCost#,
+      work_cost = #workCost#,
+      departmentId = #departmentId#,
+      unit = #unit#
+    where PART_ID = #partId#
+  </update>
+  <update id="ProductParts_updateSelective" parameterClass="com.hundsun.ctim.domain.product.ProductParts" >
+    update TB_PRODUCT_PARTS
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="partId" >
+        PART_ID = #partId#
+      </isNotNull>
+      <isNotNull prepend="," property="partName" >
+        PART_NAME = #partName#
+      </isNotNull>
+      <isNotNull prepend="," property="partNo" >
+        PART_NO = #partNo#
+      </isNotNull>
+      <isNotNull prepend="," property="productId" >
+        PRODUCT_ID = #productId#
+      </isNotNull>
+      <isNotNull prepend="," property="standard" >
+        STANDARD = #standard#
+      </isNotNull>
+      <isNotNull prepend="," property="weight" >
+        WEIGHT = #weight#
+      </isNotNull>
+      <isNotNull prepend="," property="area" >
+        AREA = #area#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      <isNotNull prepend="," property="materialCost" >
+        material_cost = #materialCost#
+      </isNotNull>
+      <isNotNull prepend="," property="workCost" >
+      	work_cost = #workCost#
+      </isNotNull>
+      <isNotNull prepend="," property="departmentId" >
+      	departmentId = #departmentId#
+      </isNotNull>
+      <isNotNull prepend="," property="unit" >
+      	unit = #unit#
+      </isNotNull>
+      where PART_ID = #partId#
+    </dynamic>
+  </update>
+  <delete id="ProductParts_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_PRODUCT_PARTS
+    where PART_ID = #partId#
+  </delete>
+  <delete id="ProductParts_delete" parameterClass="com.hundsun.ctim.domain.product.ProductParts" >
+    delete from TB_PRODUCT_PARTS
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="partId" >
+        PART_ID = #partId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+  
+
+</sqlMap>

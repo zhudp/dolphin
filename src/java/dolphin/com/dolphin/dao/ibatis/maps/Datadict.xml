@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Datadict" >
+  
+	<select id="Datadict_get" resultClass="com.dolphin.domain.Datadict" >
+    select t.ID, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.RES_CODE as resCode, t.RES_TYPE as resType, t.RES_NAME as resName,
+      t.SORT_NUM as sortNum, t.PARENT_ID as parentId, t.MAXLEVEL, t.CHILDNUM, t.RES_NAME_SUB as
+      resNameSub,t.DATA_RANGE as dataRange,t.IS_DISABLE as isDisable
+    from SYS_RESOURCE t
+    where t.ID = #id#
+	</select>
+  
+    <select id="Datadict_AllChrildList" resultClass="com.dolphin.domain.Datadict" >
+		select t.ID,
+		       t.IS_DELETED as isDeleted,
+		       t.GMT_CREATE as gmtCreate,
+		       t.CREATOR,
+		       t.GMT_MODIFY as gmtModify,
+		       t.MODIFIER,
+		       t.RES_CODE as resCode,
+		       t.RES_TYPE as resType,
+		       t.RES_NAME as resName,
+		       t.SORT_NUM as sortNum,
+		       t.PARENT_ID as parentId,
+		       t.MAXLEVEL,
+		       t.CHILDNUM,
+		       t.RES_NAME_SUB as resNameSub,
+		       t.DATA_RANGE as dataRange,
+		       t.IS_DISABLE as isDisable,
+		       parentDatadict.RES_NAME as "parentDatadict.name"
+		  from SYS_RESOURCE t
+		  left join SYS_RESOURCE parentDatadict on t.PARENT_ID = parentDatadict.ID
+		 where 
+		    t.ID like #parentId# || '%'
+		 order by t.ID asc 
+  </select>
+  
+	<select id="Datadict_list" resultClass="com.dolphin.domain.Datadict" >
+    select t.ID, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.RES_CODE as resCode, t.RES_TYPE as resType, t.RES_NAME as resName,
+      t.SORT_NUM as sortNum, t.PARENT_ID as parentId, t.MAXLEVEL, t.CHILDNUM, t.RES_NAME_SUB as
+      resNameSub, t.REMARK,t.DATA_RANGE as dataRange,t.IS_DISABLE as isDisable
+    from SYS_RESOURCE t
+    where t.IS_DELETED = '0'
+		<dynamic>
+			<isNotEmpty prepend="and" property="id" >
+        t.ID = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="gmtCreate" >
+        t.GMT_CREATE = #gmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="creator" >
+        t.CREATOR = #creator#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="gmtModify" >
+        t.GMT_MODIFY = #gmtModify#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="modifier" >
+        t.MODIFIER = #modifier#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resCode" >
+        t.RES_CODE = #resCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resCodeNotNull" >
+        (t.res_code != ''  or t.res_code is not null) 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resType" >
+        t.RES_TYPE = #resType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resName" >
+        t.RES_NAME = #resName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sortNum" >
+        t.SORT_NUM = #sortNum#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="parentId" >
+        t.PARENT_ID = #parentId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="maxlevel" >
+        t.MAXLEVEL = #maxlevel#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="childnum" >
+        t.CHILDNUM = #childnum#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resNameSub" >
+        t.RES_NAME_SUB = #resNameSub#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark" >
+        t.REMARK = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dataRange" >
+        t.DATA_RANGE = #dataRange#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isDisable" >
+        t.IS_DISABLE = #isDisable#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by" >
+			<isNotEmpty property="sort">
+        		$sort$ $dir$
+			</isNotEmpty>
+			<isEmpty property="sort" >
+        		t.SORT_NUM asc, t.ID asc
+			</isEmpty>
+		</dynamic>
+	</select>
+  
+  
+  <select id="Datadict_data_list" resultClass="com.dolphin.domain.Datadict" >
+    select t.ID, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.RES_CODE as resCode, t.RES_TYPE as resType, t.RES_NAME as resName,
+      t.SORT_NUM as sortNum, t.PARENT_ID as parentId, t.MAXLEVEL, t.CHILDNUM, t.RES_NAME_SUB as
+      resNameSub, t.REMARK,t.DATA_RANGE as dataRange,t.IS_DISABLE as isDisable
+    from SYS_RESOURCE t
+    where t.IS_DELETED = '0'
+		<dynamic>
+			<isNotEmpty prepend="and" property="id" >
+        t.ID = #id#
+			</isNotEmpty>	
+			<isNotEmpty prepend="and" property="resCode" >
+        t.RES_CODE = #resCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resCodeNotNull" >
+        (t.res_code != ''  or t.res_code is not null) 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resType" >
+        t.RES_TYPE = #resType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resName" >
+        t.RES_NAME = #resName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sortNum" >
+        t.SORT_NUM = #sortNum#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="parentId" >
+        t.PARENT_ID not like #parentId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isDisable" >
+        t.IS_DISABLE = #isDisable#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by" >
+			<isNotEmpty property="sort" >
+        $sort$ $dir$
+			</isNotEmpty>
+			<isEmpty property="dataRange" >
+        t.SORT_NUM asc, t.ID asc
+			</isEmpty>
+		</dynamic>
+	</select>
+  
+  
+	<select id="Datadict_count" resultClass="java.lang.Integer" >
+    select count(*)
+    from SYS_RESOURCE t
+    where t.IS_DELETED = '0'
+		<dynamic>
+			<isNotEmpty prepend="and" property="id" >
+        t.ID = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="gmtCreate" >
+        t.GMT_CREATE = #gmtCreate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="creator" >
+        t.CREATOR = #creator#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="gmtModify" >
+        t.GMT_MODIFY = #gmtModify#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="modifier" >
+        t.MODIFIER = #modifier#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resCode" >
+        t.RES_CODE = #resCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resType" >
+        t.RES_TYPE = #resType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resName" >
+        t.RES_NAME = #resName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sortNum" >
+        t.SORT_NUM = #sortNum#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="parentId" >
+        t.PARENT_ID = #parentId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="maxlevel" >
+        t.MAXLEVEL = #maxlevel#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="childnum" >
+        t.CHILDNUM = #childnum#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="resNameSub" >
+        t.RES_NAME_SUB = #resNameSub#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark" >
+        t.REMARK = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dataRange" >
+        t.DATA_RANGE = #dataRange#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isDisable" >
+        t.IS_DISABLE = #isDisable#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+  
+	<insert id="Datadict_insert" parameterClass="com.dolphin.domain.Datadict" >
+    insert into SYS_RESOURCE (IS_DELETED, GMT_CREATE, CREATOR, GMT_MODIFY, MODIFIER, RES_CODE,
+      RES_TYPE, RES_NAME, SORT_NUM, PARENT_ID, MAXLEVEL, CHILDNUM, RES_NAME_SUB, REMARK,DATA_RANGE,IS_DISABLE)
+    values ('0', sysdate(), #creator#, sysdate(), #modifier#, #resCode#,
+      #resType#, #resName#, #sortNum#, #parentId#, #maxlevel#, 0, #resNameSub#, #remark#,#dataRange#,#isDisable#)
+      
+      <selectKey resultClass="long" keyProperty="id">  
+			SELECT LAST_INSERT_ID() AS ID    
+		</selectKey>  
+	</insert>
+  
+	<update id="Datadict_update" parameterClass="com.dolphin.domain.Datadict" >
+    update SYS_RESOURCE
+    set  GMT_MODIFY = sysdate()
+		<dynamic>
+			<isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+			</isNotNull>
+			<isNotNull prepend="," property="resCode" >
+        RES_CODE = #resCode#
+			</isNotNull>
+			<isNotNull prepend="," property="resType" >
+        RES_TYPE = #resType#
+			</isNotNull>
+			<isNotNull prepend="," property="resName" >
+        RES_NAME = #resName#
+			</isNotNull>
+			<isNotNull prepend="," property="sortNum" >
+        SORT_NUM = #sortNum#
+			</isNotNull>
+			<isNotNull prepend="," property="maxlevel" >
+        MAXLEVEL = #maxlevel#
+			</isNotNull>
+			<isNotNull prepend="," property="childnum" >
+        CHILDNUM = #childnum#
+			</isNotNull>
+			<isNotNull prepend="," property="resNameSub" >
+        RES_NAME_SUB = #resNameSub#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+			</isNotNull>
+			<isNotNull prepend="," property="dataRange" >
+        DATA_RANGE = #dataRange#
+			</isNotNull>
+			<isNotNull prepend="," property="isDisable" >
+        IS_DISABLE = #isDisable#
+			</isNotNull>
+		</dynamic>
+    where ID = #id#
+	</update>
+  
+	<update id="Datadict_updateSelective" parameterClass="com.dolphin.domain.Datadict" >
+    update SYS_RESOURCE
+		<dynamic prepend="set" >
+			<isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+			</isNotNull>
+			<isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+			</isNotNull>
+			<isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+			</isNotNull>
+			<isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+			</isNotNull>
+			<isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+			</isNotNull>
+			<isNotNull prepend="," property="resCode" >
+        RES_CODE = #resCode#
+			</isNotNull>
+			<isNotNull prepend="," property="resType" >
+        RES_TYPE = #resType#
+			</isNotNull>
+			<isNotNull prepend="," property="resName" >
+        RES_NAME = #resName#
+			</isNotNull>
+			<isNotNull prepend="," property="sortNum" >
+        SORT_NUM = #sortNum#
+			</isNotNull>
+			<isNotNull prepend="," property="parentId" >
+        PARENT_ID = #parentId#
+			</isNotNull>
+			<isNotNull prepend="," property="maxlevel" >
+        MAXLEVEL = #maxlevel#
+			</isNotNull>
+			<isNotNull prepend="," property="childnum" >
+        CHILDNUM = #childnum#
+			</isNotNull>
+			<isNotNull prepend="," property="resNameSub" >
+        RES_NAME_SUB = #resNameSub#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+			</isNotNull>
+			<isNotNull prepend="," property="dataRange" >
+        DATA_RANGE = #dataRange#
+			</isNotNull>
+			<isNotNull prepend="," property="isDisable" >
+        IS_DISABLE = #isDisable#
+			</isNotNull>
+		</dynamic>
+    where ID = #id#
+	</update>
+  
+	<delete id="Datadict_deleteByPrimaryKey" parameterClass="com.dolphin.domain.Datadict" >
+    update SYS_RESOURCE
+    set IS_DELETED = '1'
+    where ID = #id#
+	</delete>
+  
+	<delete id="Datadict_delete" parameterClass="com.dolphin.domain.Datadict" >
+    update SYS_RESOURCE
+    set IS_DELETED = '1'
+		<dynamic prepend="where" >
+			<isNotNull prepend="and" property="id" >
+        ID = #id#
+			</isNotNull>
+			<isNotNull prepend="and" property="isDeleted" >
+        IS_DELETED = #isDeleted#
+			</isNotNull>
+			<isNotNull prepend="and" property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+			</isNotNull>
+			<isNotNull prepend="and" property="creator" >
+        CREATOR = #creator#
+			</isNotNull>
+			<isNotNull prepend="and" property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+			</isNotNull>
+			<isNotNull prepend="and" property="modifier" >
+        MODIFIER = #modifier#
+			</isNotNull>
+			<isNotNull prepend="and" property="resCode" >
+        RES_CODE = #resCode#
+			</isNotNull>
+			<isNotNull prepend="and" property="resType" >
+        RES_TYPE = #resType#
+			</isNotNull>
+			<isNotNull prepend="and" property="resName" >
+        RES_NAME = #resName#
+			</isNotNull>
+			<isNotNull prepend="and" property="sortNum" >
+        SORT_NUM = #sortNum#
+			</isNotNull>
+			<isNotNull prepend="and" property="parentId" >
+        PARENT_ID = #parentId#
+			</isNotNull>
+			<isNotNull prepend="and" property="maxlevel" >
+        MAXLEVEL = #maxlevel#
+			</isNotNull>
+			<isNotNull prepend="and" property="childnum" >
+        CHILDNUM = #childnum#
+			</isNotNull>
+			<isNotNull prepend="and" property="resNameSub" >
+        RES_NAME_SUB = #resNameSub#
+			</isNotNull>
+			<isNotNull prepend="and" property="remark" >
+        REMARK = #remark#
+			</isNotNull>
+		</dynamic>
+	</delete>
+</sqlMap>

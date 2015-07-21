@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SysUpdateLog" >
+  <select id="SysUpdateLog_get" resultClass="com.hundsun.ctim.domain.sysupdate.SysUpdateLog" >
+    select t.ID, t.UPDATE_DATE as updateDate, t.UPDATE_TIME as updateTime, t.CONTEXT, t.GMT_CREATE as gmtCreate, t.CREATOR
+    from SYS_UPDATE_LOG t
+    where t.ID = #id#
+  </select>
+  <select id="SysUpdateLog_list" resultClass="com.hundsun.ctim.domain.sysupdate.SysUpdateLog" >
+    select t.ID, t.UPDATE_TIME as updateTime,  t.UPDATE_DATE as updateDate, t.CONTEXT, t.GMT_CREATE as gmtCreate, t.CREATOR
+    from SYS_UPDATE_LOG t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="updateDate" >
+       t.UPDATE_DATE > #updateDate#
+      </isNotEmpty>
+      <isNotEmpty prepend="or" property="updateTime"  open="(" close=")">
+       t.UPDATE_DATE = #updateDate# and t.UPDATE_TIME > #updateTime#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="SysUpdateLog_count" resultClass="java.lang.Integer" >
+    select count(*) from SYS_UPDATE_LOG t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="id" >
+        t.ID = #id#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="SysUpdateLog_insert" parameterClass="com.hundsun.ctim.domain.sysupdate.SysUpdateLog" >
+    <selectKey resultClass="long" keyProperty="id" >
+      select SQ_SYS_LOG.nextval from dual
+    </selectKey>
+    insert into SYS_UPDATE_LOG (ID, UPDATE_TIME, CONTEXT, GMT_CREATE, CREATOR, UPDATE_DATE)
+    values (#id#, #updateTime#, #context#, #gmtCreate#, #creator#,#updateDate#)
+  </insert>
+  <update id="SysUpdateLog_update" parameterClass="com.hundsun.ctim.domain.sysupdate.SysUpdateLog" >
+    update SYS_UPDATE_LOG
+    set 
+      UPDATE_TIME = #updateTime#,
+      UPDATE_DATE = #updateDate#,
+      CONTEXT = #context#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#
+     where ID = #id#
+  </update>
+  <update id="SysUpdateLog_updateSelective" parameterClass="com.hundsun.ctim.domain.sysupdate.SysUpdateLog" >
+    update SYS_UPDATE_LOG
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="updateTime" >
+        UPDATE_TIME = #updateTime#
+      </isNotNull>
+      <isNotNull prepend="," property="updateDate" >
+       UPDATE_DATE = #updateDate#,
+      </isNotNull>
+      <isNotNull prepend="," property="context" >
+        CONTEXT = #context#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      where ID = #id#
+    </dynamic>
+  </update>
+  <delete id="SysUpdateLog_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.sysupdate.SysUpdateLog" >
+    delete from SYS_UPDATE_LOG
+    where ID = #id#
+  </delete>
+  <delete id="SysUpdateLog_delete" parameterClass="com.hundsun.ctim.domain.sysupdate.SysUpdateLog" >
+    delete from SYS_UPDATE_LOG
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="id" >
+        ID = #id#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

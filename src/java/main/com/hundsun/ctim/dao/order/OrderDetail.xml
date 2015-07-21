@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="OrderDetail" >
+  <select id="OrderDetail_get" resultClass="com.hundsun.ctim.domain.order.OrderDetail" >
+    select t.DETAIL_ID as detailId, t.ORDER_ID as orderId, t.PRODUCT_ID as productId, t.PRODUCT_NO
+      as productNo, t.PRODUCT_NAME as productName, t.STANDARD, t.UNIT, t.PRICE, t.PRODUCT_NUM as
+      productNum, t.REMARK
+    from TB_ORDER_DETAIL t
+    where t.DETAIL_ID = #detailId#
+  </select>
+  <select id="OrderDetail_list" resultClass="com.hundsun.ctim.domain.order.OrderDetail" >
+    select t.DETAIL_ID as detailId, t.ORDER_ID as orderId, t.PRODUCT_ID as productId, t.PRODUCT_NO
+      as productNo, t.PRODUCT_NAME as productName, t.STANDARD, t.UNIT, t.PRICE, t.PRODUCT_NUM as
+      productNum, t.REMARK, IFNULL(stock.stock, 0) as stock, IFNULL(p.min_store, 0) as min_store
+    from TB_ORDER_DETAIL t
+    left join tb_product_stock stock on stock.PRODUCT_ID = t.PRODUCT_ID
+    left join tb_product p on p.PRODUCT_ID = t.PRODUCT_ID
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="detailId" >
+        t.DETAIL_ID = #detailId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderId" >
+        t.order_Id = #orderId#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="OrderDetail_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_ORDER_DETAIL t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="detailId" >
+        t.DETAIL_ID = #detailId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderId" >
+        t.order_Id = #orderId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="OrderDetail_insert" parameterClass="com.hundsun.ctim.domain.order.OrderDetail" >
+    insert into TB_ORDER_DETAIL (ORDER_ID, PRODUCT_ID, PRODUCT_NO, PRODUCT_NAME,
+      STANDARD, UNIT, PRICE, PRODUCT_NUM, REMARK)
+    values (#orderId#, #productId#, #productNo#, #productName#, #standard#, #unit#,
+      #price#, #productNum#, #remark#)
+      <selectKey resultClass="long" keyProperty="detailId">  
+		SELECT LAST_INSERT_ID() AS detailId
+	  </selectKey>
+  </insert>
+  <update id="OrderDetail_update" parameterClass="com.hundsun.ctim.domain.order.OrderDetail" >
+    update TB_ORDER_DETAIL
+    set 
+      ORDER_ID = #orderId#,
+      PRODUCT_ID = #productId#,
+      PRODUCT_NO = #productNo#,
+      PRODUCT_NAME = #productName#,
+      STANDARD = #standard#,
+      UNIT = #unit#,
+      PRICE = #price#,
+      PRODUCT_NUM = #productNum#,
+      REMARK = #remark#
+     where DETAIL_ID = #detailId#
+  </update>
+  <update id="OrderDetail_updateSelective" parameterClass="com.hundsun.ctim.domain.order.OrderDetail" >
+    update TB_ORDER_DETAIL
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="orderId" >
+        ORDER_ID = #orderId#
+      </isNotNull>
+      <isNotNull prepend="," property="productId" >
+        PRODUCT_ID = #productId#
+      </isNotNull>
+      <isNotNull prepend="," property="productNo" >
+        PRODUCT_NO = #productNo#
+      </isNotNull>
+      <isNotNull prepend="," property="productName" >
+        PRODUCT_NAME = #productName#
+      </isNotNull>
+      <isNotNull prepend="," property="standard" >
+        STANDARD = #standard#
+      </isNotNull>
+      <isNotNull prepend="," property="unit" >
+        UNIT = #unit#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        PRICE = #price#
+      </isNotNull>
+      <isNotNull prepend="," property="productNum" >
+        PRODUCT_NUM = #productNum#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      where DETAIL_ID = #detailId#
+    </dynamic>
+  </update>
+  <delete id="OrderDetail_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_ORDER_DETAIL
+    where DETAIL_ID = #detailId#
+  </delete>
+  <delete id="OrderDetail_delete" parameterClass="com.hundsun.ctim.domain.order.OrderDetail" >
+    delete from TB_ORDER_DETAIL
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="detailId" >
+        DETAIL_ID = #detailId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

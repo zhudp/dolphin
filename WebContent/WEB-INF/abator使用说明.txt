@@ -1,0 +1,38 @@
+abator程序运行配置
+右键 classpath下的 abator_hs jar包  
+首次配置：
+Run As->Run Configuration
+在左边栏的目录下找到Java Application 右键new
+在右边面板中  Browse按钮 定位到本项目 Search输入"org.apache.ibatis.abator.api.AbatorRunner"
+点开上方Arguments 
+输入参数 如 H:\workspace\ctimPM\WebContent\WEB-INF\abatorConfig.xml  true 该路径即为abatorConfig.xml文件的绝对路径,文件位置无要求
+
+以后每次
+右键 classpath下的 abator_hs jar包  
+Run As->Run Application
+即可，不需配置
+
+
+abatorConfig.xml  配置
+示例：
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN" "a" >
+<abatorConfiguration >
+  <abatorContext >
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@172.22.2.21:1521:ORA" userId="hztrip" password="hztrip" >
+    </jdbcConnection>
+    <javaModelGenerator targetPackage="com.hs.core.dao.j" targetProject="H:\\workspace\\hzTrip\\src" imType="extends" className="com.hs.core.BaseEntity" />
+    <sqlMapGenerator  targetPackage="com.hs.core.dao.k" targetProject="H:\\workspace\\hzTrip\\src" />
+    <serviceGenerator  targetPackage="com.hs.core.dao.m" targetProject="H:\\workspace\\hzTrip\\src" imType="extends" className="com.hs.core.BaseService"/>
+    <daoGenerator targetPackage="com.hs.core.dao.n" targetProject="H:\\workspace\\hzTrip\\src" type="spring" imType="extendsT" className="com.hs.core.dao.IBatisEntityDao"/>
+    <table schema="hztrip" tableName="sys_role" >
+    <generatedKey column="id" sqlStatement="select SQ_SYS_ROLE.nextval from dual" identity="true" />
+    </table>
+  </abatorContext>
+</abatorConfiguration>
+
+
+
+<!--目前只需修改 javaModelGenerator，sqlMapGenerator，serviceGenerator，daoGenerator标签中的 targetPackage，targetPackage属性，及table标签的tableName,sqlStatement属性(sqlStatement需修改序列名)
+imType属性：当imType="extends" 时 表示继承className属性说指向的类名 当imType="extendsT"时 表示改继承的类带有泛型，如有需要，可以修改
+—-->

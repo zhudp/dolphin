@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="City" >
+  <select id="City_get" resultClass="com.dolphin.domain.City" >
+    select t.CITY_ID as cityId, t.CITY_NAME as cityName, t.CITY_LEVEL as cityLevel, t.CITY_REGION as
+      cityRegion, t.CITY_PROVINCE as cityProvince, t.VEHICLE_PREFIX as vehiclePrefix, t.MEMO,
+      t.CITY_PY as cityPy, t.CITY_ORDER as cityOrder
+    from TB_CITY t
+  </select>
+  <select id="City_list" resultClass="com.dolphin.domain.City" >
+    select t.CITY_ID as cityId, t.CITY_NAME as cityName, t.CITY_LEVEL as cityLevel, t.CITY_REGION as
+      cityRegion, t.CITY_PROVINCE as cityProvince, t.VEHICLE_PREFIX as vehiclePrefix, t.MEMO,
+      t.CITY_PY as cityPy, t.CITY_ORDER as cityOrder
+    from TB_CITY t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="cityId" >
+        t.CITY_ID = #cityId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cityName" >
+        t.CITY_NAME = #cityName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cityLevel" >
+        t.CITY_LEVEL = #cityLevel#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cityRegion" >
+        t.CITY_REGION = #cityRegion#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cityProvince" >
+        t.CITY_PROVINCE = #cityProvince#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="City_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_CITY t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="cityId" >
+        t.CITY_ID = #cityId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cityName" >
+        t.CITY_NAME = #cityName#
+      </isNotEmpty>
+            <isNotEmpty prepend="and" property="cityLevel" >
+        t.CITY_LEVEL = #cityLevel#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cityRegion" >
+        t.CITY_REGION = #cityRegion#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cityProvince" >
+        t.CITY_PROVINCE = #cityProvince#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="City_insert" parameterClass="com.dolphin.domain.City" >
+    insert into TB_CITY (CITY_ID, CITY_NAME, CITY_LEVEL, CITY_REGION, CITY_PROVINCE, VEHICLE_PREFIX,
+      MEMO, CITY_PY, CITY_ORDER)
+    values (#cityId#, #cityName#, #cityLevel#, #cityRegion#, #cityProvince#, #vehiclePrefix#,
+      #memo#, #cityPy#, #cityOrder#)
+  </insert>
+  <update id="City_update" parameterClass="com.dolphin.domain.City" >
+    update TB_CITY
+    set 
+      CITY_NAME = #cityName#,
+      CITY_LEVEL = #cityLevel#,
+      CITY_REGION = #cityRegion#,
+      CITY_PROVINCE = #cityProvince#,
+      VEHICLE_PREFIX = #vehiclePrefix#,
+      MEMO = #memo#,
+      CITY_PY = #cityPy#,
+      CITY_ORDER = #cityOrder#
+     where CITY_ID = #cityId#
+  </update>
+  <update id="City_updateSelective" parameterClass="com.dolphin.domain.City" >
+    update TB_CITY
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="cityName" >
+        CITY_NAME = #cityName#
+      </isNotNull>
+      <isNotNull prepend="," property="cityLevel" >
+        CITY_LEVEL = #cityLevel#
+      </isNotNull>
+      <isNotNull prepend="," property="cityRegion" >
+        CITY_REGION = #cityRegion#
+      </isNotNull>
+      <isNotNull prepend="," property="cityProvince" >
+        CITY_PROVINCE = #cityProvince#
+      </isNotNull>
+      <isNotNull prepend="," property="vehiclePrefix" >
+        VEHICLE_PREFIX = #vehiclePrefix#
+      </isNotNull>
+      <isNotNull prepend="," property="memo" >
+        MEMO = #memo#
+      </isNotNull>
+      <isNotNull prepend="," property="cityPy" >
+        CITY_PY = #cityPy#
+      </isNotNull>
+      <isNotNull prepend="," property="cityOrder" >
+        CITY_ORDER = #cityOrder#
+      </isNotNull>
+      where CITY_ID = #cityId#
+    </dynamic>
+  </update>
+  <delete id="City_deleteByPrimaryKey" parameterClass="com.dolphin.domain.City" >
+    delete from TB_CITY
+  </delete>
+  <delete id="City_delete" parameterClass="com.dolphin.domain.City" >
+    delete from TB_CITY
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="cityId" >
+        CITY_ID = #cityId#
+      </isNotNull>
+      <isNotNull prepend="and" property="cityName" >
+        CITY_NAME = #cityName#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

@@ -1,0 +1,16 @@
+/* grid中列内容自动换行样式 **/
+.x-grid3-row td, .x-grid3-summary-row td {
+    line-height:13px;
+    vertical-align: middle;
+    padding-left:1px;
+    padding-right:1px;
+    -moz-user-select: none;
+    -khtml-user-select:none;
+    -webkit-user-select:ignore;
+}
+
+/* ext 模板内容样式 **/
+.changeLogInfo{background-color: #FFF;}
+.changeLogInfo b.colorF63{color: #FF6633;}
+.changeLogInfo div{line-height: 20px;padding:0 5px; font-size: 12px;min-height:20px;padding-bottom: 2px; border-bottom: 1px solid #CCC;}
+.changeLogInfo span.space24{width: 24px;display: inline-block;}

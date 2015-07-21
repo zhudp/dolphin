@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Delivery" >
+  <select id="Delivery_get" resultClass="com.hundsun.ctim.domain.delivery.Delivery" >
+    select t.DELIVERY_ID as deliveryId, t.DELIVERY_NO as deliveryNo, t.ORDER_ID as orderId,
+      t.CUSTOM_ID as customId, t.DELIVERY_DATE as deliveryDate, t.DELIVERY_ADDRESS as
+      deliveryAddress, t.CUSTOM_CONTACTS as customContacts, t.CUSTOM_CONTACTS_PHONE as
+      customContactsPhone, t.TRANSPORT_TYPE as transportType, t.OFFICER, t.OFFICER_PHONE as
+      officerPhone, t.REMARK
+    from TB_DELIVERY t
+    where t.DELIVERY_ID = #deliveryId#
+  </select>
+  <select id="Delivery_list" resultClass="com.hundsun.ctim.domain.delivery.Delivery" >
+    select t.DELIVERY_ID as deliveryId, t.DELIVERY_NO as deliveryNo, t.ORDER_ID as orderId,
+      t.CUSTOM_ID as customId, t.DELIVERY_DATE as deliveryDate, t.DELIVERY_ADDRESS as
+      deliveryAddress, t.CUSTOM_CONTACTS as customContacts, t.CUSTOM_CONTACTS_PHONE as
+      customContactsPhone, t.TRANSPORT_TYPE as transportType, t.OFFICER, t.OFFICER_PHONE as
+      officerPhone, t.REMARK
+    from TB_DELIVERY t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="deliveryId" >
+        t.DELIVERY_ID = #deliveryId#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="Delivery_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_DELIVERY t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="deliveryId" >
+        t.DELIVERY_ID = #deliveryId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="Delivery_insert" parameterClass="com.hundsun.ctim.domain.delivery.Delivery" >
+    <selectKey resultClass="long" keyProperty="id" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into TB_DELIVERY (DELIVERY_ID, DELIVERY_NO, ORDER_ID, CUSTOM_ID, DELIVERY_DATE,
+      DELIVERY_ADDRESS, CUSTOM_CONTACTS, CUSTOM_CONTACTS_PHONE, TRANSPORT_TYPE, OFFICER,
+      OFFICER_PHONE, REMARK)
+    values (#deliveryId#, #deliveryNo#, #orderId#, #customId#, #deliveryDate#, #deliveryAddress#,
+      #customContacts#, #customContactsPhone#, #transportType#, #officer#, #officerPhone#, #remark#)
+  </insert>
+  <update id="Delivery_update" parameterClass="com.hundsun.ctim.domain.delivery.Delivery" >
+    update TB_DELIVERY
+    set DELIVERY_ID = #deliveryId#,
+      DELIVERY_NO = #deliveryNo#,
+      ORDER_ID = #orderId#,
+      CUSTOM_ID = #customId#,
+      DELIVERY_DATE = #deliveryDate#,
+      DELIVERY_ADDRESS = #deliveryAddress#,
+      CUSTOM_CONTACTS = #customContacts#,
+      CUSTOM_CONTACTS_PHONE = #customContactsPhone#,
+      TRANSPORT_TYPE = #transportType#,
+      OFFICER = #officer#,
+      OFFICER_PHONE = #officerPhone#,
+      REMARK = #remark#
+    
+  </update>
+  <update id="Delivery_updateSelective" parameterClass="com.hundsun.ctim.domain.delivery.Delivery" >
+    update TB_DELIVERY
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="deliveryId" >
+        DELIVERY_ID = #deliveryId#
+      </isNotNull>
+      <isNotNull prepend="," property="deliveryNo" >
+        DELIVERY_NO = #deliveryNo#
+      </isNotNull>
+      <isNotNull prepend="," property="orderId" >
+        ORDER_ID = #orderId#
+      </isNotNull>
+      <isNotNull prepend="," property="customId" >
+        CUSTOM_ID = #customId#
+      </isNotNull>
+      <isNotNull prepend="," property="deliveryDate" >
+        DELIVERY_DATE = #deliveryDate#
+      </isNotNull>
+      <isNotNull prepend="," property="deliveryAddress" >
+        DELIVERY_ADDRESS = #deliveryAddress#
+      </isNotNull>
+      <isNotNull prepend="," property="customContacts" >
+        CUSTOM_CONTACTS = #customContacts#
+      </isNotNull>
+      <isNotNull prepend="," property="customContactsPhone" >
+        CUSTOM_CONTACTS_PHONE = #customContactsPhone#
+      </isNotNull>
+      <isNotNull prepend="," property="transportType" >
+        TRANSPORT_TYPE = #transportType#
+      </isNotNull>
+      <isNotNull prepend="," property="officer" >
+        OFFICER = #officer#
+      </isNotNull>
+      <isNotNull prepend="," property="officerPhone" >
+        OFFICER_PHONE = #officerPhone#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      
+    </dynamic>
+  </update>
+  <delete id="Delivery_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.delivery.Delivery" >
+    delete from TB_DELIVERY
+    where DELIVERY_ID = #deliveryId#
+  </delete>
+  <delete id="Delivery_delete" parameterClass="com.hundsun.ctim.domain.delivery.Delivery" >
+    delete from TB_DELIVERY
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="deliveryId" >
+        DELIVERY_ID = #deliveryId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

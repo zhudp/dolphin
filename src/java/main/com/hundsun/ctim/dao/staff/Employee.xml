@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Employee" >
+  <select id="Employee_get" resultClass="com.hundsun.ctim.domain.staff.Employee" >
+    select t.EMPLOYEE_ID as employeeId, t.EMPLOYEE_NO as employeeNo, t.NAME, t.SEX, t.NATION,
+      t.NATIVE_PLACE as nativePlace, t.BIRTH_DATE as birthDate, t.MARITAL_STATUS as maritalStatus,
+      t.ID_CODE as idCode, t.EDUCATION, t.PICTURE, t.STATUS, t.ENTRY_DATE as entryDate, t.LEAVE_DATE
+      as leaveDate, t.HOME_ADDRESS as homeAddress, t.MOBILE, t.PHONE, t.JOB, t.EMERGENCY_PHONE as
+      emergencyPhone, t.EMERGENCY_PEOPLE as emergencyPeople, t.DEPARTMENT_ID as departmentId,d.DEPT_NAME as departmentName,
+      t.REMARK, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_EMPLOYEE t
+    left join sys_department d on d.id= t.DEPARTMENT_ID
+    where t.EMPLOYEE_ID = #employeeId#
+  </select>
+  <select id="Employee_list" resultClass="com.hundsun.ctim.domain.staff.Employee" >
+    select t.EMPLOYEE_ID as employeeId, t.EMPLOYEE_NO as employeeNo, t.NAME, t.SEX, t.NATION,
+      t.NATIVE_PLACE as nativePlace, t.BIRTH_DATE as birthDate, t.MARITAL_STATUS as maritalStatus,
+      t.ID_CODE as idCode, t.EDUCATION, t.PICTURE, t.STATUS, t.ENTRY_DATE as entryDate, t.LEAVE_DATE
+      as leaveDate, t.HOME_ADDRESS as homeAddress, t.MOBILE, t.PHONE, t.JOB, t.EMERGENCY_PHONE as
+      emergencyPhone, t.EMERGENCY_PEOPLE as emergencyPeople, t.DEPARTMENT_ID as departmentId,d.DEPT_NAME as departmentName,
+      t.REMARK, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_EMPLOYEE t
+    left join sys_department d on d.id= t.DEPARTMENT_ID
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="employeeId" >
+        t.EMPLOYEE_ID = #employeeId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="employeeNo" >
+        t.EMPLOYEE_NO = #employeeNo#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="name" >
+        t.NAME = like '%$name$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentId" >
+        t.DEPARTMENT_ID = #departmentId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        t.STATUS = #status#
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="Employee_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_EMPLOYEE t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="employeeId" >
+        t.EMPLOYEE_ID = #employeeId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="employeeNo" >
+        t.EMPLOYEE_NO = #employeeNo#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="name" >
+        t.NAME = like '%$name$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentId" >
+        t.DEPARTMENT_ID = #departmentId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        t.STATUS = #status#
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+  </select>
+  <insert id="Employee_insert" parameterClass="com.hundsun.ctim.domain.staff.Employee" >
+    insert into TB_EMPLOYEE (EMPLOYEE_NO, NAME, SEX, NATION, NATIVE_PLACE, BIRTH_DATE,
+      MARITAL_STATUS, ID_CODE, EDUCATION, PICTURE, STATUS, ENTRY_DATE, LEAVE_DATE, HOME_ADDRESS,
+      MOBILE, PHONE, JOB, EMERGENCY_PHONE, EMERGENCY_PEOPLE, DEPARTMENT_ID, REMARK, 
+      GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (#employeeNo#, #name#, #sex#, #nation#, #nativePlace#, #birthDate#,
+      #maritalStatus#, #idCode#, #education#, #picture#, #status#, #entryDate#, #leaveDate#,
+      #homeAddress#, #mobile#, #phone#, #job#, #emergencyPhone#, #emergencyPeople#, #departmentId#,
+      #remark#,#gmtCreate#, #creator#, #creatorId#, #gmtModify#, #modifier#,
+      #modifierId#)
+      <selectKey resultClass="long" keyProperty="employeeId">  
+		SELECT LAST_INSERT_ID() AS employeeId
+	  </selectKey>
+  </insert>
+  <update id="Employee_update" parameterClass="com.hundsun.ctim.domain.staff.Employee" >
+    update TB_EMPLOYEE
+    set 
+      EMPLOYEE_NO = #employeeNo#,
+      NAME = #name#,
+      SEX = #sex#,
+      NATION = #nation#,
+      NATIVE_PLACE = #nativePlace#,
+      BIRTH_DATE = #birthDate#,
+      MARITAL_STATUS = #maritalStatus#,
+      ID_CODE = #idCode#,
+      EDUCATION = #education#,
+      PICTURE = #picture#,
+      STATUS = #status#,
+      ENTRY_DATE = #entryDate#,
+      LEAVE_DATE = #leaveDate#,
+      HOME_ADDRESS = #homeAddress#,
+      MOBILE = #mobile#,
+      PHONE = #phone#,
+      JOB = #job#,
+      EMERGENCY_PHONE = #emergencyPhone#,
+      EMERGENCY_PEOPLE = #emergencyPeople#,
+      DEPARTMENT_ID = #departmentId#,
+      REMARK = #remark#,
+      IS_DELETED = #isDeleted#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#
+     where EMPLOYEE_ID = #employeeId#
+  </update>
+  <update id="Employee_updateSelective" parameterClass="com.hundsun.ctim.domain.staff.Employee" >
+    update TB_EMPLOYEE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="employeeNo" >
+        EMPLOYEE_NO = #employeeNo#
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        NAME = #name#
+      </isNotNull>
+      <isNotNull prepend="," property="sex" >
+        SEX = #sex#
+      </isNotNull>
+      <isNotNull prepend="," property="nation" >
+        NATION = #nation#
+      </isNotNull>
+      <isNotNull prepend="," property="nativePlace" >
+        NATIVE_PLACE = #nativePlace#
+      </isNotNull>
+      <isNotNull prepend="," property="birthDate" >
+        BIRTH_DATE = #birthDate#
+      </isNotNull>
+      <isNotNull prepend="," property="maritalStatus" >
+        MARITAL_STATUS = #maritalStatus#
+      </isNotNull>
+      <isNotNull prepend="," property="idCode" >
+        ID_CODE = #idCode#
+      </isNotNull>
+      <isNotNull prepend="," property="education" >
+        EDUCATION = #education#
+      </isNotNull>
+      <isNotNull prepend="," property="picture" >
+        PICTURE = #picture#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        STATUS = #status#
+      </isNotNull>
+      <isNotNull prepend="," property="entryDate" >
+        ENTRY_DATE = #entryDate#
+      </isNotNull>
+      <isNotNull prepend="," property="leaveDate" >
+        LEAVE_DATE = #leaveDate#
+      </isNotNull>
+      <isNotNull prepend="," property="homeAddress" >
+        HOME_ADDRESS = #homeAddress#
+      </isNotNull>
+      <isNotNull prepend="," property="mobile" >
+        MOBILE = #mobile#
+      </isNotNull>
+      <isNotNull prepend="," property="phone" >
+        PHONE = #phone#
+      </isNotNull>
+      <isNotNull prepend="," property="job" >
+        JOB = #job#
+      </isNotNull>
+      <isNotNull prepend="," property="emergencyPhone" >
+        EMERGENCY_PHONE = #emergencyPhone#
+      </isNotNull>
+      <isNotNull prepend="," property="emergencyPeople" >
+        EMERGENCY_PEOPLE = #emergencyPeople#
+      </isNotNull>
+      <isNotNull prepend="," property="departmentId" >
+        DEPARTMENT_ID = #departmentId#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      where EMPLOYEE_ID = #employeeId#
+    </dynamic>
+  </update>
+  <delete id="Employee_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_EMPLOYEE
+    where EMPLOYEE_ID = #employeeId#
+  </delete>
+  <delete id="Employee_delete" parameterClass="com.hundsun.ctim.domain.staff.Employee" >
+    delete from TB_EMPLOYEE
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="employeeId" >
+        EMPLOYEE_ID = #employeeId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

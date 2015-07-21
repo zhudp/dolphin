@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+	<!-- 基础常量类配置 -->
+	<bean id="baseConfigObj"
+		class="com.dolphin.sys.BaseConfigObj" scope="singleton">
+
+		<!-- 服务器发布时配置 文件上传地址-->
+		<property name="uploadFileBasePath"
+			value="D:/jtkj/upload/fck/" />
+
+		<property name="indexHomePath"
+			value="/jtkj/index/" />
+
+
+		<!-- 服务器发布时 前台网站访问地址-->
+		<property name="webUrl" value="http://localhost:8080/" />
+
+        <!-- 以下URL地址都是相对上面两个服务器地址而配置的 -->
+        <!-- 本机配置 文件访问基本URL -->
+        <property name="uploadFileBaseUrl"  value="http://127.0.0.1:8080/ctimPM/jtkj/upload/fck" />
+
+		<property name="sex">
+			<map>
+				<entry key="0" value="女" />
+				<entry key="1" value="男" />
+			</map>
+		</property>
+				
+		<!--main start-->
+		<!--main end-->
+		<property name="publicStatus">
+			<map>
+				<entry key="1" value="待发布" />
+				<entry key="2" value="已发布" />
+			</map>
+		</property>
+	</bean>
+</beans>

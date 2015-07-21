@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/Department.xml" />
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/Role.xml" />
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/RoleItemAssign.xml" />
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/User.xml" />
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/UserRoleAssign.xml" />
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/UserSecurity.xml" />
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/Datadict.xml" />
+	<sqlMap resource="com/dolphin/dao/ibatis/maps/SystemLog.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/sysupdate/maps/SysUpdateLog.xml" />
+	<!-- main start -->
+	<sqlMap resource="com/hundsun/ctim/dao/custom/Custom.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/custom/CustomVisit.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/product/Product.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/product/ProductParts.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/product/ProductBom.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/order/Order.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/order/OrderDetail.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/produce/ProduceTask.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/produce/ProduceTaskDetail.xml" />
+	
+	<sqlMap resource="com/hundsun/ctim/dao/material/Material.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/MaterialStock.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/MaterialStockIn.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/MaterialStockInDetail.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/MaterialStockOut.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/MaterialStockOutDetail.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/supplier/Supplier.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/supplier/SupplierQuote.xml" />
+	<!-- 
+	alter table `bizshow`.`tb_purchase` 
+   change `order_date` `order_date` date NULL  comment '下单日期', 
+   change `plan_storein_date` `plan_storein_date` date NULL  comment '计划入库时间', 
+   change `real_storein_date` `real_storein_date` date NULL  comment '实际入库时间'
+	 -->
+	<sqlMap resource="com/hundsun/ctim/dao/purchase/Purchase.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/purchase/PurchaseDetail.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/ProductStockIn.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/ProductStockInDetail.xml"/>
+	<sqlMap resource="com/hundsun/ctim/dao/stock/ProductStockOut.xml"/>
+	<sqlMap resource="com/hundsun/ctim/dao/stock/ProductStockOutDetail.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/stock/ProductStock.xml"/>
+	
+	<!-- 2013-3-2 第一次上线后，新加表 -->
+	<!-- 2013-3-2 第一次上线后，修改过的表，记录表名和字段:
+		tb_staff.staff_Id
+	 -->
+	<sqlMap resource="com/hundsun/ctim/dao/file/AnnexFile.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/SerialNo.xml" />
+	<!-- 
+	alter table `bizshow`.`tb_serial_no` 
+   change `serial_prefix` `serial_prefix` varchar(30) character set latin1 collate latin1_swedish_ci NULL 
+	 -->
+	<sqlMap resource="com/hundsun/ctim/dao/staff/Employee.xml" />
+	<sqlMap resource="com/hundsun/ctim/dao/purchase/PurchaseTask.xml" />
+	 <!--main end -->
+	
+</sqlMapConfig>

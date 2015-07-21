@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Role">
+
+	<select id="Role_get" resultClass="com.dolphin.domain.Role">
+		select t.ID, t.ROLE_NAME as roleName, t.DESCRIPTION, t.STATUS
+		from SYS_ROLE t where t.ID = #id#
+	</select>
+
+	<select id="Role_list" resultClass="com.dolphin.domain.Role">
+		select t.ID, t.ROLE_NAME as roleName, t.DESCRIPTION,
+		t.STATUS,t.gmt_create as gmtCreate from SYS_ROLE t
+		where is_deleted is null or is_deleted='n'
+		<dynamic>
+			<isNotEmpty prepend="and" property="id">
+				t.ID = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="roleName">
+				t.ROLE_NAME = #roleName#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="name_like" >
+				t.NAME like '%$name_like$%'
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="description">
+				t.DESCRIPTION = #description#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				t.STATUS = #status#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty property="sort">$sort$ $dir$</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="Role_count" resultClass="java.lang.Integer">
+		select count(*) from SYS_ROLE t
+		where is_deleted is null or is_deleted='n'
+		<dynamic>
+			<isNotEmpty prepend="and" property="id">
+				t.ID = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="roleName">
+				t.ROLE_NAME = #roleName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="description">
+				t.DESCRIPTION = #description#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				t.STATUS = #status#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="Role_insert" parameterClass="com.dolphin.domain.Role">
+		insert into SYS_ROLE (is_deleted, gmt_create,ROLE_NAME, DESCRIPTION,
+		STATUS) values ('n',sysdate(),#roleName#, #description#,
+		#status#)
+		<selectKey resultClass="int" keyProperty="id">  
+			SELECT LAST_INSERT_ID() AS ID    
+		</selectKey>  
+	</insert>
+
+	<update id="Role_update"
+		parameterClass="com.dolphin.domain.Role">
+		update SYS_ROLE set ROLE_NAME = #roleName#, gmt_modify =
+		sysdate(), DESCRIPTION = #description#, STATUS = #status# where ID
+		= #id#
+	</update>
+
+	<update id="Role_updateSelective"
+		parameterClass="com.dolphin.domain.Role">
+		update SYS_ROLE set gmt_modify = sysdate()
+		<dynamic>
+			<isNotNull prepend="," property="roleName">
+				ROLE_NAME = #roleName#
+			</isNotNull>
+			<isNotNull prepend="," property="description">
+				DESCRIPTION = #description#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				STATUS = #status#
+			</isNotNull>
+		</dynamic>
+		where ID = #id#
+	</update>
+
+	<delete id="Role_deleteByPrimaryKey"
+		parameterClass="com.dolphin.domain.Role">
+		update SYS_ROLE set is_deleted='y'  where ID = #id#
+	</delete>
+
+	<delete id="Role_delete"
+		parameterClass="com.dolphin.domain.Role">
+		update SYS_ROLE set is_deleted='y'
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="id">ID = #id#</isNotNull>
+			<isNotNull prepend="and" property="roleName">
+				ROLE_NAME = #roleName#
+			</isNotNull>
+			<isNotNull prepend="and" property="description">
+				DESCRIPTION = #description#
+			</isNotNull>
+			<isNotNull prepend="and" property="status">
+				STATUS = #status#
+			</isNotNull>
+		</dynamic>
+	</delete>
+</sqlMap>

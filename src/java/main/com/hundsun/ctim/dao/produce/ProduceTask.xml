@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ProduceTask" >
+  <select id="ProduceTask_get" resultClass="com.hundsun.ctim.domain.produce.ProduceTask" >
+    select t.TASK_ID as taskId, t.TASK_NAME as taskName, c.CUSTOM_ID as customId, c.CUSTOM_NAME as
+      customName, c.CUSTOM_NO as customNo, t.PLAN_BEGIN_DATE as planBeginDate, t.PLAN_END_DATE as planEndDate,
+      t.REAL_BEGIN_DATE as realBeginDate, t.REAL_END_DATE as realEndDate, t.STORE_IN_DATE as
+      storeInDate, t.TASK_STATUS as taskStatus, t.OFFICER, t.REMARK, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId,t.ORDER_ID as orderId,o.ORDER_NAME as orderName,o.ORDER_NO as orderNo
+    from TB_PRODUCE_TASK t
+    left join tb_custom c on c.custom_id = t.CUSTOM_ID
+    left join tb_order o on o.order_id = t.order_id
+    where t.TASK_ID = #taskId#
+  </select>
+  <select id="ProduceTask_list" resultClass="com.hundsun.ctim.domain.produce.ProduceTask" >
+    select t.TASK_ID as taskId, t.TASK_NAME as taskName, c.CUSTOM_ID as customId, c.CUSTOM_NAME as
+      customName, c.CUSTOM_NO as customNo, t.PLAN_BEGIN_DATE as planBeginDate, t.PLAN_END_DATE as planEndDate,
+      t.REAL_BEGIN_DATE as realBeginDate, t.REAL_END_DATE as realEndDate, t.STORE_IN_DATE as
+      storeInDate, t.TASK_STATUS as taskStatus, t.OFFICER, t.REMARK, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId,t.ORDER_ID as orderId,o.ORDER_NAME as orderName,o.ORDER_NO as orderNo
+    from TB_PRODUCE_TASK t
+    left join tb_custom c on c.custom_id = t.CUSTOM_ID
+    left join tb_order o on o.order_id = t.order_id
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="taskId" >
+        t.TASK_ID = #taskId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderId" >
+        t.ORDER_ID = #orderId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="taskName" >
+        t.TASK_NAME = #taskName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName" >
+        t.CUSTOM_NAME = #customName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="taskStatus" >
+        t.TASK_STATUS = #taskStatus#
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="ProduceTask_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PRODUCE_TASK t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="taskId" >
+        t.TASK_ID = #taskId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderId" >
+        t.ORDER_ID = #orderId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="taskName" >
+        t.TASK_NAME = #taskName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName" >
+        t.CUSTOM_NAME = #customName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="taskStatus" >
+        t.TASK_STATUS = #taskStatus#
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+  </select>
+  <insert id="ProduceTask_insert" parameterClass="com.hundsun.ctim.domain.produce.ProduceTask" >
+    insert into TB_PRODUCE_TASK (TASK_NAME, CUSTOM_ID, CUSTOM_NAME, PLAN_BEGIN_DATE,
+      PLAN_END_DATE, REAL_BEGIN_DATE, REAL_END_DATE, STORE_IN_DATE, TASK_STATUS, OFFICER, REMARK,
+      GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID, ORDER_ID)
+    values (#taskName#, #customId#, #customName#, #planBeginDate#, #planEndDate#,
+      #realBeginDate#, #realEndDate#, #storeInDate#, #taskStatus#, #officer#, #remark#, #gmtCreate#,
+      #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#,#orderId#)
+      <selectKey resultClass="long" keyProperty="taskId">  
+		SELECT LAST_INSERT_ID() AS taskId
+	  </selectKey>
+  </insert>
+  <update id="ProduceTask_update" parameterClass="com.hundsun.ctim.domain.produce.ProduceTask" >
+    update TB_PRODUCE_TASK
+    set 
+      TASK_NAME = #taskName#,
+      CUSTOM_ID = #customId#,
+      CUSTOM_NAME = #customName#,
+      ORDER_ID = #orderId#,
+      PLAN_BEGIN_DATE = #planBeginDate#,
+      PLAN_END_DATE = #planEndDate#,
+      REAL_BEGIN_DATE = #realBeginDate#,
+      REAL_END_DATE = #realEndDate#,
+      STORE_IN_DATE = #storeInDate#,
+      TASK_STATUS = #taskStatus#,
+      OFFICER = #officer#,
+      REMARK = #remark#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      is_Deleted = #isDeleted#,
+      MODIFIER_ID = #modifierId#
+    where TASK_ID = #taskId#
+  </update>
+  <update id="ProduceTask_updateSelective" parameterClass="com.hundsun.ctim.domain.produce.ProduceTask" >
+    update TB_PRODUCE_TASK
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="orderId" >
+        order_Id = #orderId#
+      </isNotNull>
+      <isNotNull prepend="," property="taskName" >
+        TASK_NAME = #taskName#
+      </isNotNull>
+      <isNotNull prepend="," property="customId" >
+        CUSTOM_ID = #customId#
+      </isNotNull>
+      <isNotNull prepend="," property="customName" >
+        CUSTOM_NAME = #customName#
+      </isNotNull>
+      <isNotNull prepend="," property="planBeginDate" >
+        PLAN_BEGIN_DATE = #planBeginDate#
+      </isNotNull>
+      <isNotNull prepend="," property="planEndDate" >
+        PLAN_END_DATE = #planEndDate#
+      </isNotNull>
+      <isNotNull prepend="," property="realBeginDate" >
+        REAL_BEGIN_DATE = #realBeginDate#
+      </isNotNull>
+      <isNotNull prepend="," property="realEndDate" >
+        REAL_END_DATE = #realEndDate#
+      </isNotNull>
+      <isNotNull prepend="," property="storeInDate" >
+        STORE_IN_DATE = #storeInDate#
+      </isNotNull>
+      <isNotNull prepend="," property="taskStatus" >
+        TASK_STATUS = #taskStatus#
+      </isNotNull>
+      <isNotNull prepend="," property="officer" >
+        OFFICER = #officer#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        is_Deleted = #isDeleted#
+      </isNotNull>
+      where TASK_ID = #taskId#
+    </dynamic>
+  </update>
+  <delete id="ProduceTask_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_PRODUCE_TASK
+    where TASK_ID = #taskId#
+  </delete>
+  <delete id="ProduceTask_delete" parameterClass="com.hundsun.ctim.domain.produce.ProduceTask" >
+    delete from TB_PRODUCE_TASK
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="taskId" >
+        TASK_ID = #taskId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

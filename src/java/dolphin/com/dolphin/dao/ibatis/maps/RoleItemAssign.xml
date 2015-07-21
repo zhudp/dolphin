@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="RoleItemAssign" >
+  
+  <select id="RoleItemAssign_get" resultClass="com.dolphin.domain.RoleItemAssign" >
+    select t.ROLE_ID as roleId, t.ROLE_ITEM_ID as roleItemId
+    from SYS_ROLE_ITEM_ASSIGN t
+    where t.ROLE_ID = #roleId#
+      and t.ROLE_ITEM_ID = #roleItemId#
+  </select>
+  
+  <select id="RoleItemAssign_list" resultClass="com.dolphin.domain.RoleItemAssign" >
+    select t.ROLE_ID as roleId, t.ROLE_ITEM_ID as roleItemId
+    from SYS_ROLE_ITEM_ASSIGN t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="roleId" >
+        t.ROLE_ID = #roleId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="roleItemId" >
+        t.ROLE_ITEM_ID = #roleItemId#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <select id="RoleItemAssign_count" resultClass="java.lang.Integer" >
+    select count(*)
+    from SYS_ROLE_ITEM_ASSIGN t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="roleId" >
+        t.ROLE_ID = #roleId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="roleItemId" >
+        t.ROLE_ITEM_ID = #roleItemId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <insert id="RoleItemAssign_insert" parameterClass="com.dolphin.domain.RoleItemAssign" >
+    insert into SYS_ROLE_ITEM_ASSIGN (ROLE_ID, ROLE_ITEM_ID)
+    values (#roleId#, #roleItemId#)
+  </insert>
+  
+  <delete id="RoleItemAssign_deleteByPrimaryKey" parameterClass="com.dolphin.domain.RoleItemAssign" >
+    delete from SYS_ROLE_ITEM_ASSIGN
+    where ROLE_ID = #roleId#
+      and ROLE_ITEM_ID = #roleItemId#
+  </delete>
+  
+  <delete id="RoleItemAssign_delete" parameterClass="com.dolphin.domain.RoleItemAssign" >
+    delete from SYS_ROLE_ITEM_ASSIGN
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="roleId" >
+        ROLE_ID = #roleId#
+      </isNotNull>
+      <isNotNull prepend="and" property="roleItemId" >
+        ROLE_ITEM_ID = #roleItemId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

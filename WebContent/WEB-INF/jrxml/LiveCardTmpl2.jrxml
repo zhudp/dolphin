@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JzzTmpl" language="groovy" pageWidth="351" pageHeight="498" columnWidth="299" leftMargin="26" rightMargin="26" topMargin="20" bottomMargin="48">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="38"/>
+	<property name="ireport.y" value="55"/>
+	<parameter name="LIVE_NO" class="java.lang.String"/>
+	<parameter name="PEOPLE_NAME" class="java.lang.String"/>
+	<parameter name="SEX" class="java.lang.String"/>
+	<parameter name="NATION" class="java.lang.String"/>
+	<parameter name="BIRTH_DATE" class="java.lang.String"/>
+	<parameter name="EDUCATION" class="java.lang.String"/>
+	<parameter name="FACE_PIC_URL" class="java.lang.String"/>
+	<parameter name="ID_CODE_0" class="java.lang.String"/>
+	<parameter name="ID_CODE_1" class="java.lang.String"/>
+	<parameter name="ID_CODE_2" class="java.lang.String"/>
+	<parameter name="ID_CODE_3" class="java.lang.String"/>
+	<parameter name="ID_CODE_4" class="java.lang.String"/>
+	<parameter name="ID_CODE_5" class="java.lang.String"/>
+	<parameter name="ID_CODE_6" class="java.lang.String"/>
+	<parameter name="ID_CODE_7" class="java.lang.String"/>
+	<parameter name="ID_CODE_8" class="java.lang.String"/>
+	<parameter name="ID_CODE_9" class="java.lang.String"/>
+	<parameter name="ID_CODE_10" class="java.lang.String"/>
+	<parameter name="ID_CODE_11" class="java.lang.String"/>
+	<parameter name="ID_CODE_12" class="java.lang.String"/>
+	<parameter name="ID_CODE_13" class="java.lang.String"/>
+	<parameter name="ID_CODE_14" class="java.lang.String"/>
+	<parameter name="ID_CODE_15" class="java.lang.String"/>
+	<parameter name="ID_CODE_16" class="java.lang.String"/>
+	<parameter name="ID_CODE_17" class="java.lang.String"/>
+	<parameter name="IDCARD_ADDRESS" class="java.lang.String"/>
+	<parameter name="ADDRESS" class="java.lang.String"/>
+	<parameter name="COMPANY_NAME" class="java.lang.String"/>
+	<parameter name="JOB" class="java.lang.String"/>
+	<parameter name="HOUSE_OWNER" class="java.lang.String"/>
+	<parameter name="BIRTH_DATE_YEAR" class="java.lang.String"/>
+	<parameter name="BIRTH_DATE_MONTH" class="java.lang.String"/>
+	<parameter name="BIRTH_DATE_DAY" class="java.lang.String"/>
+	<parameter name="VALIDITY_BEGIN_YEAR" class="java.lang.String"/>
+	<parameter name="VALIDITY_BEGIN_MONTH" class="java.lang.String"/>
+	<parameter name="VALIDITY_BEGIN_DAY" class="java.lang.String"/>
+	<parameter name="VALIDITY_END_YEAR" class="java.lang.String"/>
+	<parameter name="VALIDITY_END_MONTH" class="java.lang.String"/>
+	<parameter name="VALIDITY_END_DAY" class="java.lang.String"/>
+	<parameter name="REMARK" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="420" splitType="Stretch">
+			<image hAlign="Center" vAlign="Top" isUsingCache="true">
+				<reportElement x="0" y="0" width="71" height="97"/>
+				<imageExpression><![CDATA[$P{FACE_PIC_URL}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="119" y="0" width="57" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PEOPLE_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="0" width="19" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SEX}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="267" y="1" width="31" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NATION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="29" width="31" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{BIRTH_DATE_YEAR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="29" width="22" height="14"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EDUCATION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="159" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="169" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="189" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="209" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="239" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="249" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="259" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_14}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_15}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="289" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_16}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="299" y="57" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_17}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="96" width="166" height="17"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{IDCARD_ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="130" width="247" height="19"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="158" width="247" height="19"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{COMPANY_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="186" width="101" height="17"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{JOB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="216" y="186" width="73" height="17"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{HOUSE_OWNER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="264" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{LIVE_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="177" y="29" width="20" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{BIRTH_DATE_MONTH}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="29" width="20" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{BIRTH_DATE_DAY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="300" width="42" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{VALIDITY_BEGIN_YEAR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="300" width="25" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{VALIDITY_BEGIN_MONTH}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="300" width="25" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{VALIDITY_BEGIN_DAY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="334" width="43" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{VALIDITY_END_YEAR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="334" width="25" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{VALIDITY_END_MONTH}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="334" width="25" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{VALIDITY_END_DAY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="377" width="257" height="36"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REMARK}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ProduceTaskDetail" >
+  <select id="ProduceTaskDetail_get" resultClass="com.hundsun.ctim.domain.produce.ProduceTaskDetail" >
+    select t.DETAIL_ID as detailId, t.PRODUCT_ID as productId, t.TASK_ID as taskId, p.PRODUCT_NAME as productName,
+      p.PRODUCT_NO as productNo, p.UNIT,p.standard,p.price, t.PLAN_NUMBER as planNumber, t.STOREIN_NUMBER as
+      storeinNumber, t.REMARK
+    from TB_PRODUCE_TASK_DETAIL t
+    left join tb_product p on p.PRODUCT_ID = t.PRODUCT_ID
+    where t.DETAIL_ID = #detailId#
+  </select>
+  <select id="ProduceTaskDetail_list" resultClass="com.hundsun.ctim.domain.produce.ProduceTaskDetail" >
+    select t.DETAIL_ID as detailId, t.PRODUCT_ID as productId, t.TASK_ID as taskId, p.PRODUCT_NAME as productName,
+      p.PRODUCT_NO as productNo, p.UNIT,p.standard,p.price, t.PLAN_NUMBER as planNumber, t.STOREIN_NUMBER as
+      storeinNumber, t.REMARK
+    from TB_PRODUCE_TASK_DETAIL t
+    left join tb_product p on p.PRODUCT_ID = t.PRODUCT_ID
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="detailId" >
+        t.detail_id = #detailId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="taskId" >
+        t.TASK_ID = #taskId#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="ProduceTaskDetail_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PRODUCE_TASK_DETAIL t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="detailId" >
+        t.detail_id = #detailId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="taskId" >
+        t.TASK_ID = #taskId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="ProduceTaskDetail_insert" parameterClass="com.hundsun.ctim.domain.produce.ProduceTaskDetail" >
+    insert into TB_PRODUCE_TASK_DETAIL (PRODUCT_ID, TASK_ID, PLAN_NUMBER, STOREIN_NUMBER, REMARK)
+    values (#productId#, #taskId#,#planNumber#, #storeinNumber#, #remark#)
+      <selectKey resultClass="long" keyProperty="detailId">  
+		SELECT LAST_INSERT_ID() AS detailId
+	  </selectKey>
+  </insert>
+  <update id="ProduceTaskDetail_update" parameterClass="com.hundsun.ctim.domain.produce.ProduceTaskDetail" >
+    update TB_PRODUCE_TASK_DETAIL
+    set PRODUCT_ID = #productId#,
+      TASK_ID = #taskId#,
+      PLAN_NUMBER = #planNumber#,
+      STOREIN_NUMBER = #storeinNumber#,
+      REMARK = #remark#
+    where DETAIL_ID = #detailId#
+  </update>
+  <update id="ProduceTaskDetail_updateSelective" parameterClass="com.hundsun.ctim.domain.produce.ProduceTaskDetail" >
+    update TB_PRODUCE_TASK_DETAIL
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="productId" >
+        PRODUCT_ID = #productId#
+      </isNotNull>
+      <isNotNull prepend="," property="taskId" >
+        TASK_ID = #taskId#
+      </isNotNull>
+      <isNotNull prepend="," property="planNumber" >
+        PLAN_NUMBER = #planNumber#
+      </isNotNull>
+      <isNotNull prepend="," property="storeinNumber" >
+        STOREIN_NUMBER = #storeinNumber#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      where DETAIL_ID = #detailId#
+    </dynamic>
+  </update>
+  <delete id="ProduceTaskDetail_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_PRODUCE_TASK_DETAIL
+    where DETAIL_ID = #detailId#
+  </delete>
+  <delete id="ProduceTaskDetail_delete" parameterClass="com.hundsun.ctim.domain.produce.ProduceTaskDetail" >
+    delete from TB_PRODUCE_TASK_DETAIL
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="detailId" >
+        DETAIL_ID = #detailId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

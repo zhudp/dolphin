@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Order" >
+  <select id="Order_get" resultClass="com.hundsun.ctim.domain.order.Order" >
+    select t.ORDER_ID as orderId, t.ORDER_NO as orderNo, t.ORDER_NAME as orderName, t.STATUS,
+      t.CUSTOM_ID as customId, t.CUSTOM_NAME as customName, t.PLAN_DELIVERY_DATE as
+      planDeliveryDate, t.DELIVERY_ADDRESS as deliveryAddress, t.ORDER_PRICE as orderPrice,
+      t.OFFICER, t.REMARK, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as creatorId,
+      t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId, t.CUSTOM_NO as customNo
+    from TB_ORDER t
+    where t.ORDER_ID = #orderId#
+  </select>
+  <select id="Order_list" resultClass="com.hundsun.ctim.domain.order.Order" >
+    select t.ORDER_ID as orderId, t.ORDER_NO as orderNo, t.ORDER_NAME as orderName, t.STATUS,
+      t.CUSTOM_ID as customId, t.CUSTOM_NAME as customName, t.PLAN_DELIVERY_DATE as
+      planDeliveryDate, t.DELIVERY_ADDRESS as deliveryAddress, t.ORDER_PRICE as orderPrice,
+      t.OFFICER, t.REMARK, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as creatorId,
+      t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId, t.CUSTOM_NO as customNo
+    from TB_ORDER t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="orderId" >
+        t.ORDER_ID = #orderId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderNo" >
+        t.ORDER_NO = #orderNo#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderName" >
+        t.ORDER_NAME = #orderName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        t.STATUS = #status#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName" >
+        t.CUSTOM_NAME = #customName#
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="Order_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_ORDER t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="orderId" >
+        t.ORDER_ID = #orderId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderNo" >
+        t.ORDER_NO = #orderNo#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="orderName" >
+        t.ORDER_NAME = #orderName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        t.STATUS = #status#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName" >
+        t.CUSTOM_NAME = #customName#
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+  </select>
+  <insert id="Order_insert" parameterClass="com.hundsun.ctim.domain.order.Order" >
+    insert into TB_ORDER (ORDER_NO, ORDER_NAME, STATUS, CUSTOM_ID, CUSTOM_NAME,
+      PLAN_DELIVERY_DATE, DELIVERY_ADDRESS, ORDER_PRICE, OFFICER, REMARK, GMT_CREATE, CREATOR,
+      CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID, CUSTOM_NO)
+    values (#orderNo#, #orderName#, #status#, #customId#, #customName#,
+      #planDeliveryDate#, #deliveryAddress#, #orderPrice#, #officer#, #remark#, #gmtCreate#,
+      #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#, #customNo#)
+	  <selectKey resultClass="long" keyProperty="orderId">  
+		SELECT LAST_INSERT_ID() AS orderId
+	  </selectKey>
+  </insert>
+  <update id="Order_update" parameterClass="com.hundsun.ctim.domain.order.Order" >
+    update TB_ORDER
+    set 
+      ORDER_NO = #orderNo#,
+      ORDER_NAME = #orderName#,
+      STATUS = #status#,
+      CUSTOM_ID = #customId#,
+      CUSTOM_NAME = #customName#,
+      PLAN_DELIVERY_DATE = #planDeliveryDate#,
+      DELIVERY_ADDRESS = #deliveryAddress#,
+      ORDER_PRICE = #orderPrice#,
+      OFFICER = #officer#,
+      REMARK = #remark#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#,
+      is_Deleted = #isDeleted#,
+      CUSTOM_NO = #customNo#
+     where ORDER_ID = #orderId#
+  </update>
+  <update id="Order_updateSelective" parameterClass="com.hundsun.ctim.domain.order.Order" >
+    update TB_ORDER
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="orderNo" >
+        ORDER_NO = #orderNo#
+      </isNotNull>
+      <isNotNull prepend="," property="orderName" >
+        ORDER_NAME = #orderName#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        STATUS = #status#
+      </isNotNull>
+      <isNotNull prepend="," property="customId" >
+        CUSTOM_ID = #customId#
+      </isNotNull>
+      <isNotNull prepend="," property="customName" >
+        CUSTOM_NAME = #customName#
+      </isNotNull>
+      <isNotNull prepend="," property="planDeliveryDate" >
+        PLAN_DELIVERY_DATE = #planDeliveryDate#
+      </isNotNull>
+      <isNotNull prepend="," property="deliveryAddress" >
+        DELIVERY_ADDRESS = #deliveryAddress#
+      </isNotNull>
+      <isNotNull prepend="," property="orderPrice" >
+        ORDER_PRICE = #orderPrice#
+      </isNotNull>
+      <isNotNull prepend="," property="officer" >
+        OFFICER = #officer#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        is_Deleted = #isDeleted#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      <isNotNull prepend="," property="customNo" >
+        CUSTOM_NO = #customNo#
+      </isNotNull>
+      where ORDER_ID = #orderId#
+    </dynamic>
+  </update>
+  <delete id="Order_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.order.Order" >
+    delete from TB_ORDER
+    where ORDER_ID = #orderId#
+  </delete>
+  <delete id="Order_delete" parameterClass="com.hundsun.ctim.domain.order.Order" >
+    delete from TB_ORDER
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="orderId" >
+        ORDER_ID = #orderId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

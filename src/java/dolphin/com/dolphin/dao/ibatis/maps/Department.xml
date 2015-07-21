@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Department">
+	<typeAlias alias="Department" type="com.dolphin.domain.Department" />
+
+	<select id="Department_list" resultClass="Department">
+	select t.ID, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.PARENT_Id as parentId, t.DEPT_NAME as
+      deptName, t.DEPT_TYPE as deptType, t.TEL, t.FAX, t.ADDRESS, t.ORG_CODE as orgCode, t.SORT_NUM
+      as sortNum, t.IS_SYSTEM as isSystem,t.FULL_ID_PATH as fullIdPath,t.FULL_NAME_PATH as fullNamePath,t.IS_LEAF as isLeaf,t.ORG_LEVEL as orgLever
+    from SYS_DEPARTMENT t 
+    where IS_DELETED = 'n'
+		<dynamic>
+			<isNotEmpty prepend="and" property="id"> t.id = #id#</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptType"> t.DEPT_TYPE = #deptType#</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptName"> t.DEPT_NAME = #deptName#</isNotEmpty>
+			<isNotEmpty prepend="and" property="name_like"> t.DEPT_NAME like '%$name_like$%'</isNotEmpty>
+			<isNotEmpty prepend="and" property="parentId"> t.PARENT_ID = #parentId#</isNotEmpty>
+			<isNotEmpty prepend="and" property="tel"> t.TEL = #tel#</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty property="sort">$sort$ $dir$</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="Department_count" resultClass="java.lang.Integer">
+		select count(*) from SYS_DEPARTMENT t, SYS_DEPARTMENT parentDepartment where t.PARENT_ID = parentDepartment.ID
+		<dynamic>
+			<isNotEmpty prepend="and" property="id">t.ID = #id#</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptName"> t.DEPT_NAME = #deptName#</isNotEmpty>
+			<isNotEmpty prepend="and" property="name_like"> t.DEPT_NAME like '%$name_like$%'</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark"> t.remark = #remark#</isNotEmpty>
+			<isNotEmpty prepend="and" property="parentId"> t.PARENT_Id = #parentId#</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptManager"> t.DEPT_MANAGER = #deptManager#</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="Department_get" resultClass="Department">
+	select t.ID, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.PARENT_ID as parentId, t.DEPT_NAME as
+      deptName, t.DEPT_TYPE as deptType, t.TEL, t.FAX, t.ADDRESS, t.ORG_CODE as orgCode, t.SORT_NUM
+      as sortNum, t.IS_SYSTEM as isSystem,t.FULL_ID_PATH as fullIdPath,t.FULL_NAME_PATH as fullNamePath,t.IS_LEAF as isLeaf,t.ORG_LEVEL as orgLever
+	from SYS_DEPARTMENT t where t.ID = #id#
+
+	</select>
+
+	<insert id="Department_insert" parameterClass="Department">
+	insert into SYS_DEPARTMENT (IS_DELETED, GMT_CREATE, CREATOR, GMT_MODIFY, MODIFIER,
+      PARENT_ID, DEPT_NAME, DEPT_TYPE, TEL, FAX, ADDRESS, ORG_CODE, SORT_NUM,
+      IS_SYSTEM, FULL_ID_PATH, FULL_NAME_PATH, IS_LEAF, ORG_LEVEL)
+    values ('n', #gmtCreate#, #creator#, #gmtModify#, #modifier#,
+      #parentId#, #deptName#, #deptType#, #tel#, #fax#, #address#, #orgCode#, #sortNum#,
+      #isSystem#,#fullIdPath#,#fullNamePath#,'y',#orgLever#)
+		<selectKey resultClass="int" keyProperty="id">  
+			SELECT LAST_INSERT_ID() AS ID    
+		</selectKey>  
+	</insert>
+
+	<update id="Department_update" parameterClass="Department">
+		update SYS_DEPARTMENT
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="isDeleted" >
+	        IS_DELETED = #isDeleted#
+	      </isNotNull>
+	      <isNotNull prepend="," property="gmtCreate" >
+	        GMT_CREATE = #gmtCreate#
+	      </isNotNull>
+	      <isNotNull prepend="," property="creator" >
+	        CREATOR = #creator#
+	      </isNotNull>
+	      <isNotNull prepend="," property="gmtModify" >
+	        GMT_MODIFY = #gmtModify#
+	      </isNotNull>
+	      <isNotNull prepend="," property="modifier" >
+	        MODIFIER = #modifier#
+	      </isNotNull>
+	      <isNotNull prepend="," property="parentId" >
+	        PARENT_ID = #parentId#
+	      </isNotNull>
+	      <isNotNull prepend="," property="deptName" >
+	        DEPT_NAME = #deptName#
+	      </isNotNull>
+	      <isNotNull prepend="," property="deptType" >
+	        DEPT_TYPE = #deptType#
+	      </isNotNull>
+	      <isNotNull prepend="," property="tel" >
+	        TEL = #tel#
+	      </isNotNull>
+	      <isNotNull prepend="," property="fax" >
+	        FAX = #fax#
+	      </isNotNull>
+	      <isNotNull prepend="," property="address" >
+	        ADDRESS = #address#
+	      </isNotNull>
+	      <isNotNull prepend="," property="orgCode" >
+	        ORG_CODE = #orgCode#
+	      </isNotNull>
+	      <isNotNull prepend="," property="sortNum" >
+	        SORT_NUM = #sortNum#
+	      </isNotNull>
+	      <isNotNull prepend="," property="isLeaf" >
+	        IS_LEAF = #isLeaf#
+	      </isNotNull>
+	      <isNotNull prepend="," property="isSystem" >
+	        IS_SYSTEM = #isSystem#
+	      </isNotNull>
+		</dynamic>
+		WHERE ID = #id#
+	</update>
+
+	
+
+	<delete id="Department_delete" parameterClass="Department">
+		update SYS_DEPARTMENT set IS_DELETED ='y'
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id"> id = #id#</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptName"> dept_Name = #deptName#</isNotEmpty>
+			<isNotEmpty prepend="and" property="parentId"> parent_Id = #parentId#</isNotEmpty>
+		</dynamic>
+	</delete>
+</sqlMap>

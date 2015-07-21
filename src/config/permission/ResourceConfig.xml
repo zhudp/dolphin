@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resourceConfig>
+	<typeAlias alias="mainMenu" type="com.dolphin.domain.resource.MainMenu"/>
+	<typeAlias alias="menu" type="com.dolphin.domain.resource.Menu"/>
+	<typeAlias alias="item" type="com.dolphin.domain.resource.Item"/>
+	<typeAlias alias="configAttribute" type="com.dolphin.domain.resource.ConfigAttribute"/>
+	<resource resourceLocation="permission/ResourceDefinition.xml"/>
+</resourceConfig>
+
+

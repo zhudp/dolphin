@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PurchaseTask" >
+  <select id="PurchaseTask_get" resultClass="com.hundsun.ctim.domain.purchase.PurchaseTask" >
+    select t.TASK_ID as taskId, t.PRODUCE_TASK_ID as produceTaskId, t.PURCHASE_ID as purchaseId,
+      t.MATERIAL_ID as materialId, t.STATUS, t.QUANTITY, t.REMARK,m.material_name as materialName,m.material_no as materialNo,
+	m.material_type as materialType,m.standard,m.unit
+    from TB_PURCHASE_TASK t,tb_material m
+    where t.material_id = m.material_id and t.TASK_ID = #taskId#
+  </select>
+  <select id="PurchaseTask_list" resultClass="com.hundsun.ctim.domain.purchase.PurchaseTask" >
+    select t.TASK_ID as taskId, t.PRODUCE_TASK_ID as produceTaskId, t.PURCHASE_ID as purchaseId,
+      t.MATERIAL_ID as materialId, t.STATUS, t.QUANTITY, t.REMARK,m.material_name as materialName,m.material_no as materialNo,
+	m.material_type as materialType,m.standard,m.unit
+    from TB_PURCHASE_TASK t,tb_material m
+    where t.material_id = m.material_id 
+    <dynamic>
+      <isNotEmpty prepend="and" property="taskId" >
+        t.TASK_ID = #taskId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        t.STATUS = #status#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="PurchaseTask_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PURCHASE_TASK t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="taskId" >
+        t.TASK_ID = #taskId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="PurchaseTask_insert" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseTask" >
+    insert into TB_PURCHASE_TASK (TASK_ID, PRODUCE_TASK_ID, PURCHASE_ID, MATERIAL_ID, STATUS,
+      QUANTITY, REMARK)
+    values (#taskId#, #produceTaskId#, #purchaseId#, #materialId#, #status#, #quantity#, #remark#)
+  </insert>
+  <update id="PurchaseTask_update" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseTask" >
+    update TB_PURCHASE_TASK
+    set 
+      PRODUCE_TASK_ID = #produceTaskId#,
+      PURCHASE_ID = #purchaseId#,
+      MATERIAL_ID = #materialId#,
+      STATUS = #status#,
+      QUANTITY = #quantity#,
+      REMARK = #remark#
+     where TASK_ID = #taskId#
+  </update>
+  <update id="PurchaseTask_updateSelective" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseTask" >
+    update TB_PURCHASE_TASK
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="produceTaskId" >
+        PRODUCE_TASK_ID = #produceTaskId#
+      </isNotNull>
+      <isNotNull prepend="," property="purchaseId" >
+        PURCHASE_ID = #purchaseId#
+      </isNotNull>
+      <isNotNull prepend="," property="materialId" >
+        MATERIAL_ID = #materialId#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        STATUS = #status#
+      </isNotNull>
+      <isNotNull prepend="," property="quantity" >
+        QUANTITY = #quantity#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      where TASK_ID = #taskId#
+    </dynamic>
+  </update>
+  <delete id="PurchaseTask_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseTask" >
+    delete from TB_PURCHASE_TASK
+    where TASK_ID = #taskId#
+  </delete>
+  <delete id="PurchaseTask_delete" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseTask" >
+    delete from TB_PURCHASE_TASK
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="taskId" >
+        TASK_ID = #taskId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd"
+	default-lazy-init="true"
+	default-autowire="byType" >
+
+	<description>SpringSecurity安全配置</description>
+
+	<!-- http安全配置 -->
+	<s:http  auto-config="true" access-decision-manager-ref="accessDecisionManager" >
+	    <s:intercept-url pattern="/resources/**" filters="none" />
+	    <s:intercept-url pattern="/css/**" filters="none" />
+		<s:intercept-url pattern="/img/**" filters="none" />
+		<s:intercept-url pattern="/images/**" filters="none" />
+		<s:intercept-url pattern="/js/**" filters="none" />	
+		<s:form-login login-page="/login.action" 
+			authentication-failure-url="/login.action?error=true" 
+		 />
+		<s:logout logout-success-url="/" />
+		<s:session-management>
+			<s:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />
+		</s:session-management>
+        <s:custom-filter before="FORM_LOGIN_FILTER" ref="authenticationProcessingFilter"/>
+		<!--  <s:custom-filter after="SECURITY_CONTEXT_FILTER" ref="autoLoginFilter" />-->
+		<s:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" />
+	</s:http>
+    
+    <!-- 开发时自动登录的filter -->
+	<!-- bean id="autoLoginFilter" class="com.dolphin.spring.security.AutoLoginFilter">
+		<property name="enabled" value="${security.autologin.enabled}" />
+		<property name="defaultUserName" value="admin" />
+	</bean>-->
+    
+	<!-- 认证配置 -->
+	<s:authentication-manager alias="authenticationManager">
+		<s:authentication-provider user-service-ref="userDetailsService">
+			<s:password-encoder hash="md5">
+			 <!-- 	<s:salt-source user-property="account"/>  -->
+			</s:password-encoder>
+		</s:authentication-provider>
+	</s:authentication-manager>
+	
+	 <!-- 自定义认证处理 -->
+	<bean id="authenticationProcessingFilter" class="com.dolphin.spring.security.DolphinUsernamePasswordAuthenticationFilter">
+		<property name="authenticationSuccessHandler" ref="myauthenticationSuccessHandler" />
+		<property name="authenticationFailureHandler" ref="myauthenticationFailureHandler" />
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+    <bean id="myauthenticationSuccessHandler" class="com.dolphin.spring.security.UrlAuthenticationSuccessHandler" >
+       <property name="defaultTargetUrl" value="/dolphin/main!index.action"></property>
+    </bean>
+    <bean id="myauthenticationFailureHandler" class="com.dolphin.spring.security.UrlAuthenticationFailureHandler" >
+      <property name="defaultFailureUrl" value="/login.action"></property>
+      <property name="useForward" value="true" ></property>
+    </bean>
+    
+    
+	<!-- 项目实现的用户查询服务 -->
+	<bean id="userDetailsService" class="com.dolphin.spring.security.UserDetailsServiceImp" />
+
+	<!-- 重新定义的FilterSecurityInterceptor,使用databaseDefinitionSource提供的url-授权关系定义 -->
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+	     <property name="authenticationManager" ref="authenticationManager"/>	
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="securityMetadataSource" ref="securityMetadataService"/>
+	</bean>
+
+	<!-- DefinitionSource工厂,使用resourceDetailsService提供的URL-授权关系. -->
+	<bean id="securityMetadataService" class="com.dolphin.spring.security.InvocationSecurityMetadataSourceService">
+		<constructor-arg type="com.dolphin.service.ResourceService" ref="resourceService"> </constructor-arg>
+		<constructor-arg type="com.dolphin.service.RoleService" ref="roleService"> </constructor-arg>
+	</bean>
+	
+	<bean id="accessDecisionManager" class="com.dolphin.spring.security.AccessDecisionManager"></bean>
+	
+	<bean id="captchaService" class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService">
+		<property name="captchaEngine">
+			<bean class="org.springside.modules.security.jcaptcha.GMailEngine" />
+		</property>
+		<!-- 
+		默认生成的图片180秒过期 , 可另行设置
+		<property name="minGuarantedStorageDelayInSeconds" value="180" />
+		-->
+	</bean>
+	
+</beans>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PurchaseDetail" >
+  <select id="PurchaseDetail_get" resultClass="com.hundsun.ctim.domain.purchase.PurchaseDetail" >
+    select t.DETAIL_ID as detailId,t.MATERIAL_ID as materialId, t.PURCHASE_ID as purchaseId, t.MATERIAL_NAME as
+      materialName, t.STANDARD, t.MATERIAL_NO as materialNo, t.UNIT,t.PRICE, t.PLAN_NUMBER as planNumber,
+      t.STOREIN_NUMBER as storeinNumber, t.REMARK,t.IS_DELETED as isDeleted
+    from TB_PURCHASE_DETAIL t
+    where t.DETAIL_ID = #detailId# AND t.IS_DELETED ='0'
+  </select>
+  <select id="PurchaseDetail_list" resultClass="com.hundsun.ctim.domain.purchase.PurchaseDetail" >
+    select t.DETAIL_ID as detailId,t.MATERIAL_ID as materialId, t.PURCHASE_ID as purchaseId, t.MATERIAL_NAME as
+      materialName, t.STANDARD, t.MATERIAL_NO as materialNo, t.UNIT,t.PRICE, t.PLAN_NUMBER as planNumber,
+      t.STOREIN_NUMBER as storeinNumber, t.REMARK 
+    from TB_PURCHASE_DETAIL t WHERE t.IS_DELETED ='0'
+    <dynamic>
+      <isNotEmpty prepend="and" property="materialId" >
+        t.MATERIAL_ID = #materialId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="purchaseId" >
+        t.PURCHASE_ID = #purchaseId#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="PurchaseDetail_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PURCHASE_DETAIL t WHERE t.IS_DELETED ='0'
+    <dynamic>
+      <isNotEmpty prepend="and" property="materialId" >
+        t.MATERIAL_ID = #materialId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="purchaseId" >
+        t.PURCHASE_ID = #purchaseId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="PurchaseDetail_insert" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseDetail" >
+    insert into TB_PURCHASE_DETAIL (MATERIAL_ID, PURCHASE_ID, MATERIAL_NAME, STANDARD, MATERIAL_NO,
+      UNIT,PRICE, PLAN_NUMBER, STOREIN_NUMBER, REMARK)
+    values (#materialId#, #purchaseId#, #materialName#, #standard#, #materialNo#, #unit#,#price#,
+      #planNumber#, #storeinNumber#, #remark#)
+  </insert>
+  <update id="PurchaseDetail_update" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseDetail" >
+    update TB_PURCHASE_DETAIL
+    set MATERIAL_ID = #materialId#,
+      PURCHASE_ID = #purchaseId#,
+      MATERIAL_NAME = #materialName#,
+      STANDARD = #standard#,
+      MATERIAL_NO = #materialNo#,
+      UNIT = #unit#,
+      PRICE=#price#,
+      PLAN_NUMBER = #planNumber#,
+      STOREIN_NUMBER = #storeinNumber#,
+      REMARK = #remark#,
+      IS_DELETED =#isDeleted#
+    WHERE DETAIL_ID = #detailId#
+  </update>
+  <update id="PurchaseDetail_updateSelective" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseDetail" >
+    update TB_PURCHASE_DETAIL
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="materialId" >
+        MATERIAL_ID = #materialId#
+      </isNotNull>
+      <isNotNull prepend="," property="purchaseId" >
+        PURCHASE_ID = #purchaseId#
+      </isNotNull>
+      <isNotNull prepend="," property="materialName" >
+        MATERIAL_NAME = #materialName#
+      </isNotNull>
+      <isNotNull prepend="," property="standard" >
+        STANDARD = #standard#
+      </isNotNull>
+      <isNotNull prepend="," property="materialNo" >
+        MATERIAL_NO = #materialNo#
+      </isNotNull>
+      <isNotNull prepend="," property="unit" >
+        UNIT = #unit#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        PRICE = #price#
+      </isNotNull>
+      <isNotNull prepend="," property="planNumber" >
+        PLAN_NUMBER = #planNumber#
+      </isNotNull>
+      <isNotNull prepend="," property="storeinNumber" >
+        STOREIN_NUMBER = #storeinNumber#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+    </dynamic>
+  </update>
+  <delete id="PurchaseDetail_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseDetail" >
+    delete from TB_PURCHASE_DETAIL
+    where DETAIL_ID = #detailId#
+  </delete>
+  <delete id="PurchaseDetail_delete" parameterClass="com.hundsun.ctim.domain.purchase.PurchaseDetail" >
+    delete from TB_PURCHASE_DETAIL
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="materialId" >
+        MATERIAL_ID = #materialId#
+      </isNotNull>
+      <isNotNull prepend="and" property="purchaseId" >
+        PURCHASE_ID = #purchaseId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

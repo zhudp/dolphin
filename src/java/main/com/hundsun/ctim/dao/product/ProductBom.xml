@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ProductBom" >
+  <select id="ProductBom_get" resultClass="com.hundsun.ctim.domain.product.ProductBom" >
+    select t.BOM_ID as bomId, t.PRODUCT_ID as productId, t.PART_ID as partId, t.parent_id as parentId, 
+    	t.ITEM_TYPE as itemType, t.item_id as itemId, t.item_name as itemName, 
+    	t.unit, t.price, t.number as number,t.sum_price as sumPrice,t.wastage_rate as wastageRate,
+      	t.work_spec as workSpec, t.REMARK
+    from TB_PRODUCT_BOM t
+  </select>
+  <select id="ProductBom_list" resultClass="com.hundsun.ctim.domain.product.ProductBom" >
+    select t.BOM_ID as bomId, t.PRODUCT_ID as productId, t.PART_ID as partId, t.parent_id as parentId, 
+    	t.ITEM_TYPE as itemType, t.item_id as itemId, t.item_name as itemName, 
+    	t.unit, t.price, t.number as number,t.sum_price as sumPrice,t.wastage_rate as wastageRate,
+      	t.work_spec as workSpec, t.REMARK
+    FROM TB_PRODUCT_BOM t
+    <dynamic prepend="where">
+      <isNotEmpty prepend="and" property="bomId" >
+        t.BOM_ID = #bomId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="partId" >
+        t.PART_ID = #partId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="itemId" >
+        t.item_id = #itemId#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="ProductBom_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PRODUCT_BOM t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="bomId" >
+        t.BOM_ID = #bomId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="partId" >
+        t.PART_ID = #partId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="itemId" >
+        t.item_id = #itemId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="ProductBom_insert" parameterClass="com.hundsun.ctim.domain.product.ProductBom" >
+    insert into TB_PRODUCT_BOM (ITEM_TYPE, PRODUCT_ID, PART_ID, ID, number, REMARK)
+    values (#itemType#, #productId#, #partId#, #itemId#, #number#, #remark#)
+      <selectKey resultClass="long" keyProperty="bomId">  
+		SELECT LAST_INSERT_ID() AS bomId
+	  </selectKey>
+  </insert>
+  <update id="ProductBom_update" parameterClass="com.hundsun.ctim.domain.product.ProductBom" >
+    update TB_PRODUCT_BOM
+    set ITEM_TYPE = #itemType#,
+      PRODUCT_ID = #productId#,
+      PART_ID = #partId#,
+      ID = #itemId#,
+      number = #number#,
+      REMARK = #remark#
+    where BOM_ID = #bomId#
+  </update>
+  <update id="ProductBom_updateSelective" parameterClass="com.hundsun.ctim.domain.product.ProductBom" >
+    update TB_PRODUCT_BOM
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="itemType" >
+        ITEM_TYPE = #itemType#
+      </isNotNull>
+      <isNotNull prepend="," property="productId" >
+        PRODUCT_ID = #productId#
+      </isNotNull>
+      <isNotNull prepend="," property="partId" >
+        PART_ID = #partId#
+      </isNotNull>
+      <isNotNull prepend="," property="itemId" >
+        ID = #itemId#
+      </isNotNull>
+      <isNotNull prepend="," property="number" >
+        number = #number#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      where BOM_ID = #bomId#
+    </dynamic>
+  </update>
+  <delete id="ProductBom_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_PRODUCT_BOM where BOM_ID = #bomId#
+  </delete>
+  <delete id="ProductBom_delete" parameterClass="com.hundsun.ctim.domain.product.ProductBom" >
+    delete t from TB_PRODUCT_BOM t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="bomId" >
+        t.BOM_ID = #bomId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="partId" >
+        t.PART_ID = #partId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="itemId" >
+        t.item_id = #itemId#
+      </isNotEmpty>
+    </dynamic>
+  </delete>
+  
+    
+  <!-- bom树 -->
+  <typeAlias alias="BomTreeNodePart" 		type="com.hundsun.ctim.domain.product.ProductBom"/>
+  <typeAlias alias="BomTreeNodeChildren"	type="com.hundsun.ctim.domain.product.ProductBom"/>
+  <resultMap id="BomTreeNodePartResult" class="BomTreeNodePart">   
+    <result property="bomId" column="bom_id"/>
+	<result property="productId" column="product_id"/>
+	<result property="partId" column="part_id"/>
+	<result property="parentId" column="parent_id"/>
+    <result property="itemType" column="item_type"/>
+	<result property="itemId" column="item_Id"/>
+	<result property="itemName" column="part_name"/>
+	<result property="standard" column="standard"/>
+	<result property="unit" column="unit"/>
+	<result property="price" column="material_cost"/>
+	<result property="number" column="number"/>
+	<result property="sumPrice" column="sum_price"/>
+	<result property="remark" column="remark"/>
+	<result property="children" column="bom_id" select="getBomListByParentId"/>
+  </resultMap>
+  <resultMap id="BomTreeNodeChildrenResult" class="BomTreeNodeChildren">
+    <result property="bomId" column="bom_id"/>
+	<result property="productId" column="product_id"/>
+	<result property="partId" column="part_id"/>
+	<result property="parentId" column="parent_id"/>
+    <result property="itemType" column="item_type"/>
+	<result property="itemId" column="item_Id"/>
+	<result property="itemName" column="item_Name"/>
+	<result property="standard" column="standard"/>
+	<result property="unit" column="unit"/>
+	<result property="price" column="price"/>
+	<result property="number" column="number"/>
+	<result property="sumPrice" column="sum_price"/>
+	<result property="wastageRate" column="wastage_rate"/>
+	<result property="workSpec" column="work_spec"/>
+	<result property="remark" column="remark"/>
+  </resultMap>
+  
+  <select id="ProductBom_tree" resultMap="BomTreeNodePartResult" >
+    SELECT 'part' AS item_type,
+    	bom.bom_id as bom_id,	
+		part.product_id,
+		part.part_id,
+    	bom.parent_id as parent_id,	
+		IFNULL(bom.number,0) as number,
+		part.part_id AS item_id, 
+		part.part_no, 
+		part.material_cost,
+		(IFNULL(bom.number,0) * part.material_cost) as sum_price,
+		part.part_name, 	
+		part.unit, 
+		part.standard, 
+		bom.remark as remark
+	FROM  tb_product_parts part 
+	LEFT JOIN tb_product_bom bom ON part.part_id = bom.item_id AND bom.item_type = 'part'
+	WHERE part.product_id = #productId#
+  </select>
+  
+  <select id="getBomListByParentId" resultMap="BomTreeNodeChildrenResult" parameterClass="long" >
+	SELECT 'material' AS item_type,	
+			bom_id, 
+			product_id, 
+			part_id, 
+			parent_id, 
+			item_id, 
+			item_name, 
+			unit, 
+			price, 
+			number, 
+			sum_price, 
+			wastage_rate, 
+			work_spec, 
+			remark,
+		FROM  tb_product_bom bom
+		WHERE bom.parent_id = #value#
+  </select>
+  
+  <!-- 根据BOM计算产品部件重量和成本 -->
+  <update id="ProductBom_countPartsWeigthCost" parameterClass="long">
+    UPDATE tb_product_parts part SET 
+		part.area = (SELECT IFNULL(SUM(m.area*bom.number),0) 
+						FROM tb_product_bom bom, tb_material m 
+					  WHERE bom.item_type = 'material' 
+					  AND bom.part_id = part.part_id 
+					  AND bom.item_id = m.material_id),
+		part.weight = (SELECT IFNULL(SUM(m.weight*bom.number),0) 
+						FROM tb_product_bom bom, tb_material m 
+						WHERE bom.item_type = 'material' 
+						AND bom.part_id = part.part_id 
+						AND bom.item_id = m.material_id),
+		part.material_cost = (SELECT IFNULL(SUM(m.price*bom.number),0) 
+						FROM tb_product_bom bom, tb_material m 
+						WHERE bom.item_type = 'material' 
+						AND bom.part_id = part.part_id 
+						AND bom.item_id = m.material_id)
+	WHERE part.product_id = #value#
+  </update>
+</sqlMap>

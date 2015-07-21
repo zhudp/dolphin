@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="UserRoleAssign" >
+  
+  <select id="UserRoleAssign_get" resultClass="com.dolphin.domain.UserRoleAssign" >
+    select t.ROLE_ID as roleId, t.USER_ID as userId,t.PROXY_USER_ID as proxyUserId
+    from SYS_USER_ROLE_ASSIGN t
+    where t.ROLE_ID = #roleId#
+      and t.USER_ID = #userId#
+  </select>
+  
+  <select id="UserRoleAssign_list" resultClass="com.dolphin.domain.UserRoleAssign" >
+    select t.ROLE_ID as roleId, t.USER_ID as userId, t.PROXY_USER_ID as proxyUserId
+    from SYS_USER_ROLE_ASSIGN t,sys_role a
+    where t.ROLE_ID=a.id
+    <!--<dynamic prepend="where" >-->
+      <isNotEmpty prepend="and" property="roleId" >
+        t.ROLE_ID = #roleId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="userId" >
+        t.USER_ID = #userId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="proxyUserId" >
+        t.PROXY_USER_ID = #proxyUserId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        a.status=#status#
+      </isNotEmpty>
+    <!--</dynamic>-->
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <select id="UserRoleAssign_count" resultClass="java.lang.Integer" >
+    select count(*)
+    from SYS_USER_ROLE_ASSIGN t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="roleId" >
+        t.ROLE_ID = #roleId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="userId" >
+        t.USER_ID = #userId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="proxyUserId" >
+        t.PROXY_USER_ID = #proxyUserId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <insert id="UserRoleAssign_insert" parameterClass="com.dolphin.domain.UserRoleAssign" >
+    insert into SYS_USER_ROLE_ASSIGN (ROLE_ID, USER_ID, PROXY_USER_ID)
+    values (#roleId#, #userId#,#proxyUserId#)
+  </insert>
+  
+  <delete id="UserRoleAssign_deleteByPrimaryKey" parameterClass="com.dolphin.domain.UserRoleAssign" >
+    delete from SYS_USER_ROLE_ASSIGN
+    where ROLE_ID = #roleId#
+      and USER_ID = #userId#
+  </delete>
+  
+  <delete id="UserRoleAssign_delete" parameterClass="com.dolphin.domain.UserRoleAssign" >
+    delete from SYS_USER_ROLE_ASSIGN
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="roleId" >
+        ROLE_ID = #roleId#
+      </isNotNull>
+      <isNotNull prepend="and" property="userId" >
+        USER_ID = #userId#
+      </isNotNull>
+      <isNotNull prepend="and" property="proxyUserId" >
+        PROXY_USER_ID = #proxyUserId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

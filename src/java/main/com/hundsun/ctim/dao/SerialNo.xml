@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="SerialNo">
+  <select id="SerialNo_get" resultClass="com.hundsun.ctim.domain.SerialNo">
+    select t.no_id as noId,t.serial_prefix as serialPrefix,t.serial_number as serialNumber,t.no_size as noSize,t.remark
+    from TB_SERIAL_NO t
+    where t.serial_prefix = #serialPrefix#
+  </select>
+  <insert id="SerialNo_insert" parameterClass="com.hundsun.ctim.domain.SerialNo">
+    insert into TB_SERIAL_NO (serial_prefix,serial_number,no_size,remark)
+    values (#serialPrefix#,1,#noSize#,#remark#)
+  </insert>
+  <update id="SerialNo_update" parameterClass="com.hundsun.ctim.domain.SerialNo">
+    update TB_SERIAL_NO
+    set 
+      serial_number = IFNULL(serial_number,0)+1
+    where serial_prefix = #serialPrefix#
+  </update>
+</sqlMap>

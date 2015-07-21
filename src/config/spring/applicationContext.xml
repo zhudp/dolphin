@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	<description>Spring公共配置文件 </description>
+	
+	
+	<!-- 定义受环境影响易变的变量 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:/application.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<!-- 指定连接数据库的驱动 -->
+		<property name="driverClass">
+			<value>${jdbc.driverClassName}</value>
+		</property>		
+		<!-- 指定连接数据库的URL -->
+		<property name="jdbcUrl">
+			<value>${jdbc.url}</value>
+		</property>		
+		<!-- 指定连接数据库的用户名 -->
+		<property name="user">
+			<value>${jdbc.username}</value>
+		</property>
+		<!-- 指定连接数据库的密码 -->
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<!-- 指定连接数据库连接池的最大连接数 -->
+		<property name="maxPoolSize" value="50" />
+		<!-- 指定连接数据库连接池的最小连接数 -->
+		<property name="minPoolSize" value="0" />
+		<!-- 指定连接数据库连接池的初始化连接数 -->
+		<property name="initialPoolSize" value="5" />
+		<!-- 指定连接数据库连接池的连接的最大空闲时间(秒) -->
+		<property name="maxIdleTime" value="1800" />
+		<!-- 是否检查数据库连接 -->
+		<property name="testConnectionOnCheckout" value="true" />
+		<!-- 当连接池耗尽时候，一次获得连接数-->  
+		<property name="acquireIncrement" value="5" />  
+		<property name="maxStatements" value="0" />  
+		<!-- 当连接池连接耗尽时，客户端getConnection(),所等待的时间-->  
+		<property name="idleConnectionTestPeriod" value="120" />  
+		<!-- 当连接失效时，获得连接的次数，0为无限次（重连）-->  
+		<property name="acquireRetryAttempts" value="30" />  
+	</bean>
+	
+    
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+    
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager"/>
+	</bean>
+    
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:ibatis/sqlmap-config.xml" />
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+
+	<bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="resourceDao" class="com.dolphin.dao.ResourceDao"
+		scope="singleton">
+		<property name="configLocation"
+			value="permission/ResourceConfig.xml" />
+	</bean>
+	
+
+	<aop:config>
+		<aop:aspect ref="logAspect">
+			<aop:pointcut id="systemLogPcU"
+				expression="execution(* 
+				*.*.service.*.initPassword*(..)) || execution(* 
+				*.*.service.*.save*(..)) || execution(* *.*.service.*.insert*(..)) 
+				|| execution(* *.*.service.*.update*(..)) || execution(* 
+				*.*.service.*.remove*(..))|| execution(* *.*.service.*.delete*
+				(..))" />
+			<aop:after pointcut-ref="systemLogPcU"
+				method="insertLogInfo" />
+		</aop:aspect>
+	</aop:config>
+	<bean id="logAspect" class="com.dolphin.sys.log.LogAspect">
+		<!-- 配置要记录日志的对象及属性(要监控的方法的第一个参数
+
+)  格式: 对象类名(带路径全称).属性GET方法名 -->
+		<property name="obj_method">
+			<map>
+				<entry key="default">
+					<map><!-- 默认值,如果没有指定对象就执行这个 -->
+						<entry key="getId"><!-- 属性的get方法名字 -->
+							<value>id</value><!-- 属性名字 -->
+						</entry>
+					</map>
+				</entry>
+
+				<entry key="com.dolphin.domain.User">
+					<map>
+						<entry key="getId"><!-- 属性的get方法名字 -->
+							<value>id</value><!-- 属性名字 -->
+						</entry>
+						<entry 
+							key="getUserName"><!-- 属性的get方法名字 -->
+							<value>userName</value><!-- 属性名字 -->
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+		<property name="operTypeSet">
+			<!-- 配置切点的方法对应操作类型,KEY为切点方法名 中包括的字符,VALUE为对应的操作类型 -->
+			<map>
+				<entry key="insert">
+					<value>add</value>
+				</entry>
+				<entry key="update">
+					<value>modify</value>
+				</entry>
+				<entry key="init">
+					<value>modify</value>
+				</entry>
+				<entry key="save">
+					<value>modify</value>
+				</entry>
+				<entry key="remove">
+					<value>delete</value>
+				</entry>
+				<entry key="delete">
+					<value>delete</value>
+				</entry>
+			</map>
+		</property>
+		<property name="operTypeName">
+			<!-- 配置操作类型对应的中文名称,KEY为操作类型,VALUE为对应的中文名称 -->
+			<map>
+				<entry key="add">
+					<value>新增</value>
+				</entry>
+				<entry key="modify">
+					<value>修改</value>
+				</entry>
+				<entry key="delete">
+					<value>删除</value>
+				</entry>
+				<entry key="other">
+					<value>其它</value>
+				</entry>                
+			</map>
+		</property>
+	</bean>
+
+	
+	<!--扫描自动注入-->
+	<context:component-scan base-package="com" />
+	
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	
+</beans>

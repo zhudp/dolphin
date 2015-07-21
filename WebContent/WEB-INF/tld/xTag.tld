@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd" 
+  version="2.0"> 
+     
+  <description> 自定义JSTL标签库 </description> 
+  <display-name>my functions</display-name> 
+  <tlib-version>1.0</tlib-version> 
+  <short-name>x</short-name> 
+  <uri>/tld/xTag</uri> 
+   
+  <function> 
+      <name>fmtInt2Date</name>
+      <function-class>com.hundsun.commons.tag.ExtendJSTLTag</function-class> 
+      <function-signature>java.lang.String fmtInt2Date(int)</function-signature>
+  </function>
+  
+  <function> 
+      <name>getResName</name>
+      <function-class>com.hundsun.commons.tag.ExtendJSTLTag</function-class> 
+      <function-signature>java.lang.String getResName(java.lang.String, java.lang.String)</function-signature> 
+  </function> 
+  
+  
+  <function> 
+      <name>getRealImageUrl</name>
+      <function-class>com.hundsun.commons.tag.ExtendJSTLTag</function-class> 
+      <function-signature>java.lang.String getRealImageUrl(java.lang.String)</function-signature> 
+  </function> 
+  
+  <!-- 中文编码转换 加密 -->
+  <function> 
+      <name>enCodeParam</name>
+      <function-class>com.hundsun.commons.tag.ExtendJSTLTag</function-class> 
+      <function-signature>java.lang.String enCodeParam(java.lang.String)</function-signature> 
+  </function>
+  <!-- 中文编码转换 解密 -->
+  <function> 
+      <name>deCodeParam</name>
+      <function-class>com.hundsun.commons.tag.ExtendJSTLTag</function-class> 
+      <function-signature>java.lang.String deCodeParam(java.lang.String)</function-signature> 
+  </function>
+  <!-- 组织Ext.Combox下拉列表数据 -->
+  <function> 
+      <name>buildComboSelect</name>
+      <function-class>com.hundsun.commons.tag.ExtendJSTLTag</function-class> 
+      <function-signature>java.lang.String buildComboSelect(java.lang.String, java.lang.String)</function-signature> 
+  </function>
+    <!-- 组织Ext.Combox下拉列表数据 -->
+  <function> 
+      <name>buildComboSelectArea</name>
+      <function-class>com.hundsun.commons.tag.AreaJSTLTag</function-class> 
+      <function-signature>java.lang.String buildComboSelect()</function-signature> 
+  </function>
+</taglib>   

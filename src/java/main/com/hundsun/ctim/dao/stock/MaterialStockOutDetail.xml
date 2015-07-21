@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MaterialStockOutDetail" >
+  <select id="MaterialStockOutDetail_get" resultClass="com.hundsun.ctim.domain.stock.MaterialStockOutDetail" >
+    select t.DETAIL_ID as detailId, t.STOCK_OUT_ID as stockOutId, t.MATERIAL_ID as materialId,
+      t.MATERIAL_NAME as materialName, t.MATERIAL_NO as materialNo, t.STANDARD, t.UNIT, t.PRICE,
+      t.QUANTITY, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_MATERIAL_STOCK_OUT_DETAIL t
+    where t.DETAIL_ID = #detailId# AND t.IS_DELETED ='0'
+  </select>
+  <select id="MaterialStockOutDetail_list" resultClass="com.hundsun.ctim.domain.stock.MaterialStockOutDetail" >
+    select t.DETAIL_ID as detailId, t.STOCK_OUT_ID as stockOutId, t.MATERIAL_ID as materialId,
+      t.MATERIAL_NAME as materialName, t.MATERIAL_NO as materialNo, t.STANDARD, t.UNIT, t.PRICE,
+      t.QUANTITY, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_MATERIAL_STOCK_OUT_DETAIL t WHERE t.IS_DELETED  ='0'
+    <dynamic>
+      <isNotEmpty prepend="and" property="detailId" >
+        t.DETAIL_ID = #detailId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="stockOutId" >
+        t.STOCK_OUT_ID = #stockOutId#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="MaterialStockOutDetail_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_MATERIAL_STOCK_OUT_DETAIL t WHERE t.IS_DELETED  ='0'
+    <dynamic>
+      <isNotEmpty prepend="and" property="detailId" >
+        t.DETAIL_ID = #detailId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="MaterialStockOutDetail_insert" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockOutDetail" >
+    insert into TB_MATERIAL_STOCK_OUT_DETAIL (STOCK_OUT_ID, MATERIAL_ID, MATERIAL_NAME,
+      MATERIAL_NO, STANDARD, UNIT, PRICE, QUANTITY, IS_DELETED, GMT_CREATE, CREATOR, CREATOR_ID,
+      GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (#stockOutId#, #materialId#, #materialName#, #materialNo#, #standard#,
+      #unit#, #price#, #quantity#, #isDeleted#, #gmtCreate#, #creator#, #creatorId#, #gmtModify#,
+      #modifier#, #modifierId#)
+  </insert>
+  <update id="MaterialStockOutDetail_update" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockOutDetail" >
+    update TB_MATERIAL_STOCK_OUT_DETAIL
+    set 
+      MATERIAL_ID = #materialId#,
+      MATERIAL_NAME = #materialName#,
+      MATERIAL_NO = #materialNo#,
+      STANDARD = #standard#,
+      UNIT = #unit#,
+      PRICE = #price#,
+      QUANTITY = #quantity#,
+      IS_DELETED = #isDeleted#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#
+     WHERE DETAIL_ID = #detailId#
+  </update>
+  <update id="MaterialStockOutDetail_updateSelective" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockOutDetail" >
+    update TB_MATERIAL_STOCK_OUT_DETAIL
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="stockOutId" >
+        STOCK_OUT_ID = #stockOutId#
+      </isNotNull>
+      <isNotNull prepend="," property="materialId" >
+        MATERIAL_ID = #materialId#
+      </isNotNull>
+      <isNotNull prepend="," property="materialName" >
+        MATERIAL_NAME = #materialName#
+      </isNotNull>
+      <isNotNull prepend="," property="materialNo" >
+        MATERIAL_NO = #materialNo#
+      </isNotNull>
+      <isNotNull prepend="," property="standard" >
+        STANDARD = #standard#
+      </isNotNull>
+      <isNotNull prepend="," property="unit" >
+        UNIT = #unit#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        PRICE = #price#
+      </isNotNull>
+      <isNotNull prepend="," property="quantity" >
+        QUANTITY = #quantity#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      WHERE DETAIL_ID = #detailId#
+    </dynamic>
+  </update>
+  <delete id="MaterialStockOutDetail_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockOutDetail" >
+    delete from TB_MATERIAL_STOCK_OUT_DETAIL
+    where DETAIL_ID = #detailId#
+  </delete>
+  <delete id="MaterialStockOutDetail_delete" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockOutDetail" >
+    delete from TB_MATERIAL_STOCK_OUT_DETAIL
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="detailId" >
+        DETAIL_ID = #detailId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

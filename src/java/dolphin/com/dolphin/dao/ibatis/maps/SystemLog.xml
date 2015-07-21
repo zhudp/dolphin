@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="SystemLog">
+	<typeAlias alias="SystemLog" type="com.dolphin.domain.SystemLog"/>
+	<resultMap id="get-SystemLog-result" class="SystemLog">
+		<result property="slogId" column="SLOGID" />
+		<result property="userId" column="USERID" />
+		<result property="ipAdd" column="IPADD" />
+		<result property="operType" column="OPERTYPE" />
+		<result property="operObjec" column="OPEROBJEC" />
+		<result property="slogComment" column="SLOGCOMMENT" />
+		<result property="slogType" column="SLOGTYPE" />
+		<result property="slogCreateTime" column="SLOGCREATETIME" />
+		<result property="userName" column="user_name" />
+	</resultMap>
+	
+	<select id="SystemLog_list"  resultMap="get-SystemLog-result">
+		 SELECT SLOGID,USERID,IPADD,OPERTYPE,OPEROBJEC,SLOGCOMMENT,SLOGCREATETIME,SLOGTYPE,sysuser.user_name 
+	 	 FROM SYS_LOG s,SYS_USER sysuser,SYS_USER_SECURITY security    
+		 where  security.user_id=sysuser.id  and   security.account = s.userid
+		<dynamic >
+			<isNotEmpty prepend="AND" property="slogId">
+				SLOGID = #slogId# 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+				USERID like '%$userId$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="operType">
+				OPERTYPE = #operType#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="slogType">
+				SLOGTYPE = #slogType#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="slogCreateTime">
+				SLOGCREATETIME like '$slogCreateTime$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userName">
+				sysuser.user_name like '%$userName$%'
+			</isNotEmpty>
+		</dynamic>
+        <dynamic prepend="order by" >
+        <isNotEmpty property="sort" >
+          $sort$ $dir$
+        </isNotEmpty>
+    </dynamic>
+    </select>
+     <select id="SystemLog_count"  resultClass="java.lang.Integer">
+		 SELECT COUNT(SLOGID)    
+		  FROM SYS_LOG s 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="slogId">
+				SLOGID = #slogId# 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+				USERID like '%$userId$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="operType">
+				OPERTYPE = #operType#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="slogType">
+				SLOGTYPE = #slogType#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="slogCreateTime">
+				SLOGCREATETIME like '$slogCreateTime$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userName">
+		      ( select sysuser.user_name 
+		       from  SYS_USER sysuser,SYS_USER_SECURITY security    
+		       where  security.user_id=sysuser.id  and   security.account = s.userid  ) like '%$userName$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+   <insert id="SystemLog_insert" parameterClass="com.dolphin.domain.SystemLog" >
+      INSERT INTO SYS_LOG(SLOGID,USERID,IPADD,OPERTYPE,OPEROBJEC,SLOGCOMMENT,SLOGCREATETIME,SLOGTYPE) 
+			values(#slogId#,#userId#,#ipAdd#,#operType#,#operObjec#,#slogComment#,
+			date_format(sysdate(),'%Y-%m-%d %H:%i:%S'),#slogType#)
+
+    </insert>
+    <update id="updateSystemLog" parameterClass="SystemLog">
+    	UPDATE SYS_LOG SET SLOGID = #slogId#
+    	<dynamic>
+        	<isNotEmpty prepend="," property="userId">
+          		USERID = #userId#
+        	</isNotEmpty>
+        	<isNotEmpty prepend="," property="ipAdd">
+          		IPADD= #ipAdd#
+        	</isNotEmpty>
+        	<isNotEmpty prepend="," property="operType">
+          		OPERTYPE= #operType#
+        	</isNotEmpty>
+        	<isNotEmpty prepend="," property="operObjec">
+          		OPEROBJEC= #operObjec#
+        	</isNotEmpty>
+        	<isNotEmpty prepend="," property="slogComment">
+          		SLOGCOMMENT= #slogComment#
+        	</isNotEmpty>
+        	<isNotEmpty prepend="," property="slogCreateTime">
+          		SLOGCREATETIME= #slogCreateTime#
+        	</isNotEmpty>
+        	<isNotEmpty prepend="," property="slogType">
+          		SLOGTYPE= #slogType#
+        	</isNotEmpty>
+    	</dynamic>
+    	WHERE SLOGID = #slogId#
+    </update>
+    <delete id="deleteSystemLog" parameterClass="java.lang.Integer">
+    	DELETE FROM SYS_LOG WHERE SLOGID = #value#
+  	</delete>
+</sqlMap>

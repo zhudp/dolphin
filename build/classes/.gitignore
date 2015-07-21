@@ -1,0 +1,12 @@
+/application.properties
+/baseConfig/
+/business_exception_messages.xml
+/com/
+/errormessages/
+/ibatis/
+/log4j.properties
+/org/
+/paoding-dic-home.properties
+/permission/
+/spring/
+/struts.xml

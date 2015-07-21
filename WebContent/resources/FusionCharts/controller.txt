@@ -1,0 +1,260 @@
+ // 图形化客运站收益日报表
+    public void getIncomeDayChart(HttpServletRequest request,
+    		HttpServletResponse response) throws Exception {
+    	// 获取前台参数
+    	String depotId = request.getParameter("depotId");
+    	String beginDate = request.getParameter("beginDate");
+    	String endDate = request.getParameter("endDate");
+    	String chartType = request.getParameter("chartType");
+    	// 用于判断要展示图表的类型
+    	String strDate = beginDate;
+    	List incomeList = null;
+    	// 按日期区间查询
+    	if (beginDate.length()==10) {
+    		incomeList = incomeService.getIncomeList(depotId, beginDate, endDate);
+    	}
+    	// 按一月每日查询
+    	else if (beginDate.length()==7) {
+    		beginDate = beginDate + "-01";
+    		endDate = endDate + "-31";
+    		incomeList = incomeService.getIncomeList(depotId, beginDate, endDate);
+    	}
+    	// 按一年每月查询
+    	else {
+    		beginDate = beginDate + "-01-01";
+    		endDate = endDate + "-12-31";
+    		incomeList = incomeService.getIncomeListByMonth(depotId, beginDate, endDate);
+    	}
+    	Map map = new HashMap();
+    	if(incomeList == null || incomeList.size() == 0) {
+    		 map.put("success", new Boolean(false));
+    		 map.put("data", "没有满足条件的数据！");
+    	}
+    	else {
+        	StringBuffer sbXML = new StringBuffer("");
+        	//柱状图
+        	if ("0".equals(chartType)) {
+        		if (strDate.length()==10) {
+        			sbXML.append("<graph caption='客运站收益日报表' xAxisName='日期' ");
+        		}
+        		else if (strDate.length()==7) {
+        			sbXML.append("<graph caption='客运站收益月报表' xAxisName='日期' ");
+        		}
+        		else {
+        			sbXML.append("<graph caption='客运站收益年报表' xAxisName='月份' ");
+        		}
+        		sbXML.append("yAxisName='金额' rotateYAxisName='0' baseFontSize='12' decimalPrecision='0' formatNumberScale='0'>");
+        		String []color = new String[incomeList.size()];
+        		//初始化基本颜色
+                String []baseColor = {"AFD8F8","F6BD0F","8BBA00","FF8E46","008E8E","D64646",
+                		"8E468E","588526","B3AA00","008ED6","9D080D","A186BE","F0F8FF",
+                		"FAEBD7","00FFFF","7FFFD4","F0FFFF","F5F5DC","FFE4C4","FFEBCD",
+                		"0000FF","8A2BE2","A52A2A","DEB887","5F9EA0","7FFF00","D2691E",
+                		"FF7F50","6495ED","FFF8DC","DC143C","00FFFF","00008B","008B8B",
+                		"B8860B","A9A9A9","006400","BDB76B","8B008B","556B2F","FF8C00",
+                		"9932CC","8B0000","E9967A","8FBC8B","483D8B","2F4F4F","00CED1",
+                		"9400D3","FF1493","00BFFF","696969","1E90FF","B22222","FFFAF0",
+                		"228B22","FF00FF","DCDCDC","F8F8FF","FFD700","DAA520","808080",
+                		"008000","ADFF2F","F0FFF0","FF69B4","CD5C5C","4B0082","FFFFF0",
+                		"F0E68C","E6E6FA","FFF0F5","7CFC00","FFFACD","ADD8E6","F08080",
+                		"E0FFFF","FAFAD2","90EE90","D3D3D3","FFB6C1","FFA07A","20B2AA",
+                		"87CEFA","778899","B0C4DE","FFFFE0","00FF00","32CD32","FAF0E6",
+                		"FF00FF","800000","66CDAA","0000CD","BA55D3","9370DB","3CB371",
+                		"7B68EE","00FA9A","48D1CC","C71585","191970","F5FFFA","FFE4E1",
+                		"FFE4B5","FFDEAD","000080","FDF5E6","808000","6B8E23","FFA500",
+                		"FF4500","DA70D6","EEE8AA","98FB98","AFEEEE","DB7093","FFEFD5",
+                		"FFDAB9","CD853F","FFC0CB","DDA0DD","B0E0E6","800080","FF0000",
+                		"BC8F8F","4169E1","8B4513","FA8072","F4A460","2E8B57","FFF5EE",
+                		"A0522D","C0C0C0","87CEEB","6A5ACD","708090","FFFAFA","00FF7F",
+                		"4682B4","D2B48C","008080","D8BFD8","FF6347","40E0D0","EE82EE",
+                		"F5DEB3","FFFFFF","F5F5F5","FFFF00","9ACD32"};
+                //对颜色进行赋值
+                if (incomeList.size() <= baseColor.length) {
+                    for (int j = 0; j < incomeList.size(); j++) {
+                    	color[j] = baseColor[j];
+                    }
+                }
+                else {
+                	int k = incomeList.size() / baseColor.length;
+                	for (int i = 0; i < k; i++) {
+                    	for (int j = 0; j < baseColor.length; j++) {
+                    		color[baseColor.length*i + j] = baseColor[j];
+                    	}
+                	}
+                	for (int j = 0; j < incomeList.size() % baseColor.length; j++) {
+                		color[baseColor.length*k+j] = baseColor[j];
+                	}
+                }
+                int i = 0;
+            	for(Iterator iter = incomeList.iterator(); iter.hasNext();) {
+            		Income income = (Income)iter.next();
+            		income.setMoneyStr(Arith.format(income.getMoney()));
+            		sbXML.append("<set name='"+income.getDealDate()+"' value='"+income.getMoneyStr()+"' color='"+color[i]+"'/>");
+            		i++;
+            	}
+        	}
+        	//饼状图
+        	else if ("1".equals(chartType)) {
+        		sbXML.append("<graph showNames='1' decimalPrecision='0'>");
+        		for(Iterator iter = incomeList.iterator(); iter.hasNext();) {
+            		Income income = (Income)iter.next();
+            		income.setMoneyStr(Arith.format(income.getMoney()));
+            		sbXML.append("<set name='"+income.getDealDate()+"' value='"+income.getMoneyStr()+"'/>");
+            	}
+        	}
+        	//曲线图
+        	else if ("2".equals(chartType)) {
+        		if (strDate.length()==10) {
+        			sbXML.append("<graph caption='客运站收益日报表' subcaption='' xAxisName='日期' ");
+        		}
+        		else if (strDate.length()==7) {
+        			sbXML.append("<graph caption='客运站收益月报表' subcaption='' xAxisName='日期' ");
+        		}
+        		else {
+        			sbXML.append("<graph caption='客运站收益年报表' subcaption='' xAxisName='月份' ");
+        		}
+        		sbXML.append("yAxisMinValue='0' yAxisName='金额' decimalPrecision='0' formatNumberScale='0' " +
+        				"numberPrefix='￥' showNames='1' showValues='0' rotateYAxisName='0' showAlternateHGridColor='1' " +
+        				"AlternateHGridColor='ff5904' divLineColor='F6BD0F' divLineAlpha='20' alternateHGridAlpha='5'>");
+        		for(Iterator iter = incomeList.iterator(); iter.hasNext();) {
+            		Income income = (Income)iter.next();
+            		income.setMoneyStr(Arith.format(income.getMoney()));
+            		sbXML.append("<set name='"+income.getDealDate()+"' value='"+income.getMoneyStr()+"' hoverText='"+income.getDealDate()+','+income.getMoneyStr()+"'/>");
+            	}
+        	}
+        	sbXML.append("</graph>");
+    		map.put("success", new Boolean(true));
+        	map.put("strXML", sbXML.toString());
+    	}
+    	write(response, map);
+    }
+    
+    // 图形化客运站日报表同期比较
+    public void getCompareDayChart(HttpServletRequest request,
+    		HttpServletResponse response) throws Exception {
+    	String depotId = request.getParameter("depotId");
+    	String beginDate = request.getParameter("beginDate");
+    	String endDate = request.getParameter("endDate");
+    	String currName = beginDate.substring(0,4);
+    	String preName = String.valueOf((Integer.valueOf(currName).intValue()-1));
+    	List incomeList = incomeService.getIncomeListCompDay(depotId, beginDate, endDate);
+    	Map map = new HashMap();
+    	if(incomeList == null || incomeList.size() == 0) {
+    		 map.put("success", new Boolean(false));
+    		 map.put("data", "没有满足条件的数据！");
+    	}
+    	else {
+        	StringBuffer sbXML = new StringBuffer("");
+        	StringBuffer preDataSb = new StringBuffer("");
+        	StringBuffer dataSb = new StringBuffer("");
+        	sbXML.append("<graph xaxisname='日期' rotateYAxisName='0' baseFontSize='12' yaxisname='金额' hovercapbg='DEDEBE' " +
+        			"hovercapborder='889E6D' rotateNames='0' yAxisMaxValue='100' numdivlines='9' divLineColor='CCCCCC' " +
+        			"divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' " +
+        			"AlternateHGridColor='CCCCCC' caption='客运站日报表同期比较'>");
+        	sbXML.append("<categories font='Arial' fontSize='11' fontColor='000000'>");
+        	preDataSb.append("<dataset seriesname='"+preName+"' color='56B9F9'>");
+        	dataSb.append("<dataset seriesname='"+currName+"' color='C9198D'>");
+    		for(Iterator iter = incomeList.iterator(); iter.hasNext();) {
+        		Income income = (Income)iter.next();
+        		sbXML.append("<category name='"+income.getDealDate().substring(5)+"'/>");
+        		preDataSb.append("<set value='10.00' />");
+        		dataSb.append("<set value='"+income.getMoneyStr()+"'/>");
+        	}
+    		sbXML.append("</categories>");
+    		preDataSb.append("</dataset>");
+    		dataSb.append("</dataset>");
+    		sbXML.append(preDataSb.toString());
+    		sbXML.append(dataSb.toString());
+    		sbXML.append("</graph>");
+    		map.put("success", new Boolean(true));
+        	map.put("strXML", sbXML.toString());
+    	}
+    	write(response, map);
+    }
+    
+    // 图形化客运站月报表同期比较
+    public void getCompareMonthChart(HttpServletRequest request,
+    		HttpServletResponse response) throws Exception {
+    	String depotId = request.getParameter("depotId");
+    	String beginDate = request.getParameter("beginDate");
+    	String endDate = request.getParameter("endDate");
+    	beginDate = beginDate + "-01";
+    	endDate = endDate + "-31";
+    	String currName = beginDate.substring(0,4);
+    	String preName = String.valueOf((Integer.valueOf(currName).intValue()-1));
+    	List incomeList = incomeService.getIncomeListCompDay(depotId, beginDate, endDate);
+    	Map map = new HashMap();
+    	if(incomeList == null || incomeList.size() == 0) {
+    		 map.put("success", new Boolean(false));
+    		 map.put("data", "没有满足条件的数据！");
+    	}
+    	else {
+        	StringBuffer sbXML = new StringBuffer("");
+        	StringBuffer preDataSb = new StringBuffer("");
+        	StringBuffer dataSb = new StringBuffer("");
+        	sbXML.append("<graph xaxisname='日期' rotateYAxisName='0' baseFontSize='12' yaxisname='金额' hovercapbg='DEDEBE' " +
+        			"hovercapborder='889E6D' rotateNames='0' yAxisMaxValue='100' numdivlines='9' divLineColor='CCCCCC' " +
+        			"divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' " +
+        			"AlternateHGridColor='CCCCCC' caption='客运站月报表同期比较'>");
+        	sbXML.append("<categories font='Arial' fontSize='11' fontColor='000000'>");
+        	preDataSb.append("<dataset seriesname='"+preName+"' color='56B9F9'>");
+        	dataSb.append("<dataset seriesname='"+currName+"' color='C9198D'>");
+    		for(Iterator iter = incomeList.iterator(); iter.hasNext();) {
+        		Income income = (Income)iter.next();
+        		sbXML.append("<category name='"+income.getDealDate().substring(5)+"'/>");
+        		preDataSb.append("<set value='10.00' />");
+        		dataSb.append("<set value='"+income.getMoneyStr()+"'/>");
+        	}
+    		sbXML.append("</categories>");
+    		preDataSb.append("</dataset>");
+    		dataSb.append("</dataset>");
+    		sbXML.append(preDataSb.toString());
+    		sbXML.append(dataSb.toString());
+    		sbXML.append("</graph>");
+    		map.put("success", new Boolean(true));
+        	map.put("strXML", sbXML.toString());
+    	}
+    	write(response, map);
+    }
+    
+    // 图形化客运站年报表同期比较
+    public void getCompareYearChart(HttpServletRequest request,
+    		HttpServletResponse response) throws Exception {
+    	String depotId = request.getParameter("depotId");
+    	String beginDate = request.getParameter("beginDate");
+    	beginDate = String.valueOf((Integer.valueOf(beginDate).intValue()-1));
+    	String endDate = request.getParameter("endDate");
+    	List incomeList = incomeService.getIncomeListCompYear(depotId, beginDate, endDate);
+    	Map map = new HashMap();
+    	if(incomeList == null || incomeList.size() == 0) {
+    		 map.put("success", new Boolean(false));
+    		 map.put("data", "没有满足条件的数据！");
+    	}
+    	else {
+        	StringBuffer sbXML = new StringBuffer("");
+        	StringBuffer preDataSb = new StringBuffer("");
+        	StringBuffer dataSb = new StringBuffer("");
+        	sbXML.append("<graph xaxisname='月份' rotateYAxisName='0' baseFontSize='12' yaxisname='金额' hovercapbg='DEDEBE' " +
+        			"hovercapborder='889E6D' rotateNames='0' yAxisMaxValue='100.00' numdivlines='9' divLineColor='CCCCCC' " +
+        			"divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' " +
+        			"dAlternateHGridColor='CCCCCC' caption='客运站年报表同期比较'>");
+        	sbXML.append("<categories font='Arial' fontSize='11' fontColor='000000'>");
+        	preDataSb.append("<dataset seriesname='"+beginDate+"' color='56B9F9'>");
+        	dataSb.append("<dataset seriesname='"+endDate+"' color='C9198D'>");
+    		for(Iterator iter = incomeList.iterator(); iter.hasNext();) {
+        		Income income = (Income)iter.next();
+        		sbXML.append("<category name='"+income.getDealDate()+"'/>");
+        		preDataSb.append("<set value='"+income.getTotalMoneyStr()+"'/>");
+        		dataSb.append("<set value='"+income.getMoneyStr()+"'/>");
+        	}
+    		sbXML.append("</categories>");
+    		preDataSb.append("</dataset>");
+    		dataSb.append("</dataset>");
+    		sbXML.append(preDataSb.toString());
+    		sbXML.append(dataSb.toString());
+    		sbXML.append("</graph>");
+    		map.put("success", new Boolean(true));
+        	map.put("strXML", sbXML.toString());
+    	}
+    	write(response, map);
+    }

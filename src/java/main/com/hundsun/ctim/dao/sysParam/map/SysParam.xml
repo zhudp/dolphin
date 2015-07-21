@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SysParam" >
+  <select id="SysParam_get" resultClass="com.hundsun.ctim.domain.sysParam.SysParam" >
+    select t.ID, t.DATE_1 as date1, t.DATE_2 as date2, t.STRING_1 as string1, t.STRING_2 as string2,
+      t.INT_1 as int1, t.INT_2 as int2, t.REMARK
+    from TB_SYS_PARAM t
+    where t.ID = #id#
+  </select>
+  <select id="SysParam_list" resultClass="com.hundsun.ctim.domain.sysParam.SysParam" >
+    select t.ID, t.DATE_1 as date1, t.DATE_2 as date2, t.STRING_1 as string1, t.STRING_2 as string2,
+      t.INT_1 as int1, t.INT_2 as int2, t.REMARK
+    from TB_SYS_PARAM t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="id" >
+        t.ID = #id#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="SysParam_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_SYS_PARAM t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="id" >
+        t.ID = #id#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="SysParam_insert" parameterClass="com.hundsun.ctim.domain.sysParam.SysParam" >
+    insert into TB_SYS_PARAM (ID, DATE_1, DATE_2, STRING_1, STRING_2, INT_1, INT_2, REMARK)
+    values (#id#, #date1#, #date2#, #string1#, #string2#, #int1#, #int2#, #remark#)
+  </insert>
+  <update id="SysParam_update" parameterClass="com.hundsun.ctim.domain.sysParam.SysParam" >
+    update TB_SYS_PARAM
+    set 
+      ID = #id#,
+      DATE_1 = #date1#,
+      DATE_2 = #date2#,
+      STRING_1 = #string1#,
+      STRING_2 = #string2#,
+      INT_1 = #int1#,
+      INT_2 = #int2#,
+      REMARK = #remark#
+     where ID = #id#
+  </update>
+  <update id="SysParam_updateSelective" parameterClass="com.hundsun.ctim.domain.sysParam.SysParam" >
+    update TB_SYS_PARAM
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="date1" >
+        DATE_1 = #date1#
+      </isNotNull>
+      <isNotNull prepend="," property="date2" >
+        DATE_2 = #date2#
+      </isNotNull>
+      <isNotNull prepend="," property="string1" >
+        STRING_1 = #string1#
+      </isNotNull>
+      <isNotNull prepend="," property="string2" >
+        STRING_2 = #string2#
+      </isNotNull>
+      <isNotNull prepend="," property="int1" >
+        INT_1 = #int1#
+      </isNotNull>
+      <isNotNull prepend="," property="int2" >
+        INT_2 = #int2#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      where ID = #id#
+    </dynamic>
+  </update>
+  <delete id="SysParam_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.sysParam.SysParam" >
+    delete from TB_SYS_PARAM
+    where ID = #id#
+  </delete>
+  <delete id="SysParam_delete" parameterClass="com.hundsun.ctim.domain.sysParam.SysParam" >
+    delete from TB_SYS_PARAM
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="id" >
+        ID = #id#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN" "a" >
+<abatorConfiguration >
+  <abatorContext >
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@122.224.180.5:1521:ygdb1" userId="test01" password="test01" >
+    </jdbcConnection>
+    <javaModelGenerator targetPackage="com.hundsun.ctim.domain.staff" targetProject="F:\\ibator" imType="extends" className="com.core.BaseEntity" />
+    <sqlMapGenerator  targetPackage="com.hundsun.ctim.dao.staff" targetProject="F:\\ibator" />
+    <serviceGenerator  targetPackage="com.hundsun.ctim.service.staff" targetProject="F:\\ibator" imType="extends" className="com.core.BaseService"/>
+    <daoGenerator targetPackage="com.hundsun.ctim.dao.staff" targetProject="F:\\ibator" type="spring" imType="extendsT" className="com.core.dao.IBatisEntityDao"/>
+	
+	<table schema="test01" tableName="TB_EMPLOYEE" >
+    	<generatedKey column="EMPLOYEE_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <!-- 
+	<table schema="test01" tableName="TB_ANNEX_FILE" >
+    	<generatedKey column="FILE_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+	<table schema="test01" tableName="TB_PURCHASE_TASK" >
+    	<generatedKey column="TASK_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+	<table schema="test01" tableName="TB_SUPPLIER_QUOTE" >
+    	<generatedKey column="QUOTE_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    
+	<table schema="test01" tableName="tb_product_stock" >
+    	<generatedKey column="product_id" sqlStatement="MYSQL" identity="true" />
+    </table>
+	<table schema="test01" tableName="tb_product_stock_in" >
+    	<generatedKey column="stock_in_id" sqlStatement="MYSQL" identity="true" />
+    </table>
+	<table schema="test01" tableName="tb_product_stock_in_detail" >
+    	<generatedKey column="detail_id" sqlStatement="MYSQL" identity="true" />
+    </table>
+	<table schema="test01" tableName="tb_product_stock_out" >
+    	<generatedKey column="stock_out_id" sqlStatement="MYSQL" identity="true" />
+    </table>
+	<table schema="test01" tableName="tb_product_stock_out_detail" >
+    	<generatedKey column="detail_id" sqlStatement="MYSQL" identity="true" />
+    </table>
+    
+
+ 	<table schema="test01" tableName="TB_MATERIAL_STOCK_IN" >
+    	<generatedKey column="STOCK_IN_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+ 	<table schema="test01" tableName="TB_MATERIAL_STOCK_IN_DATAIL" >
+    	<generatedKey column="DETAIL_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+ 	<table schema="test01" tableName="TB_MATERIAL_STOCK_OUT" >
+    	<generatedKey column="STOCK_OUT_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+ 	<table schema="test01" tableName="TB_MATERIAL_STOCK_OUT_DATAIL" >
+    	<generatedKey column="DETAIL_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    
+
+    <table schema="test01" tableName="tb_custom" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_custom_visit" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_custom_visit" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_bom" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_custom" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_custom_visit" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_delivery" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_delivery_detail" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_material" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_material_stock" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+     -->    
+   
+
+    
+      <!-- 
+    <table schema="test01" tableName="tb_produce_task" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_produce_task_detail" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_product" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_product_parts" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_product_sample" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+
+    <table schema="test01" tableName="tb_purchase" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_purchase_detail" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="TB_EMPLOYEE" >
+    	<generatedKey column="EMPLOYEE_ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    <table schema="test01" tableName="tb_supplier" >
+    	<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+    </table>
+    
+    SELECT CONCAT('COMMENT ON COLUMN ',t.TABLE_NAME,'.',t.COLUMN_NAME,' is \'',t.COLUMN_COMMENT,'\';'  ) AS zhushi  
+FROM information_schema.COLUMNS t WHERE t.TABLE_NAME IN ('tb_product_stock_in','tb_product_stock_in_detail','tb_product_stock_out','tb_product_stock_out_detail')
+     -->
+  </abatorContext>
+</abatorConfiguration>
+

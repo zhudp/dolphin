@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Supplier" >
+  <select id="Supplier_get" resultClass="com.hundsun.ctim.domain.supplier.Supplier" >
+    select t.SUPPLIER_ID as supplierId, t.SUPPLIER_NAME as supplierName, t.SUPPLIER_NO as
+      supplierNo, t.SUPPLY_RANGE as supplyRange, t.SUPPLY_STATUS as supplyStatus, t.BANK_ACCOUNT as
+      bankAccount, t.ACCOUNT_NAME as accountName, t.DEPOSIT_BANK as depositBank, t.ADDRESS,
+      t.WEB_SITE as webSite, t.CONTACTS1, t.CONTACTS1_JOB as contacts1Job, t.CONTACTS1_PHONE1 as
+      contacts1Phone1, t.CONTACTS1_PHONE2 as contacts1Phone2, t.CONTACTS1_REMARK as contacts1Remark,
+      t.CONTACTS2, t.CONTACTS2_JOB as contacts2Job, t.CONTACTS2_PHONE1 as contacts2Phone1,
+      t.CONTACTS2_PHONE2 as contacts2Phone2, t.CONTACTS2_REMARK as contacts2Remark, t.OFFICER,
+      t.REMARK, t.IS_DELETED as isDeleted ,t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_SUPPLIER t
+    where t.SUPPLIER_ID = #supplierId# AND t.IS_DELETED ='0'
+  </select>
+  <select id="Supplier_list" resultClass="com.hundsun.ctim.domain.supplier.Supplier" >
+    select t.SUPPLIER_ID as supplierId, t.SUPPLIER_NAME as supplierName, t.SUPPLIER_NO as
+      supplierNo, t.SUPPLY_RANGE as supplyRange, t.SUPPLY_STATUS as supplyStatus, t.BANK_ACCOUNT as
+      bankAccount, t.ACCOUNT_NAME as accountName, t.DEPOSIT_BANK as depositBank, t.ADDRESS,
+      t.WEB_SITE as webSite, t.CONTACTS1, t.CONTACTS1_JOB as contacts1Job, t.CONTACTS1_PHONE1 as
+      contacts1Phone1, t.CONTACTS1_PHONE2 as contacts1Phone2, t.CONTACTS1_REMARK as contacts1Remark,
+      t.CONTACTS2, t.CONTACTS2_JOB as contacts2Job, t.CONTACTS2_PHONE1 as contacts2Phone1,
+      t.CONTACTS2_PHONE2 as contacts2Phone2, t.CONTACTS2_REMARK as contacts2Remark, t.OFFICER,
+      t.REMARK, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_SUPPLIER t WHERE t.IS_DELETED ='0'
+    <dynamic >
+      <isNotEmpty prepend="and" property="supplierId" >
+        t.SUPPLIER_ID = #supplierId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="supplierName" >
+        t.SUPPLIER_NAME = #supplierName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="supplierNo" >
+        t.SUPPLIER_NO = #supplierNo#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="supplierStatus" >
+        t.SUPPLY_STATUS = #supplierStatus#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="Supplier_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_SUPPLIER t WHERE t.IS_DELETED ='0'
+    <dynamic >
+      <isNotEmpty prepend="and" property="supplierId" >
+        t.SUPPLIER_ID = #supplierId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="Supplier_insert" parameterClass="com.hundsun.ctim.domain.supplier.Supplier" >
+    insert into TB_SUPPLIER (SUPPLIER_NAME, SUPPLIER_NO, SUPPLY_RANGE, SUPPLY_STATUS,
+      BANK_ACCOUNT, ACCOUNT_NAME, DEPOSIT_BANK, ADDRESS, WEB_SITE, CONTACTS1, CONTACTS1_JOB,
+      CONTACTS1_PHONE1, CONTACTS1_PHONE2, CONTACTS1_REMARK, CONTACTS2, CONTACTS2_JOB,
+      CONTACTS2_PHONE1, CONTACTS2_PHONE2, CONTACTS2_REMARK, OFFICER, REMARK, GMT_CREATE, CREATOR,
+      CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (#supplierName#, #supplierNo#, #supplyRange#, #supplyStatus#,
+      #bankAccount#, #accountName#, #depositBank#, #address#, #webSite#, #contacts1#,
+      #contacts1Job#, #contacts1Phone1#, #contacts1Phone2#, #contacts1Remark#, #contacts2#,
+      #contacts2Job#, #contacts2Phone1#, #contacts2Phone2#, #contacts2Remark#, #officer#, #remark#,
+      #gmtCreate#, #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#)
+  </insert>
+  <update id="Supplier_update" parameterClass="com.hundsun.ctim.domain.supplier.Supplier" >
+    update TB_SUPPLIER 
+    set
+      SUPPLIER_NAME = #supplierName#,
+      SUPPLIER_NO = #supplierNo#,
+      SUPPLY_RANGE = #supplyRange#,
+      SUPPLY_STATUS = #supplyStatus#,
+      BANK_ACCOUNT = #bankAccount#,
+      ACCOUNT_NAME = #accountName#,
+      DEPOSIT_BANK = #depositBank#,
+      ADDRESS = #address#,
+      WEB_SITE = #webSite#,
+      CONTACTS1 = #contacts1#,
+      CONTACTS1_JOB = #contacts1Job#,
+      CONTACTS1_PHONE1 = #contacts1Phone1#,
+      CONTACTS1_PHONE2 = #contacts1Phone2#,
+      CONTACTS1_REMARK = #contacts1Remark#,
+      CONTACTS2 = #contacts2#,
+      CONTACTS2_JOB = #contacts2Job#,
+      CONTACTS2_PHONE1 = #contacts2Phone1#,
+      CONTACTS2_PHONE2 = #contacts2Phone2#,
+      CONTACTS2_REMARK = #contacts2Remark#,
+      OFFICER = #officer#,
+      REMARK = #remark#,
+      IS_DELETED =#isDeleted#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#
+    WHERE SUPPLIER_ID = #supplierId#
+  </update>
+  <update id="Supplier_updateSelective" parameterClass="com.hundsun.ctim.domain.supplier.Supplier" >
+    update TB_SUPPLIER 
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="supplierName" >
+        SUPPLIER_NAME = #supplierName#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierNo" >
+        SUPPLIER_NO = #supplierNo#
+      </isNotNull>
+      <isNotNull prepend="," property="supplyRange" >
+        SUPPLY_RANGE = #supplyRange#
+      </isNotNull>
+      <isNotNull prepend="," property="supplyStatus" >
+        SUPPLY_STATUS = #supplyStatus#
+      </isNotNull>
+      <isNotNull prepend="," property="bankAccount" >
+        BANK_ACCOUNT = #bankAccount#
+      </isNotNull>
+      <isNotNull prepend="," property="accountName" >
+        ACCOUNT_NAME = #accountName#
+      </isNotNull>
+      <isNotNull prepend="," property="depositBank" >
+        DEPOSIT_BANK = #depositBank#
+      </isNotNull>
+      <isNotNull prepend="," property="address" >
+        ADDRESS = #address#
+      </isNotNull>
+      <isNotNull prepend="," property="webSite" >
+        WEB_SITE = #webSite#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1" >
+        CONTACTS1 = #contacts1#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Job" >
+        CONTACTS1_JOB = #contacts1Job#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Phone1" >
+        CONTACTS1_PHONE1 = #contacts1Phone1#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Phone2" >
+        CONTACTS1_PHONE2 = #contacts1Phone2#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Remark" >
+        CONTACTS1_REMARK = #contacts1Remark#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2" >
+        CONTACTS2 = #contacts2#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Job" >
+        CONTACTS2_JOB = #contacts2Job#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Phone1" >
+        CONTACTS2_PHONE1 = #contacts2Phone1#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Phone2" >
+        CONTACTS2_PHONE2 = #contacts2Phone2#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Remark" >
+        CONTACTS2_REMARK = #contacts2Remark#
+      </isNotNull>
+      <isNotNull prepend="," property="officer" >
+        OFFICER = #officer#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+    </dynamic>
+    WHERE SUPPLIER_ID = #supplierId#
+  </update>
+  <delete id="Supplier_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.supplier.Supplier" >
+    delete from TB_SUPPLIER
+    where SUPPLIER_ID = #supplierId#
+  </delete>
+  <delete id="Supplier_delete" parameterClass="com.hundsun.ctim.domain.supplier.Supplier" >
+    delete from TB_SUPPLIER
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="supplierId" >
+        SUPPLIER_ID = #supplierId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

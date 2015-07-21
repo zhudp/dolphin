@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	说明：
+	1.  mainMenu代表主菜单
+	属性  ：id:必须拥有Id，code：编码，text：表现描述,contextPath:该系统IP地址与路径, menuTag:指定菜单标签
+	2.  menu：代表菜单
+	属性：id:必须拥有Id，code：编码，text：表现描述，url：代表链接uri
+	3.  item：代表链接项
+	属性：id:必须拥有Id，code：编码，text：表现描述，url：代表链接uri，handler:代表前台js函数名
+	4.  configAttribute：同一个uri的其他参数配置
+	属性：name：参数名，regex：参数值的正则表达式
+
+	mainMenu代表一个系统的主菜单，必须指定id、text以及menuTag；
+	menu是由menuTag认定为菜单的标签，必须填写id、text；
+	item是页面各项链接的抽象，必须指定id、text以及url；
+	configAttribute是针对同一个uri的时候必须指定其他参数作为区分其他uri的标准，若有此项，必须填写name与regex；
+	所有系统的Id必须是唯一，反之服务启动时出现异常。
+	@author:chennp
+-->
+
+<mainMenu id="0" code="0" text="商业展示企业管理" contextPath="" menuTag="menu">
+    
+    <menu id="01" text="客户订单">
+		<menu id="0101" code="0101" text="客户管理" url="/custom/customMng.do"></menu>
+		<menu id="0102" code="0102" text="客户拜访" url="/custom/customVisitMng.do"></menu>
+		<menu id="0103" code="0103" text="产品管理" url="/product/productMng.do"></menu>
+		<menu id="0104" code="0104" text="订单管理" url="/order/orderMng.do"></menu>
+	</menu>
+	
+	<menu id="02" text="生产管理">
+		<menu id="0202" code="0202" text="生产任务管理" url="/produce/produceTaskMng.do"></menu>
+		<menu id="0203" code="0203" text="打样任务管理" url="/notify/notifyMng.do"></menu>
+	</menu>
+	
+	<menu id="05" text="仓库管理">
+	    <menu id="0501" code="0501" text="原料仓库">
+			<menu id="050101" code="050101" text="原料管理" url ="material/materialMng.do"></menu>
+			<menu id="050102" code="050102" text="原料入库管理" url ="material/materialStockInMng.do"></menu>
+			<menu id="050103" code="050103" text="原料出库管理" url="material/materialStockOutMng.do"></menu>
+			<menu id="050104" code="050104" text="原料台帐" url="material/materialStockMng.do"></menu>
+		</menu>
+	    <menu id="0502" code="0502" text="成品仓库">
+			<menu id="050201" code="050201" text="成品入库" url="product/productStockInMng.do"></menu>
+			<menu id="050202" code="050202" text="成品出库" url="product/productStockOutMng.do"></menu>
+			<menu id="050203" code="050203" text="成品台帐" url="product/productStockMng.do"></menu>
+		</menu>
+	</menu>
+	
+	<menu id="06" text="采购管理">
+	    <menu id="0601" code="0601" text="供应商管理" url="supplier/supplierMng.do"></menu>
+		<menu id="0602" code="0602" text="供应商报价" url="supplier/supplierQuoteMng.do"></menu>
+		<menu id="0603" code="0603" text="采购管理" url="purchase/purchaseMng.do"></menu>
+	</menu>
+	<menu id="07" text="人力资源">
+	    <menu id="0701" code="0701" text="员工管理" url="/staff/employeeMng.do"></menu>
+	</menu>
+	<menu id="08" text="财务管理">
+	</menu>
+	<menu id="09" text="统计报表">
+	</menu>
+	
+	<menu id="90" text="系统管理">
+		<menu id="0703" code="0703" text="部门管理" url="/dolphin/department.action"></menu>
+		<menu id="9001" code="9001" text="用户管理" url="/dolphin/user_role_assign.action">
+		    <item id="900101" code="900101" text="新增" url=""></item>
+		    <item id="900102" code="900102" text="修改" url=""></item>
+		    <item id="900103" code="900103" text="删除" url=""></item>
+		    <item id="900104" code="900104" text="重置密码" url=""></item>
+		    <item id="900105" code="900105" text="分配角色 " url=""></item>
+		    <item id="900106" code="900106" text="取消角色 " url=""></item>
+		</menu>
+		<menu id="9003" code="9003" text="角色与权限管理" url="/dolphin/role.action">
+		    <item id="900301" code="900301" text="新增" url=""></item>
+		    <item id="900302" code="900302" text="修改" url=""></item>
+		    <item id="900303" code="900303" text="删除" url=""></item>
+		    <item id="900304" code="900304" text="权限管理" url=""></item>
+		</menu>
+		<menu id="9004" code="9004" text="数据字典管理" url="/dolphin/data_dict.action"></menu>
+		<menu id="9005" code="9005" text="系统操作日志" url="/dolphin/system_log.action"/>
+	</menu>
+</mainMenu>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SupplierQuote" >
+  <select id="SupplierQuote_get" resultClass="com.hundsun.ctim.domain.supplier.SupplierQuote" >
+    select t.QUOTE_ID as quoteId, t.MATERIAL_ID as materialId, t.SUPPLIER_ID as supplierId, t.PRICE,
+      s.SUPPLIER_NAME as supplierName,m.MATERIAL_NAME as materialName, m.MATERIAL_NO as
+      materialNo, m.STANDARD,m.UNIT,
+      t.REMARK, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_SUPPLIER_QUOTE t,TB_SUPPLIER s,TB_MATERIAL m
+    where t.MATERIAL_ID = m.MATERIAL_ID and t.SUPPLIER_ID = s.SUPPLIER_ID 
+    and t.QUOTE_ID = #quoteId# and t.IS_DELETED ='0'
+  </select>
+  <select id="SupplierQuote_list" resultClass="com.hundsun.ctim.domain.supplier.SupplierQuote" >
+    select t.QUOTE_ID as quoteId, t.MATERIAL_ID as materialId, t.SUPPLIER_ID as supplierId, t.PRICE,
+      t.REMARK, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId,
+      s.SUPPLIER_NAME as supplierName,m.MATERIAL_NAME as materialName, m.MATERIAL_NO as
+      materialNo, m.STANDARD,m.UNIT
+    from TB_SUPPLIER_QUOTE t,TB_SUPPLIER s,TB_MATERIAL m where 
+    t.MATERIAL_ID = m.MATERIAL_ID and t.SUPPLIER_ID = s.SUPPLIER_ID and t.IS_DELETED ='0'
+    <dynamic >
+      <isNotEmpty prepend="and" property="quoteId" >
+        t.QUOTE_ID = #quoteId#
+      </isNotEmpty>
+
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="SupplierQuote_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_SUPPLIER_QUOTE t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="quoteId" >
+        t.QUOTE_ID = #quoteId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="SupplierQuote_insert" parameterClass="com.hundsun.ctim.domain.supplier.SupplierQuote" >
+    insert into TB_SUPPLIER_QUOTE (QUOTE_ID, MATERIAL_ID, SUPPLIER_ID, PRICE, REMARK,
+      GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (#quoteId#, #materialId#, #supplierId#, #price#, #remark#, #gmtCreate#,
+      #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#)
+  </insert>
+  <update id="SupplierQuote_update" parameterClass="com.hundsun.ctim.domain.supplier.SupplierQuote" >
+    update TB_SUPPLIER_QUOTE
+    set 
+      MATERIAL_ID = #materialId#,
+      SUPPLIER_ID = #supplierId#,
+      PRICE = #price#,
+      REMARK = #remark#,
+      IS_DELETED = #isDeleted#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#
+     where QUOTE_ID = #quoteId#
+  </update>
+  <update id="SupplierQuote_updateSelective" parameterClass="com.hundsun.ctim.domain.supplier.SupplierQuote" >
+    update TB_SUPPLIER_QUOTE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="materialId" >
+        MATERIAL_ID = #materialId#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierId" >
+        SUPPLIER_ID = #supplierId#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        PRICE = #price#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      where QUOTE_ID = #quoteId#
+    </dynamic>
+  </update>
+  <delete id="SupplierQuote_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.supplier.SupplierQuote" >
+    delete from TB_SUPPLIER_QUOTE
+    where QUOTE_ID = #quoteId#
+  </delete>
+  <delete id="SupplierQuote_delete" parameterClass="com.hundsun.ctim.domain.supplier.SupplierQuote" >
+    delete from TB_SUPPLIER_QUOTE
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="quoteId" >
+        QUOTE_ID = #quoteId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

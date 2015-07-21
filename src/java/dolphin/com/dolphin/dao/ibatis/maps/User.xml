@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="User">
+	<typeAlias alias="User" type="com.dolphin.domain.User" />
+
+	<select id="User_cache_list" resultClass="User">
+    select t.ID,t.USER_NAME as userName
+	from SYS_USER t
+	where t.status=1 and t.IS_DELETED = 'n'
+	</select>
+
+
+	<select id="User_list" resultClass="User">
+    select t.ID, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.DEPT_ID as deptId, t.USER_NAME as userName, t.EMAIL, t.PHONE,
+      t.MOBILE, t.ADDRESS, t.ZIP_CODE as zipCode, t.SEX, t.BIRTHDAY, t.STATUS, t.IMEI_NUMBER, t.ID_CARD as idCard, t.USER_TYPE as userType, 
+      t.COMMUNITY_ID as communityId, t.COMMUNITY_NAME as communityName,
+      department.DEPT_NAME as "department.deptName", userSecurity.account as "userSecurity.account",
+       userSecurity.Login_Count as "userSecurity.loginCount",
+       userSecurity.Last_Login_Time as "userSecurity.lastLoginTime",
+       userSecurity.Last_Login_ip as "userSecurity.lastLoginIp"
+	from SYS_USER t, SYS_DEPARTMENT department, SYS_USER_SECURITY userSecurity
+	where t.DEPT_ID = department.ID and t.ID = userSecurity.USER_ID
+	and t.IS_DELETED = 'n'
+		<dynamic>
+			<isNotEmpty prepend="and" property="isDeleted"> t.IS_DELETED = #isDeleted#</isNotEmpty>
+			<isNotEmpty prepend="and" property="id"> t.id = #id#</isNotEmpty>
+			<isNotEmpty prepend="and" property="userName"> t.USER_NAME like '%$userName$%'</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptId"> t.DEPT_ID = #deptId#</isNotEmpty>
+			<isNotEmpty prepend="and" property="sex"> t.SEX = #sex#</isNotEmpty>
+			<isNotEmpty prepend="and" property="status"> t.STATUS = #status# and userSecurity.status = #status# </isNotEmpty>
+			<isNotEmpty prepend="and" property="deptIdList">department.id in ($deptIdList$)</isNotEmpty>
+			<isNotEmpty prepend="and" property="communityId"> t.COMMUNITY_ID=#communityId#</isNotEmpty>
+			<isNotEmpty prepend="and" property="userType"> t.USER_TYPE=#userType#</isNotEmpty>
+			<isNotEmpty prepend="and" property="account"> lower(userSecurity.account)=lower(#account#)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty property="sort">$sort$ $dir$</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="User_count" resultClass="java.lang.Integer">
+		select count(*)
+		from SYS_USER t, SYS_DEPARTMENT department, SYS_USER_SECURITY userSecurity
+	where t.DEPT_ID = department.ID and t.ID = userSecurity.USER_ID 
+		<dynamic>
+			<isNotEmpty prepend="and" property="isDeleted"> t.IS_DELETED = #isDeleted#</isNotEmpty>
+			<isNotEmpty prepend="and" property="id"> t.id = #id#</isNotEmpty>
+			<isNotEmpty prepend="and" property="userName"> t.USER_NAME like '%$userName$%'</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptId"> t.DEPT_ID = #deptId#</isNotEmpty>
+			<isNotEmpty prepend="and" property="sex"> t.SEX = #sex#</isNotEmpty>
+			<isNotEmpty prepend="and" property="status"> t.STATUS = #status# and userSecurity.status = #status# </isNotEmpty>
+			<isNotEmpty prepend="and" property="deptIdList">    department.id in ($deptIdList$)</isNotEmpty>
+			<isNotEmpty prepend="and" property="communityId"> t.COMMUNITY_ID=#communityId#</isNotEmpty>
+			<isNotEmpty prepend="and" property="userType"> t.USER_TYPE=#userType#</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="User_get" resultClass="User">
+	select t.ID, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.GMT_MODIFY as
+      gmtModify, t.MODIFIER, t.DEPT_ID as deptId,t.ORG_ID as orgId, t.ID_CARD as idCard, t.USER_TYPE as userType, 
+      t.COMMUNITY_ID as communityId, t.COMMUNITY_NAME as communityName,
+      (select DEPT_NAME from SYS_DEPARTMENT where ID = t.ORG_ID) as orgName,
+      t.USER_NAME as userName, t.EMAIL, t.PHONE,
+      t.MOBILE, t.ADDRESS, t.ZIP_CODE as zipCode, t.SEX, t.BIRTHDAY, t.STATUS, t.IMEI_NUMBER as imeiNumber,
+      department.DEPT_NAME as "department.deptName", userSecurity.account
+	from Sys_User t, SYS_DEPARTMENT department, SYS_USER_SECURITY userSecurity
+	where t.DEPT_ID = department.ID and t.ID = userSecurity.USER_ID and t.id=#value#
+	</select>
+
+	<insert id="User_insert" parameterClass="User">
+		insert into SYS_USER (IS_DELETED, DEPT_ID,ORG_ID,
+      USER_NAME, EMAIL, PHONE, MOBILE, ADDRESS, ZIP_CODE, SEX, BIRTHDAY, STATUS, IMEI_NUMBER, ID_CARD, USER_TYPE,
+      COMMUNITY_ID, COMMUNITY_NAME, GMT_CREATE, CREATOR, GMT_MODIFY, MODIFIER)
+    values (#isDeleted#, #deptId#, #orgId#,
+      #userName#, #email#, #phone#, #mobile#, #address#, #zipCode#, #sex#, #birthday#, #status#,#imeiNumber#, #idCard#, #userType#,
+      #communityId#, #communityName#,#gmtCreate#, #creator#, #gmtModify#, #modifier#)
+		<selectKey resultClass="int" keyProperty="id">  
+			SELECT LAST_INSERT_ID() AS ID    
+		</selectKey>  
+	</insert>
+
+	<update id="User_update" parameterClass="User">
+		update SYS_USER
+		set
+		GMT_MODIFY = sysdate()
+		<dynamic>
+			<isNotNull prepend="," property="modifier"> MODIFIER = #modifier# </isNotNull>
+			<isNotNull prepend="," property="deptId"> DEPT_ID = #deptId#</isNotNull>
+			<isNotNull prepend="," property="orgId"> ORG_ID = #orgId#</isNotNull>
+			<isNotNull prepend="," property="userName"> USER_NAME =#userName# </isNotNull>
+			<isNotNull prepend="," property="email"> EMAIL=#email# </isNotNull>
+			<isNotNull prepend="," property="phone"> PHONE=#phone# </isNotNull>
+			<isNotNull prepend="," property="mobile"> MOBILE=#mobile# </isNotNull>
+			<isNotNull prepend="," property="address"> ADDRESS=#address# </isNotNull>
+			<isNotNull prepend="," property="zipCode"> ZIP_CODE=#zipCode# </isNotNull>
+			<isNotNull prepend="," property="sex"> SEX=#sex# </isNotNull>
+			<isNotNull prepend="," property="birthday"> BIRTHDAY=#birthday# </isNotNull>
+			<isNotNull prepend="," property="imeiNumber"> IMEI_NUMBER=#imeiNumber#</isNotNull>
+			<isNotNull prepend="," property="status"> status=#status#</isNotNull>
+			<isNotNull prepend="," property="idCard"> ID_CARD=#idCard#</isNotNull>
+			<isNotNull prepend="," property="userType"> USER_TYPE=#userType#</isNotNull>
+			<isNotNull prepend="," property="communityName"> 
+			    COMMUNITY_ID=#communityId#,
+			    COMMUNITY_NAME=#communityName#
+			</isNotNull>
+		</dynamic>
+		where id = #id#
+	</update>
+
+	<delete id="User_deleteByPrimaryKey" parameterClass="java.lang.String">
+		update SYS_USER
+		   set IS_DELETE = 'y'  where id = #value#
+	</delete>
+
+
+	<delete id="User_delete" parameterClass="User">
+		update SYS_USER
+		   set IS_DELETED = 'y'
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id"> id = #id#</isNotEmpty>
+			<isNotEmpty prepend="and" property="userName"> USER_NAME= #userName#</isNotEmpty>
+		</dynamic>
+	</delete>
+
+	<select id="User_getIdName" resultClass="User">
+		select Id as "id",user_name as "userName" from SYS_USER
+	</select>
+</sqlMap>

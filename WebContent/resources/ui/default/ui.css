@@ -1,0 +1,16 @@
+.ui_login_area{
+    background: url("login_area.png") repeat scroll 0 0 transparent;
+    height: 468px;
+    margin-top: 60px;
+    width: 794px;
+}
+.ui_top_banner{
+    height: 48px; 
+    background: url("banner.png") no-repeat; padding: 0 0 0 0!important;
+}
+.ui_welcome{
+    background: #FFFFFF url(welcome.png) no-repeat;
+    padding:0;
+    width: 100%;
+    height: 100%;
+}

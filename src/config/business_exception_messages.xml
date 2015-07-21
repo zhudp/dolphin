@@ -1,0 +1,19 @@
+<?xml	version="1.0"?>
+<!DOCTYPE exceptioninfo [
+	<!ELEMENT exceptioninfo (exception+) >
+	<!ELEMENT exception (#PCDATA)>
+]>
+
+<!-- native2ascii -encoding utf-8 E:\workspace3.4\ctimCM\src\config\errorMessage\CM-businessException.txt E:\workspace3.4\ctimCM\src\config\errorMessage\CM-businessException.properties -->
+<exceptioninfo>
+	<exception>errormessages/businessException.properties</exception>
+	<!-- 用户管理 -->
+	<exception>
+		errormessages/user-businessException.properties
+	</exception>
+	<!--数据字典管理  -->
+	<exception>
+		errormessages/datadict-businessException.properties
+	</exception>
+
+</exceptioninfo>

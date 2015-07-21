@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CustomVisit" >
+  <select id="CustomVisit_get" resultClass="com.hundsun.ctim.domain.custom.CustomVisit" >
+    select t.VISIT_ID as visitId, t.CUSTOM_ID as customId, c.CUSTOM_NAME as customName,
+      c.CUSTOM_NO as customNo, t.VISIT_DATE as visitDate,
+      t.VISIT_CONTEXT as visitContext, t.VISIT_PEOPLE as visitPeople, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId
+    from TB_CUSTOM_VISIT t
+    left join TB_CUSTOM c on t.CUSTOM_ID = c.CUSTOM_ID
+    where t.VISIT_ID = #visitId#
+  </select>
+  <select id="CustomVisit_list" resultClass="com.hundsun.ctim.domain.custom.CustomVisit" >
+    select t.VISIT_ID as visitId, t.CUSTOM_ID as customId, c.CUSTOM_NAME as customName,
+      c.CUSTOM_NO as customNo,t.VISIT_DATE as visitDate,
+      t.VISIT_CONTEXT as visitContext, t.VISIT_PEOPLE as visitPeople, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId
+    from TB_CUSTOM_VISIT t
+    left join TB_CUSTOM c on t.CUSTOM_ID = c.CUSTOM_ID
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="visitId" >
+        t.VISIT_ID = #visitId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customId" >
+        t.CUSTOM_ID = #customId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="visitContext" >
+        t.VISIT_CONTEXT like '%$visitContext$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customNo">
+        c.CUSTOM_NO like '%$customNo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName">
+        c.custom_Name like '%$customName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customType">
+        c.custom_Type = #customType#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customStatus">
+        c.custom_status = #customStatus#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+      <isEmpty property="sort" >
+        t.GMT_MODIFY desc
+      </isEmpty>
+    </dynamic>
+  </select>
+  <select id="CustomVisit_count" resultClass="java.lang.Integer" >
+    select count(t.VISIT_ID) from TB_CUSTOM_VISIT t
+    left join TB_CUSTOM c on t.CUSTOM_ID = c.CUSTOM_ID
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="visitId" >
+        t.VISIT_ID = #visitId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customId" >
+        t.CUSTOM_ID = #customId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="visitContext" >
+        t.VISIT_CONTEXT like '%$visitContext$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customNo">
+        c.CUSTOM_NO like '%$customNo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName">
+        c.custom_Name like '%$customName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customType">
+        c.custom_Type = #customType#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customStatus">
+        c.custom_status = #customStatus#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="CustomVisit_insert" parameterClass="com.hundsun.ctim.domain.custom.CustomVisit" >
+    insert into TB_CUSTOM_VISIT (VISIT_ID, CUSTOM_ID, VISIT_DATE, VISIT_CONTEXT, VISIT_PEOPLE,
+      GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (#visitId#, #customId#, #visitDate#, #visitContext#, #visitPeople#, #gmtCreate#,
+      #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#)
+      <selectKey resultClass="long" keyProperty="visitId">  
+		SELECT LAST_INSERT_ID() AS visitId
+	  </selectKey>
+  </insert>
+  <update id="CustomVisit_update" parameterClass="com.hundsun.ctim.domain.custom.CustomVisit" >
+    update TB_CUSTOM_VISIT
+    set 
+      CUSTOM_ID = #customId#,
+      VISIT_DATE = #visitDate#,
+      VISIT_CONTEXT = #visitContext#,
+      VISIT_PEOPLE = #visitPeople#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#
+    where VISIT_ID = #visitId#
+  </update>
+  <update id="CustomVisit_updateSelective" parameterClass="com.hundsun.ctim.domain.custom.CustomVisit" >
+    update TB_CUSTOM_VISIT
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="visitId" >
+        VISIT_ID = #visitId#
+      </isNotNull>
+      <isNotNull prepend="," property="customId" >
+        CUSTOM_ID = #customId#
+      </isNotNull>
+      <isNotNull prepend="," property="visitDate" >
+        VISIT_DATE = #visitDate#
+      </isNotNull>
+      <isNotNull prepend="," property="visitContext" >
+        VISIT_CONTEXT = #visitContext#
+      </isNotNull>
+      <isNotNull prepend="," property="visitPeople" >
+        VISIT_PEOPLE = #visitPeople#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      where VISIT_ID = #visitId#
+    </dynamic>
+  </update>
+  <delete id="CustomVisit_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_CUSTOM_VISIT
+    where VISIT_ID = #visitId#
+  </delete>
+  <delete id="CustomVisit_delete" parameterClass="com.hundsun.ctim.domain.custom.CustomVisit" >
+    delete from TB_CUSTOM_VISIT
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="visitId" >
+        VISIT_ID = #visitId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

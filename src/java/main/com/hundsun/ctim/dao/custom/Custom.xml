@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Custom">
+  <select id="Custom_get" resultClass="com.hundsun.ctim.domain.custom.Custom">
+    select t.CUSTOM_ID as customId, t.CUSTOM_NAME as customName, t.SHORT_NAME as shortName,
+      t.CUSTOM_NO as customNo, t.CUSTOM_TYPE as customType, t.CUSTOM_STATUS as customStatus,
+      t.CUSTOM_INDUSTRY as customIndustry, t.SHOP_NUMBER as shopNumber, t.SHOP_NUMBER_PLAN as
+      shopNumberPlan, t.ADDRESS, t.WEB_SITE as webSite, t.CONTACTS1, t.CONTACTS1_JOB as
+      contacts1Job, t.CONTACTS1_PHONE1 as contacts1Phone1, t.CONTACTS1_PHONE2 as contacts1Phone2,
+      t.CONTACTS1_REMARK as contacts1Remark, t.CONTACTS2, t.CONTACTS2_JOB as contacts2Job,
+      t.CONTACTS2_PHONE1 as contacts2Phone1, t.CONTACTS2_PHONE2 as contacts2Phone2,
+      t.CONTACTS2_REMARK as contacts2Remark, t.OFFICER,t.SALESMAN, t.REMARK, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId
+    from TB_CUSTOM t
+    where t.CUSTOM_ID = #customId#
+  </select>
+  
+  <sql id="Custom_list_dynamic_where">  
+    <dynamic prepend="where">
+      <isNotEmpty prepend="and" property="customId">
+        t.CUSTOM_ID = #customId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customNo">
+        t.CUSTOM_NO like '%$customNo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName">
+        t.custom_Name like '%$customName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="officer">
+        t.OFFICER like '%$officer$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="salesman">
+        t.SALESMAN like '%$salesman$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customType">
+        t.custom_Type = #customType#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customStatus">
+        t.custom_status = #customStatus#
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+  </sql>
+  <select id="Custom_list" resultClass="com.hundsun.ctim.domain.custom.Custom">
+    select t.CUSTOM_ID as customId, t.CUSTOM_NAME as customName, t.SHORT_NAME as shortName,
+      t.CUSTOM_NO as customNo, t.CUSTOM_TYPE as customType, t.CUSTOM_STATUS as customStatus,
+      t.CUSTOM_INDUSTRY as customIndustry, t.SHOP_NUMBER as shopNumber, t.SHOP_NUMBER_PLAN as
+      shopNumberPlan, t.ADDRESS, t.WEB_SITE as webSite, t.CONTACTS1, t.CONTACTS1_JOB as
+      contacts1Job, t.CONTACTS1_PHONE1 as contacts1Phone1, t.CONTACTS1_PHONE2 as contacts1Phone2,
+      t.CONTACTS1_REMARK as contacts1Remark, t.CONTACTS2, t.CONTACTS2_JOB as contacts2Job,
+      t.CONTACTS2_PHONE1 as contacts2Phone1, t.CONTACTS2_PHONE2 as contacts2Phone2,
+      t.CONTACTS2_REMARK as contacts2Remark, t.OFFICER,t.SALESMAN, t.REMARK, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId
+    from TB_CUSTOM t
+    <include refid="Custom_list_dynamic_where" />
+    <dynamic prepend="order by">
+      <isNotEmpty property="sort">
+        $sort$ $dir$
+      </isNotEmpty>
+      <isEmpty property="sort" >
+        t.GMT_MODIFY desc
+      </isEmpty>
+    </dynamic>
+  </select>
+  <select id="Custom_count" resultClass="java.lang.Integer">
+    select count(*) from TB_CUSTOM t
+    <include refid="Custom_list_dynamic_where" />
+  </select>
+  
+  <insert id="Custom_insert" parameterClass="com.hundsun.ctim.domain.custom.Custom">
+    insert into TB_CUSTOM (CUSTOM_NAME, SHORT_NAME, CUSTOM_NO, CUSTOM_TYPE,
+      CUSTOM_STATUS, CUSTOM_INDUSTRY, SHOP_NUMBER, SHOP_NUMBER_PLAN, ADDRESS, WEB_SITE, CONTACTS1,
+      CONTACTS1_JOB, CONTACTS1_PHONE1, CONTACTS1_PHONE2, CONTACTS1_REMARK, CONTACTS2, CONTACTS2_JOB,
+      CONTACTS2_PHONE1, CONTACTS2_PHONE2, CONTACTS2_REMARK, OFFICER,SALESMAN, REMARK, GMT_CREATE, CREATOR,
+      CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (#customName#, #shortName#, #customNo# , #customType#, #customStatus#,
+      #customIndustry#, #shopNumber#, #shopNumberPlan#, #address#, #webSite#, #contacts1#,
+      #contacts1Job#, #contacts1Phone1#, #contacts1Phone2#, #contacts1Remark#, #contacts2#,
+      #contacts2Job#, #contacts2Phone1#, #contacts2Phone2#, #contacts2Remark#, #officer#, #salesman#, #remark#,
+      #gmtCreate#, #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#)
+      <selectKey resultClass="long" keyProperty="customId">  
+		SELECT LAST_INSERT_ID() AS customId
+	  </selectKey>
+  </insert>
+  <update id="Custom_update" parameterClass="com.hundsun.ctim.domain.custom.Custom">
+    update TB_CUSTOM
+    set 
+      CUSTOM_NAME = #customName#,
+      SHORT_NAME = #shortName#,
+      CUSTOM_NO = #customNo#,
+      CUSTOM_TYPE = #customType#,
+      CUSTOM_STATUS = #customStatus#,
+      CUSTOM_INDUSTRY = #customIndustry#,
+      SHOP_NUMBER = #shopNumber#,
+      SHOP_NUMBER_PLAN = #shopNumberPlan#,
+      ADDRESS = #address#,
+      WEB_SITE = #webSite#,
+      CONTACTS1 = #contacts1#,
+      CONTACTS1_JOB = #contacts1Job#,
+      CONTACTS1_PHONE1 = #contacts1Phone1#,
+      CONTACTS1_PHONE2 = #contacts1Phone2#,
+      CONTACTS1_REMARK = #contacts1Remark#,
+      CONTACTS2 = #contacts2#,
+      CONTACTS2_JOB = #contacts2Job#,
+      CONTACTS2_PHONE1 = #contacts2Phone1#,
+      CONTACTS2_PHONE2 = #contacts2Phone2#,
+      CONTACTS2_REMARK = #contacts2Remark#,
+      OFFICER = #officer#,
+      salesman = #salesman#,
+      REMARK = #remark#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#,
+      is_Deleted = #isDeleted#
+    where CUSTOM_ID = #customId#
+  </update>
+  <update id="Custom_updateSelective" parameterClass="com.hundsun.ctim.domain.custom.Custom">
+    update TB_CUSTOM
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="customName">
+        CUSTOM_NAME = #customName#
+      </isNotNull>
+      <isNotNull prepend="," property="shortName">
+        SHORT_NAME = #shortName#
+      </isNotNull>
+      <isNotNull prepend="," property="customNo">
+        CUSTOM_NO = #customNo#
+      </isNotNull>
+      <isNotNull prepend="," property="customType">
+        CUSTOM_TYPE = #customType#
+      </isNotNull>
+      <isNotNull prepend="," property="customStatus">
+        CUSTOM_STATUS = #customStatus#
+      </isNotNull>
+      <isNotNull prepend="," property="customIndustry">
+        CUSTOM_INDUSTRY = #customIndustry#
+      </isNotNull>
+      <isNotNull prepend="," property="shopNumber">
+        SHOP_NUMBER = #shopNumber#
+      </isNotNull>
+      <isNotNull prepend="," property="shopNumberPlan">
+        SHOP_NUMBER_PLAN = #shopNumberPlan#
+      </isNotNull>
+      <isNotNull prepend="," property="address">
+        ADDRESS = #address#
+      </isNotNull>
+      <isNotNull prepend="," property="webSite">
+        WEB_SITE = #webSite#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1">
+        CONTACTS1 = #contacts1#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Job">
+        CONTACTS1_JOB = #contacts1Job#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Phone1">
+        CONTACTS1_PHONE1 = #contacts1Phone1#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Phone2">
+        CONTACTS1_PHONE2 = #contacts1Phone2#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts1Remark">
+        CONTACTS1_REMARK = #contacts1Remark#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2">
+        CONTACTS2 = #contacts2#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Job">
+        CONTACTS2_JOB = #contacts2Job#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Phone1">
+        CONTACTS2_PHONE1 = #contacts2Phone1#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Phone2">
+        CONTACTS2_PHONE2 = #contacts2Phone2#
+      </isNotNull>
+      <isNotNull prepend="," property="contacts2Remark">
+        CONTACTS2_REMARK = #contacts2Remark#
+      </isNotNull>
+      <isNotNull prepend="," property="officer">
+        OFFICER = #officer#
+      </isNotNull>
+      <isNotNull prepend="," property="salesman">
+        SALESMAN = #salesman#
+      </isNotNull>
+      <isNotNull prepend="," property="remark">
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate">
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator">
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId">
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify">
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier">
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId">
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted">
+        is_Deleted = #isDeleted#
+      </isNotNull>
+      where CUSTOM_ID = #customId#
+    </dynamic>
+  </update>
+  <delete id="Custom_deleteByPrimaryKey" parameterClass="long">
+    delete from TB_CUSTOM
+    where CUSTOM_ID = #customId#
+  </delete>
+  <delete id="Custom_delete" parameterClass="com.hundsun.ctim.domain.custom.Custom">
+    delete from TB_CUSTOM
+    <dynamic prepend="where">
+      <isNotNull prepend="and" property="customId">
+        CUSTOM_ID = #customId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

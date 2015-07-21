@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Product" >
+  <select id="Product_get" resultClass="com.hundsun.ctim.domain.product.Product" >
+    select t.PRODUCT_ID as productId, t.PRODUCT_NO as productNo, t.PRODUCT_NAME as productName,
+      t.PRODUCT_TYPE as productType, t.STANDARD, t.UNIT, t.CUSTOM_ID as customId, t.CUSTOM_NAME as
+      customName, t.PRICE, t.PRIME_COST as primeCost, t.STATUS, t.PRODUCT_PICPATH as productPicpath,
+      t.REMARK, t.MIN_STORE as minStore, t.MAX_STORE as maxStore, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId
+    from TB_PRODUCT t where t.PRODUCT_ID = #productId#
+  </select>
+  
+  
+  <select id="Product_list" resultClass="com.hundsun.ctim.domain.product.Product" >
+    select t.PRODUCT_ID as productId, t.PRODUCT_NO as productNo, t.PRODUCT_NAME as productName,
+      t.PRODUCT_TYPE as productType, t.STANDARD, t.UNIT, t.CUSTOM_ID as customId, t.CUSTOM_NAME as
+      customName, t.PRICE, t.PRIME_COST as primeCost, t.STATUS, t.PRODUCT_PICPATH as productPicpath,
+      t.REMARK, t.MIN_STORE as minStore, t.MAX_STORE as maxStore, t.GMT_CREATE as gmtCreate,
+      t.CREATOR, t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as
+      modifierId
+    from TB_PRODUCT t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productType" >
+        t.PRODUCT_TYPE = #productType#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        t.STATUS = #status#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName">
+        t.custom_Name like '%$customName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productNo">
+        t.product_No like '%$productNo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productName">
+        t.PRODUCT_NAME like '%$productName$%'
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+      <isEmpty property="sort" >
+        t.GMT_MODIFY desc
+      </isEmpty>
+    </dynamic>
+  </select>
+  
+  <select id="Product_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PRODUCT t
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="and" property="productId" >
+        t.PRODUCT_ID = #productId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productType" >
+        t.PRODUCT_TYPE = #productType#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status" >
+        t.STATUS = #status#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productNo">
+        t.product_No like '%$productNo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customName">
+        t.custom_Name like '%$customName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="productName">
+        t.PRODUCT_NAME like '%$productName$%'
+      </isNotEmpty>
+      <isEmpty prepend="and" property="isDeleted">
+        t.is_Deleted = '0'
+      </isEmpty>
+    </dynamic>
+  </select>
+  
+  <insert id="Product_insert" parameterClass="com.hundsun.ctim.domain.product.Product" >
+    insert into TB_PRODUCT (PRODUCT_NO, PRODUCT_NAME, PRODUCT_TYPE, STANDARD, UNIT,
+      CUSTOM_ID, CUSTOM_NAME, PRICE, PRIME_COST, STATUS, PRODUCT_PICPATH, REMARK, MIN_STORE,
+      MAX_STORE, GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (#productNo#, #productName#, #productType#, #standard#, #unit#, #customId#,
+      #customName#, #price#, #primeCost#, #status#, #productPicpath#, #remark#, #minStore#,
+      #maxStore#, #gmtCreate#, #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#)
+	  <selectKey resultClass="long" keyProperty="productId">  
+		SELECT LAST_INSERT_ID() AS productId
+	  </selectKey>
+  </insert>
+  <update id="Product_update" parameterClass="com.hundsun.ctim.domain.product.Product" >
+    update TB_PRODUCT
+    set
+      PRODUCT_NO = #productNo#,
+      PRODUCT_NAME = #productName#,
+      PRODUCT_TYPE = #productType#,
+      STANDARD = #standard#,
+      UNIT = #unit#,
+      CUSTOM_ID = #customId#,
+      CUSTOM_NAME = #customName#,
+      PRICE = #price#,
+      PRIME_COST = #primeCost#,
+      STATUS = #status#,
+      PRODUCT_PICPATH = #productPicpath#,
+      REMARK = #remark#,
+      MIN_STORE = #minStore#,
+      MAX_STORE = #maxStore#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      is_Deleted = #isDeleted#,
+      MODIFIER_ID = #modifierId#
+    where PRODUCT_ID = #productId#
+  </update>
+  <update id="Product_updateSelective" parameterClass="com.hundsun.ctim.domain.product.Product" >
+    update TB_PRODUCT
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="productNo" >
+        PRODUCT_NO = #productNo#
+      </isNotNull>
+      <isNotNull prepend="," property="productName" >
+        PRODUCT_NAME = #productName#
+      </isNotNull>
+      <isNotNull prepend="," property="productType" >
+        PRODUCT_TYPE = #productType#
+      </isNotNull>
+      <isNotNull prepend="," property="standard" >
+        STANDARD = #standard#
+      </isNotNull>
+      <isNotNull prepend="," property="unit" >
+        UNIT = #unit#
+      </isNotNull>
+      <isNotNull prepend="," property="customId" >
+        CUSTOM_ID = #customId#
+      </isNotNull>
+      <isNotNull prepend="," property="customName" >
+        CUSTOM_NAME = #customName#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        PRICE = #price#
+      </isNotNull>
+      <isNotNull prepend="," property="primeCost" >
+        PRIME_COST = #primeCost#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        STATUS = #status#
+      </isNotNull>
+      <isNotNull prepend="," property="productPicpath" >
+        PRODUCT_PICPATH = #productPicpath#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="minStore" >
+        MIN_STORE = #minStore#
+      </isNotNull>
+      <isNotNull prepend="," property="maxStore" >
+        MAX_STORE = #maxStore#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        is_Deleted = #isDeleted#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      where PRODUCT_ID = #productId#
+    </dynamic>
+  </update>
+  <delete id="Product_deleteByPrimaryKey" parameterClass="long" >
+    delete from TB_PRODUCT where PRODUCT_ID = #productId#
+  </delete>
+  <delete id="Product_delete" parameterClass="com.hundsun.ctim.domain.product.Product" >
+    delete from TB_PRODUCT
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="productId" >
+        PRODUCT_ID = #productId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JzzTmpl" language="groovy" pageWidth="351" pageHeight="498" columnWidth="299" leftMargin="26" rightMargin="26" topMargin="20" bottomMargin="48">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="4"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="MARRY_CARD_NO" class="java.lang.String"/>
+	<parameter name="COUPLE_TOGETHER" class="java.lang.String"/>
+	<parameter name="SEX_0" class="java.lang.String"/>
+	<parameter name="CHILDREN_MALE_COUNT" class="java.lang.String"/>
+	<parameter name="CHILDREN_FEMALE_COUNT" class="java.lang.String"/>
+	<parameter name="MARITAL_STATUS" class="java.lang.String"/>
+	<parameter name="ID_CODE_0" class="java.lang.String"/>
+	<parameter name="ID_CODE_1" class="java.lang.String"/>
+	<parameter name="ID_CODE_2" class="java.lang.String"/>
+	<parameter name="SEX_1" class="java.lang.String"/>
+	<parameter name="SEX_2" class="java.lang.String"/>
+	<parameter name="RELATION_0" class="java.lang.String"/>
+	<parameter name="RELATION_1" class="java.lang.String"/>
+	<parameter name="RELATION_2" class="java.lang.String"/>
+	<parameter name="CHILDREN_NAME_2" class="java.lang.String"/>
+	<parameter name="CHILDREN_NAME_1" class="java.lang.String"/>
+	<parameter name="CHILDREN_NAME_0" class="java.lang.String"/>
+	<parameter name="PREVENTION_0" class="java.lang.String"/>
+	<parameter name="PREVENTION_1" class="java.lang.String"/>
+	<parameter name="PREVENTION_2" class="java.lang.String"/>
+	<parameter name="SCHOOL_0" class="java.lang.String"/>
+	<parameter name="SCHOOL_1" class="java.lang.String"/>
+	<parameter name="SCHOOL_2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="420" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="65" width="46" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CHILDREN_NAME_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="47" width="19" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SEX_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="47" width="46" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CHILDREN_NAME_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="83" width="46" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CHILDREN_NAME_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="65" width="19" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SEX_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="83" width="19" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SEX_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="47" width="10" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="黑体" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PREVENTION_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="65" width="10" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="黑体" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PREVENTION_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="83" width="10" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="黑体" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PREVENTION_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="47" width="10" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="黑体" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SCHOOL_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="65" width="10" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="黑体" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SCHOOL_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="83" width="10" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="黑体" isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single" spacingAfter="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SCHOOL_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="123" width="46" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MARITAL_STATUS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="238" y="123" width="46" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{COUPLE_TOGETHER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="98" y="165" width="46" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CHILDREN_MALE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="184" y="165" width="46" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CHILDREN_FEMALE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="190" width="206" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MARRY_CARD_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="47" width="20" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RELATION_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="65" width="20" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RELATION_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="83" width="21" height="13"/>
+				<textElement>
+					<font fontName="黑体" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RELATION_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="47" width="130" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="65" width="130" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="83" width="130" height="13"/>
+				<textElement>
+					<font fontName="黑体" isUnderline="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ID_CODE_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

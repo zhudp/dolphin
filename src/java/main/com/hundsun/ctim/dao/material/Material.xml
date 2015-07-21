@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Material" >
+  <select id="Material_get" resultClass="com.hundsun.ctim.domain.material.Material" >
+    select t.MATERIAL_ID as materialId, t.MATERIAL_NAME as materialName, t.MATERIAL_NO as
+      materialNo, t.STANDARD, t.MATERIAL_TYPE as materialType, t.UNIT, t.WEIGHT, t.AREA, t.REMARK,
+      t.MIN_STORE as minStore, t.MAX_STORE as maxStore, t.GMT_CREATE as gmtCreate, t.CREATOR,
+      t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId,
+      t.KIND,t.PRICE
+    from TB_MATERIAL t
+    where t.MATERIAL_ID = #materialId# AND t.is_Deleted = '0'
+  </select>
+  <select id="Material_list" resultClass="com.hundsun.ctim.domain.material.Material" >
+    select t.MATERIAL_ID as materialId, t.MATERIAL_NAME as materialName, t.MATERIAL_NO as
+      materialNo, t.STANDARD, t.MATERIAL_TYPE as materialType, t.UNIT, t.WEIGHT, t.AREA, t.REMARK,
+      t.MIN_STORE as minStore, t.MAX_STORE as maxStore, t.GMT_CREATE as gmtCreate, t.CREATOR,
+      t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId,
+      t.KIND,t.PRICE
+    from TB_MATERIAL t  WHERE t.is_Deleted = '0'
+    <dynamic >
+      <isNotEmpty prepend="and" property="materialId" >
+        t.MATERIAL_ID = #materialId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="materialName" >
+        t.MATERIAL_NAME = #materialName#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="materialNo" >
+        t.MATERIAL_NO = #materialNo#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="materialType" >
+        t.MATERIAL_TYPE = #materialType#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="kind" >
+        t.KIND = #kind#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="Material_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_MATERIAL t where  t.is_Deleted = '0'
+    
+    <dynamic>
+      <isNotEmpty prepend="and" property="materialId" >
+        t.MATERIAL_ID = #materialId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="Material_insert" parameterClass="com.hundsun.ctim.domain.material.Material" >
+     <selectKey keyProperty="materialNo" >
+      SELECT LPAD(LAST_INSERT_ID()+1,5,'0')
+     </selectKey>
+    insert into TB_MATERIAL (MATERIAL_NAME, MATERIAL_NO, STANDARD, MATERIAL_TYPE, UNIT,
+      WEIGHT, AREA, REMARK, MIN_STORE, MAX_STORE, GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY,
+      MODIFIER, MODIFIER_ID,KIND,PRICE)
+    values (#materialName#,CONCAT('YL-',#materialType#,'-',#materialNo#), #standard#, #materialType#, #unit#,
+      #weight#, #area#, #remark#, #minStore#, #maxStore#, #gmtCreate#, #creator#, #creatorId#,
+      #gmtModify#, #modifier#, #modifierId#, #kind#, #price#)
+     <selectKey resultClass="long" keyProperty="materialId">  
+		SELECT LAST_INSERT_ID() AS materialId
+	 </selectKey>
+  </insert>
+  <update id="Material_update" parameterClass="com.hundsun.ctim.domain.material.Material" >
+    update TB_MATERIAL
+    set
+      MATERIAL_NAME = #materialName#,
+      STANDARD = #standard#,
+      MATERIAL_TYPE = #materialType#,
+      UNIT = #unit#,
+      WEIGHT = #weight#,
+      AREA = #area#,
+      REMARK = #remark#,
+      MIN_STORE = #minStore#,
+      MAX_STORE = #maxStore#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#,
+      KIND = #kind#,
+      PRICE = #price#
+      
+      <dynamic>
+	      <isNotNull prepend="," property="isDeleted" >
+	        IS_DELETED = #isDeleted#
+	      </isNotNull>
+      </dynamic>
+     where MATERIAL_ID = #materialId#
+  </update>
+  <update id="Material_updateSelective" parameterClass="com.hundsun.ctim.domain.material.Material" >
+    update TB_MATERIAL
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="materialId" >
+        MATERIAL_ID = #materialId#
+      </isNotNull>
+      <isNotNull prepend="," property="materialName" >
+        MATERIAL_NAME = #materialName#
+      </isNotNull>
+      <isNotNull prepend="," property="materialNo" >
+        MATERIAL_NO = #materialNo#
+      </isNotNull>
+      <isNotNull prepend="," property="standard" >
+        STANDARD = #standard#
+      </isNotNull>
+      <isNotNull prepend="," property="materialType" >
+        MATERIAL_TYPE = #materialType#
+      </isNotNull>
+      <isNotNull prepend="," property="unit" >
+        UNIT = #unit#
+      </isNotNull>
+      <isNotNull prepend="," property="weight" >
+        WEIGHT = #weight#
+      </isNotNull>
+      <isNotNull prepend="," property="area" >
+        AREA = #area#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="minStore" >
+        MIN_STORE = #minStore#
+      </isNotNull>
+      <isNotNull prepend="," property="maxStore" >
+        MAX_STORE = #maxStore#
+      </isNotNull>
+      <isNotNull prepend="," property="maxStore" >
+        MAX_STORE = #maxStore#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+      <isNotNull prepend="," property="kind" >
+        KIND = #kind#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        PRICE = #price#
+      </isNotNull>
+    </dynamic>
+    where MATERIAL_ID = #materialId#
+  </update>
+  <delete id="Material_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.material.Material" >
+    delete from TB_MATERIAL
+    where MATERIAL_ID = #materialId#
+  </delete>
+  <delete id="Material_delete" parameterClass="com.hundsun.ctim.domain.material.Material" >
+    delete from TB_MATERIAL
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="materialId" >
+        MATERIAL_ID = #materialId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

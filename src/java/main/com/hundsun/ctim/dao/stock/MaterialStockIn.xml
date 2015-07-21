@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MaterialStockIn" >
+  <select id="MaterialStockIn_get" resultClass="com.hundsun.ctim.domain.stock.MaterialStockIn" >
+    select t.STOCK_IN_ID as stockInId, t.STOCK_IN_NO as stockInNo, t.ORDER_ID as orderId, t.ORDER_NO
+      as orderNo, t.SUPPLIER_ID as supplierId, t.SUPPLIER_NAME as supplierName, t.SUPPLIER_NO as
+      supplierNo, t.PURCHASE_DATE as purchaseDate, t.ORDERS_DATE as ordersDate, t.STOCK_IN_DATE as
+      stockInDate, t.SUPPLIER_OFFICER as supplierOfficer, t.PURCHASE_OFFICER as purchaseOfficer,
+      t.REMARK, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_MATERIAL_STOCK_IN t
+    where t.STOCK_IN_ID = #stockInId# AND t.IS_DELETED = '0'
+  </select>
+  <select id="MaterialStockIn_list" resultClass="com.hundsun.ctim.domain.stock.MaterialStockIn" >
+    select t.STOCK_IN_ID as stockInId, t.STOCK_IN_NO as stockInNo, t.ORDER_ID as orderId, t.ORDER_NO
+      as orderNo, t.SUPPLIER_ID as supplierId, t.SUPPLIER_NAME as supplierName, t.SUPPLIER_NO as
+      supplierNo, t.PURCHASE_DATE as purchaseDate, t.ORDERS_DATE as ordersDate, t.STOCK_IN_DATE as
+      stockInDate, t.SUPPLIER_OFFICER as supplierOfficer, t.PURCHASE_OFFICER as purchaseOfficer,
+      t.REMARK, t.IS_DELETED as isDeleted, t.GMT_CREATE as gmtCreate, t.CREATOR, t.CREATOR_ID as
+      creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_MATERIAL_STOCK_IN t WHERE t.IS_DELETED = '0'
+    <dynamic>
+      <isNotEmpty prepend="and" property="stockInId" >
+        t.STOCK_IN_ID = #stockInId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="stockInNo" >
+        t.STOCK_IN_NO = #stockInNo#
+      </isNotEmpty>
+      <!-- &lt;< &gt;>  -->
+      <isNotEmpty prepend="and" property="stockInDateStart" >
+        t.STOCK_IN_DATE &gt;= #stockInDateStart#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="stockInDateEnd" >
+        t.STOCK_IN_DATE &lt;= #stockInDateEnd#
+      </isNotEmpty>
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="MaterialStockIn_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_MATERIAL_STOCK_IN t WHERE t.IS_DELETED = '0'
+    <dynamic>
+      <isNotEmpty prepend="and" property="stockInId" >
+        t.STOCK_IN_ID = #stockInId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="MaterialStockIn_insert" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockIn" >
+    <selectKey keyProperty="stockInNo" >
+      SELECT CONCAT('YL-STOCK-IN-',LPAD(LAST_INSERT_ID()+1,5,'0'))
+    </selectKey>
+    insert into TB_MATERIAL_STOCK_IN (STOCK_IN_NO, ORDER_ID, ORDER_NO, SUPPLIER_ID,
+      SUPPLIER_NAME, SUPPLIER_NO, PURCHASE_DATE, ORDERS_DATE, STOCK_IN_DATE, SUPPLIER_OFFICER,
+      PURCHASE_OFFICER, REMARK, IS_DELETED, GMT_CREATE, CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER,
+      MODIFIER_ID)
+    values (#stockInNo#, #orderId#, #orderNo#, #supplierId#, #supplierName#,
+      #supplierNo#, #purchaseDate#, #ordersDate#, #stockInDate#, #supplierOfficer#,
+      #purchaseOfficer#, #remark#, #isDeleted#, #gmtCreate#, #creator#, #creatorId#, #gmtModify#,
+      #modifier#, #modifierId#)
+  </insert>
+  <update id="MaterialStockIn_update" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockIn" >
+    update TB_MATERIAL_STOCK_IN
+    set 
+      STOCK_IN_NO = #stockInNo#,
+      ORDER_ID = #orderId#,
+      ORDER_NO = #orderNo#,
+      SUPPLIER_ID = #supplierId#,
+      SUPPLIER_NAME = #supplierName#,
+      SUPPLIER_NO = #supplierNo#,
+      PURCHASE_DATE = #purchaseDate#,
+      ORDERS_DATE = #ordersDate#,
+      STOCK_IN_DATE = #stockInDate#,
+      SUPPLIER_OFFICER = #supplierOfficer#,
+      PURCHASE_OFFICER = #purchaseOfficer#,
+      REMARK = #remark#,
+      IS_DELETED = #isDeleted#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#
+     where STOCK_IN_ID = #stockInId#
+  </update>
+  <update id="MaterialStockIn_updateSelective" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockIn" >
+    update TB_MATERIAL_STOCK_IN
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="stockInNo" >
+        STOCK_IN_NO = #stockInNo#
+      </isNotNull>
+      <isNotNull prepend="," property="orderId" >
+        ORDER_ID = #orderId#
+      </isNotNull>
+      <isNotNull prepend="," property="orderNo" >
+        ORDER_NO = #orderNo#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierId" >
+        SUPPLIER_ID = #supplierId#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierName" >
+        SUPPLIER_NAME = #supplierName#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierNo" >
+        SUPPLIER_NO = #supplierNo#
+      </isNotNull>
+      <isNotNull prepend="," property="purchaseDate" >
+        PURCHASE_DATE = #purchaseDate#
+      </isNotNull>
+      <isNotNull prepend="," property="ordersDate" >
+        ORDERS_DATE = #ordersDate#
+      </isNotNull>
+      <isNotNull prepend="," property="stockInDate" >
+        STOCK_IN_DATE = #stockInDate#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierOfficer" >
+        SUPPLIER_OFFICER = #supplierOfficer#
+      </isNotNull>
+      <isNotNull prepend="," property="purchaseOfficer" >
+        PURCHASE_OFFICER = #purchaseOfficer#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="isDeleted" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      where STOCK_IN_ID = #stockInId#
+    </dynamic>
+  </update>
+  <delete id="MaterialStockIn_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockIn" >
+    delete from TB_MATERIAL_STOCK_IN
+    where STOCK_IN_ID = #stockInId#
+  </delete>
+  <delete id="MaterialStockIn_delete" parameterClass="com.hundsun.ctim.domain.stock.MaterialStockIn" >
+    delete from TB_MATERIAL_STOCK_IN
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="stockInId" >
+        STOCK_IN_ID = #stockInId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>

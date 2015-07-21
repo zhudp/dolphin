@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Purchase" >
+  <select id="Purchase_get" resultClass="com.hundsun.ctim.domain.purchase.Purchase" >
+    select t.PURCHASE_ID as purchaseId,t.PURCHASE_NO as purchaseNo, t.PURCHASE_NAME as purchaseName, t.PURCHASE_TYPE as
+      purchaseType, t.SUPPLIER_ID as supplierId, t.SUPPLIER_NAME as supplierName,t.ORDER_DATE as orderDate,
+      t.PLAN_STOREIN_DATE as planStoreinDate, t.REAL_STOREIN_DATE as realStoreinDate, t.STATUS,
+      t.TOTAL_AMOUNT as totalAmount, t.OFFICER, t.REMARK, t.IS_DELETED as isDeleted,t.GMT_CREATE as gmtCreate, t.CREATOR,
+      t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_PURCHASE t
+    where t.PURCHASE_ID = #purchaseId# AND t.IS_DELETED ='0'
+  </select>
+  <select id="Purchase_list" resultClass="com.hundsun.ctim.domain.purchase.Purchase" >
+    select t.PURCHASE_ID as purchaseId,t.PURCHASE_NO as purchaseNo, t.PURCHASE_NAME as purchaseName, t.PURCHASE_TYPE as
+      purchaseType, t.SUPPLIER_ID as supplierId, t.SUPPLIER_NAME as supplierName,t.ORDER_DATE as orderDate,
+      t.PLAN_STOREIN_DATE as planStoreinDate, t.REAL_STOREIN_DATE as realStoreinDate, t.STATUS,
+      t.TOTAL_AMOUNT as totalAmount, t.OFFICER, t.REMARK, t.GMT_CREATE as gmtCreate, t.CREATOR,
+      t.CREATOR_ID as creatorId, t.GMT_MODIFY as gmtModify, t.MODIFIER, t.MODIFIER_ID as modifierId
+    from TB_PURCHASE t WHERE t.IS_DELETED ='0'
+    <dynamic>
+      <isNotEmpty prepend="and" property="purchaseId" >
+        t.PURCHASE_ID = #purchaseId#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="purchaseNo" >
+        t.PURCHASE_NO = #purchaseNo#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="purchaseName" >
+        t.PURCHASE_NAME = #purchaseName#
+      </isNotEmpty>
+            <!-- &lt;< &gt;>  -->
+      <isNotEmpty prepend="and" property="purchaseDateStart" >
+        t.ORDER_DATE  &gt;= #purchaseDateStart#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="purchaseDateEnd" >
+        t.ORDER_DATE  &lt;= #purchaseDateEnd#
+      </isNotEmpty>
+      
+    </dynamic>
+    <dynamic prepend="order by" >
+      <isNotEmpty property="sort" >
+        $sort$ $dir$
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <select id="Purchase_count" resultClass="java.lang.Integer" >
+    select count(*) from TB_PURCHASE t WHERE t.IS_DELETED ='0'
+    <dynamic >
+      <isNotEmpty prepend="and" property="purchaseId" >
+        t.PURCHASE_ID = #purchaseId#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  <insert id="Purchase_insert" parameterClass="com.hundsun.ctim.domain.purchase.Purchase" >
+    insert into TB_PURCHASE (PURCHASE_NO, PURCHASE_NAME, PURCHASE_TYPE, SUPPLIER_ID, SUPPLIER_NAME,
+     ORDER_DATE, PLAN_STOREIN_DATE, REAL_STOREIN_DATE, STATUS, TOTAL_AMOUNT, OFFICER, REMARK, IS_DELETED,GMT_CREATE,
+      CREATOR, CREATOR_ID, GMT_MODIFY, MODIFIER, MODIFIER_ID)
+    values (
+      #purchaseNo#,
+      #purchaseName#, #purchaseType#, #supplierId#, #supplierName#,#orderDate#,
+      #planStoreinDate#, #realStoreinDate#, #status#, #totalAmount#, #officer#, #remark#,
+      #isDeleted#,#gmtCreate#, #creator#, #creatorId#, #gmtModify#, #modifier#, #modifierId#)
+  </insert>
+  <update id="Purchase_update" parameterClass="com.hundsun.ctim.domain.purchase.Purchase" >
+    update TB_PURCHASE
+    set 
+      PURCHASE_NAME = #purchaseName#,
+      PURCHASE_TYPE = #purchaseType#,
+      SUPPLIER_ID = #supplierId#,
+      SUPPLIER_NAME = #supplierName#,
+      PLAN_STOREIN_DATE = #planStoreinDate#,
+      REAL_STOREIN_DATE = #realStoreinDate#,
+      STATUS = #status#,
+      TOTAL_AMOUNT = #totalAmount#,
+      OFFICER = #officer#,
+      REMARK = #remark#,
+      GMT_CREATE = #gmtCreate#,
+      CREATOR = #creator#,
+      CREATOR_ID = #creatorId#,
+      GMT_MODIFY = #gmtModify#,
+      MODIFIER = #modifier#,
+      MODIFIER_ID = #modifierId#,
+      ORDER_DATE =#orderDate#,
+      IS_DELETED = #isDeleted#
+	where  PURCHASE_ID = #purchaseId#
+  </update>
+  <update id="Purchase_updateSelective" parameterClass="com.hundsun.ctim.domain.purchase.Purchase" >
+    update TB_PURCHASE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="purchaseId" >
+        PURCHASE_ID = #purchaseId#
+      </isNotNull>
+      <isNotNull prepend="," property="purchaseName" >
+        PURCHASE_NAME = #purchaseName#
+      </isNotNull>
+      <isNotNull prepend="," property="purchaseType" >
+        PURCHASE_TYPE = #purchaseType#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierId" >
+        SUPPLIER_ID = #supplierId#
+      </isNotNull>
+      <isNotNull prepend="," property="supplierName" >
+        SUPPLIER_NAME = #supplierName#
+      </isNotNull>
+      <isNotNull prepend="," property="planStoreinDate" >
+        PLAN_STOREIN_DATE = #planStoreinDate#
+      </isNotNull>
+      <isNotNull prepend="," property="realStoreinDate" >
+        REAL_STOREIN_DATE = #realStoreinDate#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        STATUS = #status#
+      </isNotNull>
+      <isNotNull prepend="," property="totalAmount" >
+        TOTAL_AMOUNT = #totalAmount#
+      </isNotNull>
+      <isNotNull prepend="," property="officer" >
+        OFFICER = #officer#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        REMARK = #remark#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtCreate" >
+        GMT_CREATE = #gmtCreate#
+      </isNotNull>
+      <isNotNull prepend="," property="creator" >
+        CREATOR = #creator#
+      </isNotNull>
+      <isNotNull prepend="," property="creatorId" >
+        CREATOR_ID = #creatorId#
+      </isNotNull>
+      <isNotNull prepend="," property="gmtModify" >
+        GMT_MODIFY = #gmtModify#
+      </isNotNull>
+      <isNotNull prepend="," property="modifier" >
+        MODIFIER = #modifier#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        MODIFIER_ID = #modifierId#
+      </isNotNull>
+      <isNotNull prepend="," property="modifierId" >
+        IS_DELETED = #isDeleted#
+      </isNotNull>
+    </dynamic>
+    where  PURCHASE_ID = #purchaseId#
+  </update>
+  <delete id="Purchase_deleteByPrimaryKey" parameterClass="com.hundsun.ctim.domain.purchase.Purchase" >
+    delete from TB_PURCHASE
+    where PURCHASE_ID = #purchaseId#
+  </delete>
+  <delete id="Purchase_delete" parameterClass="com.hundsun.ctim.domain.purchase.Purchase" >
+    delete from TB_PURCHASE
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="purchaseId" >
+        PURCHASE_ID = #purchaseId#
+      </isNotNull>
+    </dynamic>
+  </delete>
+</sqlMap>
